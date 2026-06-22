@@ -1,6 +1,6 @@
 {
   "quizTitle": "Publieke Peiler: Koeman",
-  "subtitle": "Bondscoach of bliksemafleider? Vijf snelle Oranje-vragen. Drie goed is winnen.",
+  "subtitle": "Vijf snelle Oranje-valkuilen. Niet saai analyseren, gewoon raden wat de commentsectie deed.",
   "game": {
     "questionCount": 5,
     "winThreshold": 3,
@@ -30,134 +30,26 @@
     {
       "id": "K01",
       "type": "multiple_choice",
-      "tone": "wat-leeft-er",
-      "context": "De dump gaat over reacties rond Koeman, Depay, de wissels en Oranje na de wedstrijden tegen Japan en Zweden. De eerste valkuil: niet alles gaat letterlijk over Koeman zelf.",
-      "prompt": "Welk concreet onderwerp kwam in de volledige dump het vaakst terug?",
+      "tone": "raad-de-onderstroom",
+      "context": "Oranje won met 5-1 van Zweden. Normaal zou je denken: klaar, iedereen blij. Maar dit is Nederlands voetbalinternet, dus de vraag is: wat gebeurde er daarna?",
+      "prompt": "Wat deed de commentsectie na die 5-1 winst?",
       "options": [
-        "Koemans wissels en tactiek",
-        "Depay moet niet starten",
-        "Selectie- en rolpuzzel bij Oranje",
-        "Humor en memes over het elftal"
+        "Feest vieren en de laptop dichtklappen",
+        "Genieten, maar meteen de gaten achterin aanwijzen",
+        "Alle schuld bij de scheids leggen",
+        "Alleen maar “Koemanball” roepen zonder inhoud"
       ],
       "optionDetails": [
-        "Veel besproken, maar niet het grootste thema in de volledige dataset.",
-        "Depay is een sterk symbooldossier, maar kleiner dan de bredere selectiepuzzel.",
-        "Reacties over wie waar moet spelen: backs, middenveld, Kluivert, Reijnders, Til en invallers.",
-        "Leuk en opvallend, maar veel kleiner in aantal."
-      ],
-      "correctIndex": 2,
-      "feedbackCorrect": "Ja. Het grootste concrete thema was niet één trainer of één speler, maar de hele selectie- en rolpuzzel rond Oranje.",
-      "feedbackWrong": "Net niet. De meeste concrete reacties gingen over de selectie- en rolpuzzel: wie speelt waar, en wie past in welke rol?",
-      "evidence": {
-        "claim": "Selectie- en rolpuzzel was het grootste concrete thema: 105 van 669 comments.",
-        "n": 105,
-        "denominator": 669,
-        "pct": 15.7,
-        "codes": [
-          "T12_Selectie_middenveld_backs_wisselspelers"
-        ],
-        "comment_ids": [
-          "ost8sca",
-          "osta2a4",
-          "ost9cnj"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K02",
-      "type": "multiple_choice",
-      "tone": "raad-het-frame",
-      "context": "Als je alleen kijkt naar comments die direct over Koeman, Depay of de wissels gingen, wordt het beeld scherper: daar draaide het veel vaker om de bondscoach zelf.",
-      "prompt": "Wat was in die directe Koeman/Depay/wissel-subset het grootste frame?",
-      "options": [
-        "Koeman als bondscoach onder vuur",
-        "Koeman krijgt vooral credit",
-        "Japan was gewoon te sterk",
-        "Iedereen was vooral blij met 5-1"
-      ],
-      "optionDetails": [
-        "De reacties lazen zijn keuzes als patroon: wissels, tactiek, Depay en controleverlies.",
-        "Er was nuance, maar dat was klein.",
-        "Japan-context kwam voor, maar was geen dominant frame.",
-        "Optimisme bestond, maar niet in deze directe subset als hoofdframe."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Klopt. In de directe subset stond Koeman vooral onder vuur: bijna de helft van die relevante reacties viel in dat frame.",
-      "feedbackWrong": "Het grootste frame was Koeman als bondscoach onder vuur. In de directe subset waren dat 94 van 206 reacties.",
-      "evidence": {
-        "claim": "Bondscoach onder vuur was 94 van 206 comments in de directe Koeman/Depay/wissel-subset.",
-        "n": 94,
-        "denominator": 206,
-        "pct": 45.6,
-        "codes": [
-          "CF01_Bondscoach_onder_vuur_selectie_tactiek_Depay",
-          "T01_Koeman_tactiek_wissels_kritiek"
-        ],
-        "comment_ids": [
-          "orr17qn",
-          "ostdc88",
-          "ost9rzw"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K03",
-      "type": "multiple_choice",
-      "tone": "quote-detective",
-      "context": "Soms wordt één speler het symbool van een veel grotere ergernis. In deze dump ging dat vooral over loyaliteit, vorm en de vraag of oude namen te lang blijven staan.",
-      "prompt": "Welke speler werd het sterkste symbool voor Koemans loyaliteitsprobleem?",
-      "options": [
-        "Memphis Depay",
-        "Brian Brobbey",
-        "Donyell Malen",
-        "Cody Gakpo"
-      ],
-      "optionDetails": [
-        "Veel reacties vroegen zich af of Koeman hem toch weer zou blijven opstellen.",
-        "Hij was juist vaak het positieve alternatief.",
-        "Hij werd genoemd, maar niet als hét symbooldossier.",
-        "Hij hoorde meer bij de positieve aanvalslijn."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Ja. Depay was de snelste quizhaak: hij werd gebruikt als symbool voor de angst dat Koeman oude loyaliteiten boven actuele vorm zet.",
-      "feedbackWrong": "Het ging vooral om Memphis Depay. Brobbey was juist vaker het positieve alternatief in de reacties.",
-      "evidence": {
-        "claim": "Depay-scepsis kwam terug in 70 van 669 comments.",
-        "n": 70,
-        "denominator": 669,
-        "pct": 10.5,
-        "codes": [
-          "T03_Depay_scepsis_niet_starten"
-        ],
-        "comment_ids": [
-          "ost8r4t",
-          "osta2a4",
-          "osteg9g"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K04",
-      "type": "true_false",
-      "tone": "mythe-of-datapunt",
-      "context": "Nederland won met 5-1 van Zweden. Dat klinkt alsof de discussie daarna klaar is. Maar voetbalreacties zijn zelden zo simpel.",
-      "prompt": "Waar of niet waar: na de 5-1 winst werd de discussie volledig positief.",
-      "options": [
-        "Waar",
-        "Niet waar"
-      ],
-      "optionDetails": [
-        "Kies dit als je denkt dat de ruime winst de kritiek wegpoetste.",
-        "Kies dit als optimisme en kritiek naast elkaar bleven bestaan."
+        "Dit zou logisch zijn, maar zo simpel werd het niet.",
+        "Precies de Nederlandse dubbelstand: mooi gewonnen, maar achterin stond het open.",
+        "De scheids was hier niet het hoofdverhaal.",
+        "Koeman kwam terug, maar de reacties waren concreter dan alleen een meme."
       ],
       "correctIndex": 1,
-      "feedbackCorrect": "Niet waar. Er was duidelijk plezier, maar tegelijk bleven defensieve gaten, Depay en selectievragen terugkomen.",
-      "feedbackWrong": "Niet waar. De 5-1 gaf optimisme, maar poetste de kritiek niet weg: vooral achterin en rond keuzes bleef het schuren.",
+      "feedbackCorrect": "Ja. De winst gaf plezier, maar de kritiek verdween niet. De reacties zagen tegelijk potentie voorin én problemen achterin.",
+      "feedbackWrong": "Het meest quizwaardige patroon was: blij met 5-1, maar alsnog meteen zien waar Oranje kwetsbaar bleef.",
       "evidence": {
-        "claim": "Optimisme/plezier kwam terug in 78 comments, maar defensieve kwetsbaarheid in 80 comments.",
+        "claim": "Defensieve kwetsbaarheid kwam terug in 80 comments; optimisme/plezier in 78 comments.",
         "n": 80,
         "denominator": 669,
         "pct": 12,
@@ -180,28 +72,28 @@
       }
     },
     {
-      "id": "K05",
+      "id": "K02",
       "type": "multiple_choice",
       "tone": "quote-detective",
-      "context": "Een goede quizquote vat vaak de hele spanning samen. Deze zin zegt eigenlijk: Oranje kan tegelijk leuk én kwetsbaar zijn.",
-      "prompt": "Bij welk onderwerp past de quote: “Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”",
+      "context": "Sommige comments zijn eigenlijk kant-en-klare samenvattingen. Deze vraag gaat niet over ingewikkelde codes, maar over: welke zin vangt de hele Oranje-stemming?",
+      "prompt": "Welke quote vat de Koeman/Oranje-discussie het best samen?",
       "options": [
-        "Verdedigende kwetsbaarheid",
-        "KNVB-systeemkritiek",
-        "Depay-verdediging",
-        "Japan-context"
+        "“Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”",
+        "“Japan is gewoon echt goed.”",
+        "“Geen seconde aan Koeman getwijfeld. Nooit niet.”",
+        "“Arjen Brobben”"
       ],
       "optionDetails": [
-        "De quote zegt: aanvallend leuk, maar achterin staat het open.",
-        "Daarvoor moet de quote over Zeist, opvolging of bestuur gaan.",
-        "Dit zou Depay juist nuanceren of verdedigen.",
-        "Dan zou de quote vooral Japan als sterke tegenstander uitleggen."
+        "Deze quote heeft precies de dubbele laag: hoop én zorg.",
+        "Dit is nuance bij Japan, maar niet de hele Oranje-stemming.",
+        "Leuke ironie/nuance, maar smaller dan de hoofdspanning.",
+        "Prima meme, maar geen samenvatting van het debat."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Precies. De quote is bijna de samenvatting van de bliksemafleider-laag: Koeman krijgt kritiek, maar er zitten ook echte teamproblemen onder.",
-      "feedbackWrong": "Deze quote hoort bij verdedigende kwetsbaarheid: voorin potentie, achterin gaten.",
+      "feedbackCorrect": "Precies. Dat is de hele spanning in één zin: Oranje ziet er leuk uit, maar je vertrouwt de achterdeur nog niet.",
+      "feedbackWrong": "De beste samenvatting was: “Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.” Die zin draagt tegelijk optimisme en twijfel.",
       "evidence": {
-        "claim": "Verdedigende kwetsbaarheid kwam terug in 80 van 669 comments.",
+        "claim": "Deze quote is gekoppeld aan verdedigende kwetsbaarheid en Oranje-optimisme.",
         "n": 80,
         "denominator": 669,
         "pct": 12,
@@ -212,7 +104,119 @@
         "comment_ids": [
           "ostk2qe",
           "osta2a4",
-          "osuuyua"
+          "ostd7dq"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K03",
+      "type": "multiple_choice",
+      "tone": "spanning-spotter",
+      "context": "Iedere voetbalsoap heeft een symbool. In deze dump werd één speler de snelle haak voor de vraag: kiest Koeman voor vorm, of voor oude loyaliteit?",
+      "prompt": "Wie werd het symbool van Koemans “oude liefde of actuele vorm?”-probleem?",
+      "options": [
+        "Memphis Depay",
+        "Brian Brobbey",
+        "Denzel Dumfries",
+        "Cody Gakpo"
+      ],
+      "optionDetails": [
+        "Veel reacties waren bang dat Koeman toch weer bij hem zou uitkomen.",
+        "Hij was juist vaak het frisse alternatief.",
+        "Hij was niet het hoofdpersonage in deze dump.",
+        "Hij hoorde meer bij het optimisme over de aanval."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Memphis werd minder besproken als losse speler en meer als symbool: durft Koeman door te selecteren?",
+      "feedbackWrong": "Het symbool was Memphis Depay. Brobbey was in deze dump juist vaker de frisse tegenpool.",
+      "evidence": {
+        "claim": "Depay-scepsis kwam terug in 70 van 669 comments.",
+        "n": 70,
+        "denominator": 669,
+        "pct": 10.5,
+        "codes": [
+          "T03_Depay_scepsis_niet_starten"
+        ],
+        "comment_ids": [
+          "osta2a4",
+          "osteg9g",
+          "osx5a8p"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K04",
+      "type": "multiple_choice",
+      "tone": "onderbuik-bingo",
+      "context": "Dit is de luchtige vraag. De dump had ook een laag pure zelfspot: mensen die doorhadden hoe Nederlands de discussie eigenlijk was.",
+      "prompt": "Wat was de meest Nederlandse reactie na 5-1?",
+      "options": [
+        "“5-1 winnen en alsnog zeuren.”",
+        "“We zijn officieel wereldkampioen.”",
+        "“Nooit meer over linksbacks praten.”",
+        "“Iedereen is het nu eens.”"
+      ],
+      "optionDetails": [
+        "Bingo. Dit is bijna het volkslied van voetbalcommentaar.",
+        "Er was optimisme, maar niet zó simpel.",
+        "Linksbacks en gaten achterin bleven juist terugkomen.",
+        "De dump zat vol discussie, niet vol consensus."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Bingo. De zelfspot was: zelfs bij 5-1 blijft Nederland verbeterpunten zoeken.",
+      "feedbackWrong": "Het was “5-1 winnen en alsnog zeuren.” Dat is precies de zelfspotlaag: blij zijn en toch analyseren.",
+      "evidence": {
+        "claim": "Het meta-frame “5-1 en toch zeuren” kwam terug in 7 van 669 comments.",
+        "n": 7,
+        "denominator": 669,
+        "pct": 1,
+        "codes": [
+          "T09_Meta_5_1_en_toch_zeuren",
+          "T13_Humor_sarcasme_meme_taal"
+        ],
+        "comment_ids": [
+          "ost98jz",
+          "ost9onf",
+          "ostkvfy"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K05",
+      "type": "multiple_choice",
+      "tone": "raad-het-frame",
+      "context": "De titel zegt Koeman, maar de reacties deden meer dan één man beoordelen. De verrassende laag: mensen waren vooral elftal-tetris aan het spelen.",
+      "prompt": "Wat was de echte plot twist in de volledige dump?",
+      "options": [
+        "Het ging alleen maar over Koeman ontslaan",
+        "Het grootste concrete onderwerp was: wie moet waar spelen?",
+        "Niemand had het over Depay",
+        "De KNVB kreeg helemaal geen kritiek"
+      ],
+      "optionDetails": [
+        "Koeman stond onder druk, maar dit was niet het hele verhaal.",
+        "Ja: backs, middenveld, aanval, invallers, rollen. Oranje als puzzel.",
+        "Depay was juist een belangrijk symbooldossier.",
+        "Er was wel degelijk systeemkritiek richting Zeist/KNVB."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Ja. De dump was eigenlijk een grote Oranje-legpuzzel: wie past waar, met welke rol, en wie moet eruit?",
+      "feedbackWrong": "De plot twist: het grootste concrete thema was de selectie- en rolpuzzel. Niet alleen “Koeman weg”, maar “hoe moet dit elftal werken?”",
+      "evidence": {
+        "claim": "Selectie- en rolpuzzel was het grootste concrete thema: 105 van 669 comments.",
+        "n": 105,
+        "denominator": 669,
+        "pct": 15.7,
+        "codes": [
+          "T12_Selectie_middenveld_backs_wisselspelers"
+        ],
+        "comment_ids": [
+          "ost8sca",
+          "osta2a4",
+          "ost9cnj"
         ],
         "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
@@ -221,23 +225,60 @@
       "id": "K06",
       "type": "multiple_choice",
       "tone": "publieke-peiler",
-      "context": "Naast kritiek op Depay was er ook een positieve tegenbeweging: wie geeft Oranje juist nieuwe energie?",
-      "prompt": "Welke spits werd in de reacties het vaakst als positief alternatief genoemd?",
+      "context": "Naast kritiek was er ook zin in iets nieuws. Vooral voorin zagen mensen ineens een andere energie.",
+      "prompt": "Welke aanval klonk in de comments ineens als nieuw speelgoed?",
       "options": [
-        "Brian Brobbey",
-        "Wout Weghorst",
-        "Memphis Depay",
-        "Joshua Zirkzee"
+        "Gakpo - Brobbey - Summerville",
+        "Depay - Weghorst - Malen",
+        "Lang - Zirkzee - Bergwijn",
+        "Malen - Depay - Simons"
       ],
       "optionDetails": [
-        "Veel reacties zagen hem als logische basisoptie.",
-        "Niet de speler die hier het meest naar voren kwam.",
-        "Hij was juist het discussiepunt.",
-        "Niet het belangrijkste alternatief in deze dump."
+        "Deze combinatie werd letterlijk als duidelijke basis genoemd.",
+        "Niet de nieuwe basis uit de topquote.",
+        "Niet het trio dat hier terugkwam.",
+        "Niet het genoemde trio."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Klopt. Brobbey werd het positieve contrast met het Depay-dossier.",
-      "feedbackWrong": "Het meest genoemde positieve spits-alternatief was Brobbey.",
+      "feedbackCorrect": "Ja. Gakpo - Brobbey - Summerville stond voor snelheid, frisheid en minder oude automatismen.",
+      "feedbackWrong": "Het ging om Gakpo - Brobbey - Summerville. Die combinatie voelde voor reacties als nieuwe energie.",
+      "evidence": {
+        "claim": "Nieuwe aanvallende energie kwam terug in 64 van 669 comments.",
+        "n": 64,
+        "denominator": 669,
+        "pct": 9.6,
+        "codes": [
+          "T06_Aanval_energie_en_nieuwe_basis"
+        ],
+        "comment_ids": [
+          "ost8sca",
+          "ost9cnj",
+          "osub9rc"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K07",
+      "type": "multiple_choice",
+      "tone": "wat-leeft-er",
+      "context": "Als Depay de twijfel was, dan had de dump ook een positieve tegenpool: iemand die liet zien dat een alternatief Oranje voorstelbaar werd.",
+      "prompt": "Wie was de positieve tegenpool van het Depay-dossier?",
+      "options": [
+        "Brian Brobbey",
+        "Ronald Koeman",
+        "Van Persie",
+        "Japan"
+      ],
+      "optionDetails": [
+        "Hij werd genoemd als logische spits en bewijs voor een alternatief.",
+        "Koeman was de coachdiscussie, niet de tegenpool.",
+        "Hij kwam terug in opvolgingsgrappen, niet als spitsoplossing.",
+        "Japan was context/tegenbewijs, geen Oranje-alternatief."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. Brobbey maakte de kritiek concreet: niet alleen “Depay eruit”, maar “dit kan dus ook”.",
+      "feedbackWrong": "Het was Brian Brobbey. Hij was de positieve tegenpool van het Depay-dossier.",
       "evidence": {
         "claim": "Brobbey als nieuwe spits kwam terug in 26 van 669 comments.",
         "n": 26,
@@ -255,63 +296,26 @@
       }
     },
     {
-      "id": "K07",
-      "type": "multiple_choice",
-      "tone": "wat-leeft-er",
-      "context": "Sommige kritiek bleef niet bij Koeman als persoon, maar schoof door naar bestuur, opvolging en voetbalcultuur.",
-      "prompt": "Welke organisatie werd in die bredere systeemkritiek genoemd?",
-      "options": [
-        "De KNVB / Zeist",
-        "De UEFA",
-        "De FIFA",
-        "De Eredivisie CV"
-      ],
-      "optionDetails": [
-        "Reacties gingen over opvolging, oud-spelers als trainers en “ons kent ons”.",
-        "Dat was hier niet de kern.",
-        "Niet het systeem waar deze quotes vooral op mikten.",
-        "Niet de organisatie die in deze systeemlaag centraal stond."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Ja. De kritiek verschoof soms naar de KNVB en Zeist: wie krijgt de baan, en waarom?",
-      "feedbackWrong": "Het antwoord is de KNVB / Zeist. Daar zat de bredere systeemkritiek.",
-      "evidence": {
-        "claim": "KNVB/opvolging/systeemkritiek kwam terug in 57 van 669 comments.",
-        "n": 57,
-        "denominator": 669,
-        "pct": 8.5,
-        "codes": [
-          "T10_KNVB_opvolging_systeemkritiek"
-        ],
-        "comment_ids": [
-          "orr2jrq",
-          "ostaao2",
-          "orrk898"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
       "id": "K08",
       "type": "multiple_choice",
       "tone": "voorzichtig-lezen",
-      "context": "Een goede quiz laat ook tegenbewijs zien. Niet iedereen vond dat elke slechte fase automatisch door Koeman kwam.",
-      "prompt": "Wat was het belangrijkste tegenargument tegen “alles lag aan Koeman”?",
+      "context": "Niet elke reactie was “Koeman slecht, einde verhaal”. Er zat ook een kleine correctielaag in de dump.",
+      "prompt": "Welke zin maakt de Koeman-kritiek iets minder zwart-wit?",
       "options": [
-        "Japan werd door sommigen gewoon als sterke ploeg gezien",
-        "Depay scoorde vijf keer",
-        "De KNVB koos de opstelling",
-        "Niemand had kritiek op de wissels"
+        "“Japan is gewoon echt goed.”",
+        "“Arjen Brobben.”",
+        "“5-1 winnen en alsnog zeuren.”",
+        "“Ons kent ons daar in Zeist.”"
       ],
       "optionDetails": [
-        "Dit relativeert de kritiek zonder die helemaal weg te nemen.",
-        "Dat is niet wat de dump laat zien.",
-        "Dat was niet het genoemde tegenargument.",
-        "Er was juist veel kritiek op wissels en tactiek."
+        "Dit zegt: misschien lag niet alles alleen aan Koeman.",
+        "Meme, geen nuance.",
+        "Zelfspot, geen inhoudelijk tegenargument.",
+        "Systeemkritiek, geen Koeman-nuance."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Goed. Een kleine maar belangrijke nuance: sommige reacties vonden Japan tactisch sterk of lazen Koemans quote in die context.",
-      "feedbackWrong": "Het tegenargument was vooral: Japan was gewoon goed of tactisch sterk. Dat maakt het minder zwart-wit.",
+      "feedbackCorrect": "Goed. De Japan-context is klein, maar belangrijk: soms is de tegenstander ook gewoon goed.",
+      "feedbackWrong": "De nuance zat in “Japan is gewoon echt goed.” Daarmee wordt het verhaal minder simpel.",
       "evidence": {
         "claim": "Japan-context en tegenbewijs kwam terug in 15 van 669 comments.",
         "n": 15,
@@ -330,21 +334,25 @@
     },
     {
       "id": "K09",
-      "type": "true_false",
-      "tone": "mythe-of-datapunt",
-      "context": "De toon in voetbalcomments kan hard zijn, maar dat betekent niet dat er nul nuance is.",
-      "prompt": "Waar of niet waar: er was helemaal geen Koeman-nuance in de dataset.",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Een beetje steun, een beetje ironie, een beetje voetbalhumor: sommige quotes kun je twee kanten op lezen.",
+      "prompt": "Welke quote klinkt als sarcastische Koeman-steun?",
       "options": [
-        "Waar",
-        "Niet waar"
+        "“Geen seconde aan Koeman getwijfeld. Nooit niet.”",
+        "“Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”",
+        "“Japan is gewoon echt goed.”",
+        "“Bosz zou wel gaaf zijn maar da wilt de knvb nie.”"
       ],
       "optionDetails": [
-        "Kies dit als je denkt dat alle reacties anti-Koeman waren.",
-        "Kies dit als er een kleine credit/nuance-laag bestond."
+        "Dit is precies die knipoog-steun.",
+        "Sterke samenvatting, maar geen Koeman-steun.",
+        "Nuance over Japan.",
+        "Systeemkritiek richting KNVB."
       ],
-      "correctIndex": 1,
-      "feedbackCorrect": "Niet waar. Die nuance was klein, maar hij bestond wel.",
-      "feedbackWrong": "Niet waar. Er was een kleine credit/nuance-laag, al was die veel kleiner dan de kritiek.",
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Dit is zo’n quote die op een scherm meteen werkt: steun, maar met een knipoog.",
+      "feedbackWrong": "De sarcastische steun zat in: “Geen seconde aan Koeman getwijfeld. Nooit niet.”",
       "evidence": {
         "claim": "Credit/nuance-tegenbewijs was 16 van 206 comments in de directe subset.",
         "n": 16,
@@ -365,36 +373,36 @@
     {
       "id": "K10",
       "type": "multiple_choice",
-      "tone": "quote-detective",
-      "context": "Een topcomment noemde een mogelijke nieuwe aanvalslijn. Dat maakt het debat concreter dan alleen “Koeman weg” of “Koeman blijven”.",
-      "prompt": "Welk aanvalstrio werd als duidelijke basis genoemd?",
+      "tone": "wat-leeft-er",
+      "context": "Soms ging het niet meer om Koeman als persoon, maar om hoe Nederland trainers kiest en wie elkaar kent in het voetbalwereldje.",
+      "prompt": "Waar kwam de systeemkritiek terecht?",
       "options": [
-        "Gakpo - Brobbey - Summerville",
-        "Depay - Weghorst - Malen",
-        "Lang - Zirkzee - Bergwijn",
-        "Malen - Depay - Simons"
+        "Bij de KNVB / Zeist",
+        "Bij de UEFA",
+        "Bij de VAR",
+        "Bij de stadionspeaker"
       ],
       "optionDetails": [
-        "Deze combinatie stond letterlijk in een sterke reactie.",
-        "Niet de genoemde nieuwe basis.",
-        "Niet het trio uit de quote.",
-        "Niet het trio dat hier als basis werd genoemd."
+        "Ja: opvolging, oud-spelers als trainers en “ons kent ons”.",
+        "Niet het hoofdadres van deze kritiek.",
+        "Niet waar deze laag over ging.",
+        "Leuk, maar nee."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. Die combinatie stond voor nieuwe energie en een alternatief voor oude automatismen.",
-      "feedbackWrong": "Het ging om Gakpo - Brobbey - Summerville.",
+      "feedbackCorrect": "Ja. In die laag werd Koeman onderdeel van een groter verhaal over Zeist, opvolging en voetbalnetwerken.",
+      "feedbackWrong": "De systeemkritiek kwam terecht bij de KNVB / Zeist.",
       "evidence": {
-        "claim": "Nieuwe aanvallende energie kwam terug in 64 van 669 comments.",
-        "n": 64,
+        "claim": "KNVB/opvolging/systeemkritiek kwam terug in 57 van 669 comments.",
+        "n": 57,
         "denominator": 669,
-        "pct": 9.6,
+        "pct": 8.5,
         "codes": [
-          "T06_Aanval_energie_en_nieuwe_basis"
+          "T10_KNVB_opvolging_systeemkritiek"
         ],
         "comment_ids": [
-          "ost8sca",
-          "ost9cnj",
-          "osub9rc"
+          "orr2jrq",
+          "orrk898",
+          "ostaao2"
         ],
         "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
@@ -403,25 +411,25 @@
       "id": "K11",
       "type": "multiple_choice",
       "tone": "onderbuik-bingo",
-      "context": "Niet de meeste reacties, maar wel opvallend: sommige typen reacties trekken veel aandacht. Engagement is hier score plus replies uit de export.",
-      "prompt": "Welke toon had gemiddeld de hoogste engagement-score?",
+      "context": "Niet alles wat veel voorkomt, krijgt ook de meeste aandacht. De dump had ook engagement: score plus reacties in de export.",
+      "prompt": "Welke toon trok gemiddeld de meeste aandacht?",
       "options": [
         "Humor/sarcasme",
-        "Neutraal/overig",
-        "Analyse/nuance",
-        "Frustratie/boosheid"
+        "Rustige analyse",
+        "Neutraal gemompel",
+        "Beleefde persconferentietaal"
       ],
       "optionDetails": [
-        "Minder vaak, maar gemiddeld het meest raakbaar/deelbaar.",
-        "Het grootst in aantal, maar niet gemiddeld het hoogst.",
-        "Rustiger en minder explosief.",
-        "Hoog, maar niet zo hoog als humor/sarcasme."
+        "Minder vaak, maar gemiddeld het meeste engagement.",
+        "Aanwezig, maar minder explosief.",
+        "Het grootst in aantal, maar niet het meest raakbaar.",
+        "Mooi geprobeerd, maar dit was Reddit."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. Humor/sarcasme was klein in aantal, maar had de hoogste gemiddelde engagement-score.",
-      "feedbackWrong": "Het was humor/sarcasme. Niet het grootst in aantal, wel gemiddeld het meest engagement.",
+      "feedbackCorrect": "Ja. Humor/sarcasme was niet de grootste groep, maar gemiddeld wel het meest plakkend.",
+      "feedbackWrong": "Het was humor/sarcasme: klein in volume, groot in aandacht.",
       "evidence": {
-        "claim": "Humor/sarcasme had gemiddeld 42,4 engagement-score; hoger dan andere emotielagen.",
+        "claim": "Humor/sarcasme had gemiddeld de hoogste engagement-score in de export.",
         "n": 27,
         "denominator": 669,
         "pct": 4,
@@ -441,8 +449,8 @@
         ],
         "comment_ids": [
           "ostkr0s",
-          "osv8ofa",
-          "ost98jz"
+          "ost98jz",
+          "osv8ofa"
         ],
         "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
@@ -450,36 +458,36 @@
     {
       "id": "K12",
       "type": "multiple_choice",
-      "tone": "raad-de-onderstroom",
-      "context": "Na een ruime overwinning kwam ook typische voetbalzelfspot voorbij.",
-      "prompt": "Welke zelfspot kwam terug na de 5-1 winst?",
+      "tone": "quote-detective",
+      "context": "Sommige reacties zijn geen analyse maar pure snackbare voetbaltaal. Perfect voor een quizscherm.",
+      "prompt": "Welke mini-meme hoort bij Brobbey?",
       "options": [
-        "Zelfs na 5-1 blijven we zeuren",
-        "We praten nooit over backs",
-        "Iedereen is het altijd eens over Oranje",
-        "Nederland houdt niet van voetbalhumor"
+        "“Arjen Brobben”",
+        "“Ons kent ons daar in Zeist.”",
+        "“Japan is gewoon echt goed.”",
+        "“We blijven Nederlanders!”"
       ],
       "optionDetails": [
-        "Dit was precies de meta-laag.",
-        "Backs kwamen terug, maar dat is geen zelfspotlaag.",
-        "De dump laat juist veel meningsverschil zien.",
-        "Humor kwam duidelijk voor."
+        "Korte woordgrap, meteen raak.",
+        "Dat hoort bij KNVB-kritiek.",
+        "Dat hoort bij Japan-context.",
+        "Dat hoort bij zelfspot na 5-1."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Precies. De nationale reflex was ook onderwerp van de grap: winnen en alsnog zeuren.",
-      "feedbackWrong": "De zelfspot was: zelfs na 5-1 blijven we zeuren.",
+      "feedbackCorrect": "Ja. “Arjen Brobben” is precies de soort korte quote die mensen onthouden.",
+      "feedbackWrong": "De Brobbey-meme was “Arjen Brobben”.",
       "evidence": {
-        "claim": "Het meta-frame “5-1 en toch zeuren” kwam terug in 7 van 669 comments.",
-        "n": 7,
+        "claim": "Humor/sarcasme/meme-taal kwam terug in 41 van 669 comments.",
+        "n": 41,
         "denominator": 669,
-        "pct": 1,
+        "pct": 6.1,
         "codes": [
-          "T09_Meta_5_1_en_toch_zeuren"
+          "T13_Humor_sarcasme_meme_taal"
         ],
         "comment_ids": [
-          "ost98jz",
-          "ost9onf",
-          "ostkvfy"
+          "ostkr0s",
+          "osv8ofa",
+          "ost98jz"
         ],
         "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
@@ -488,23 +496,23 @@
       "id": "K13",
       "type": "multiple_choice",
       "tone": "spanning-spotter",
-      "context": "“Koeman als bliksemafleider” betekent: hij trekt de aandacht, maar daarachter liggen bredere spanningen in het elftal.",
-      "prompt": "Wat ondersteunt de lezing “Koeman als bliksemafleider” het sterkst?",
+      "context": "“Bliksemafleider” klinkt abstract. In gewone taal betekent het: één persoon krijgt de klap, terwijl er meer onder zit.",
+      "prompt": "Wat betekent “Koeman als bliksemafleider” hier gewoon?",
       "options": [
-        "Veel reacties gingen ook over defensie, selectie en bredere Oranje-frictie",
-        "Alle reacties gingen alleen over zijn kapsel",
-        "Er waren geen spelerdiscussies",
-        "Depay werd nauwelijks genoemd"
+        "Hij krijgt kritiek, maar veel irritatie gaat eigenlijk over het hele elftal",
+        "Hij werd door niemand genoemd",
+        "Hij won alle discussies",
+        "Het ging alleen over zijn jas"
       ],
       "optionDetails": [
-        "Dit is de bredere laag onder de trainerkritiek.",
-        "Niet relevant voor deze dataset.",
-        "Er waren juist veel speler- en roldiscussies.",
-        "Depay werd juist veel genoemd."
+        "Precies: Koeman als kapstok voor bredere Oranje-frictie.",
+        "Hij werd juist duidelijk genoemd.",
+        "Nee, de kritiek bleef bestaan.",
+        "Was het maar zo simpel."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. Koeman was de kapstok, maar daaronder zaten defensie, selectie, opvolging en teamidentiteit.",
-      "feedbackWrong": "De bliksemafleiderlezing wordt ondersteund door bredere fricties: defensie, selectie, KNVB/opvolging en context.",
+      "feedbackCorrect": "Precies. Koeman is de kapstok, maar de frustratie gaat ook over defensie, selectie, opvolging en teamidentiteit.",
+      "feedbackWrong": "Het betekent: Koeman krijgt de kop van de kritiek, maar daaronder zitten bredere Oranje-problemen.",
       "evidence": {
         "claim": "Bliksemafleider/bredere fricties was 177 van 669 comments in de volledige dataset.",
         "n": 177,
@@ -525,23 +533,23 @@
       "id": "K14",
       "type": "multiple_choice",
       "tone": "voorzichtig-lezen",
-      "context": "Depay kreeg veel kritiek, maar ook daar zat nuance in. Niet elke reactie was simpel “weg ermee”.",
+      "context": "Zelfs rond Depay zat nuance. Niet gigantisch veel, maar genoeg om de quiz niet plat anti-Depay te maken.",
       "prompt": "Welke nuance gebruikten Depay-verdedigers?",
       "options": [
-        "Zijn assist, status of Koemans respectvolle communicatie",
-        "Dat hij nooit voor Oranje speelde",
-        "Dat Brobbey linksback moest staan",
-        "Dat Zweden eigenlijk had gewonnen"
+        "Hij had een assist/status, of Koeman communiceerde respectvol",
+        "Hij speelde helemaal niet mee",
+        "Brobbey moest linksback",
+        "Zweden had eigenlijk gewonnen"
       ],
       "optionDetails": [
-        "Dit zijn de nuances die terugkwamen.",
-        "Onjuist en niet uit de dump.",
-        "Niet de Depay-nuance.",
-        "Niet wat de dataset laat zien."
+        "Dit zijn de echte nuances uit de dump.",
+        "Onjuist.",
+        "Creatief, maar nee.",
+        "Nee, Oranje won 5-1."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Klopt. De nuance zat in assist, status/verleden en hoe Koeman met hem communiceert.",
-      "feedbackWrong": "De nuance was: assist, status/verleden of respectvolle communicatie vanuit Koeman.",
+      "feedbackCorrect": "Klopt. De nuance was niet dominant, maar wel aanwezig: assist, status/verleden en communicatie.",
+      "feedbackWrong": "De nuance was: assist/status, of dat Koeman hem respectvol/tactisch behandelt.",
       "evidence": {
         "claim": "Depay-verdediging/nuance kwam terug in 24 van 669 comments.",
         "n": 24,
@@ -551,9 +559,9 @@
           "T04_Depay_verdediging_nuance"
         ],
         "comment_ids": [
-          "osta2a4",
           "osx5a8p",
-          "ostc9pk"
+          "ostc9pk",
+          "osta2a4"
         ],
         "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
@@ -561,36 +569,43 @@
     {
       "id": "K15",
       "type": "multiple_choice",
-      "tone": "quote-detective",
-      "context": "Sommige reacties zijn zo kort dat ze bijna kant-en-klare quizkaartjes zijn.",
-      "prompt": "Welke korte quote hoort bij de meme-/sarcasmelaag?",
+      "tone": "raad-het-frame",
+      "context": "Als je de hele dump in één antwoord moet proppen, krijg je geen simpel “voor” of “tegen” Koeman. Het is rommeliger, en daarom leuker.",
+      "prompt": "Dus: bondscoach of bliksemafleider?",
       "options": [
-        "“Arjen Brobben”",
-        "“Japan is gewoon echt goed.”",
-        "“Geen seconde aan Koeman getwijfeld.”",
-        "“Ons kent ons daar in Zeist.”"
+        "Allebei: direct onder vuur, maar ook kapstok voor bredere Oranje-frictie",
+        "Alleen bondscoach onder vuur, verder niks",
+        "Alleen bliksemafleider, niemand vond iets van Koeman",
+        "Geen van beide: iedereen had het over de kantine"
       ],
       "optionDetails": [
-        "Compacte woordgrap rond Brobbey/Robben.",
-        "Dit is Japan-context, geen memequote.",
-        "Dit is Koeman-nuance/ironie, maar niet de bedoelde memequote.",
-        "Dit hoort meer bij KNVB-systeemkritiek."
+        "Dit is de kern van de dump.",
+        "Te simpel: de bredere frictie was groot.",
+        "Ook te simpel: in de directe subset stond Koeman duidelijk onder vuur.",
+        "Leuk geprobeerd."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. “Arjen Brobben” is precies zo’n korte voetbalmeme die blijft hangen.",
-      "feedbackWrong": "De memequote was “Arjen Brobben”. Kort, flauw, perfect quizmateriaal.",
+      "feedbackCorrect": "Ja. Dat is de hele clou: Koeman stond onder vuur, maar was ook de kapstok voor grotere Oranje-twijfel.",
+      "feedbackWrong": "Het beste antwoord is allebei. In de directe subset stond Koeman onder vuur; in de totale dump zie je bredere fricties.",
       "evidence": {
-        "claim": "Humor/sarcasme/meme-taal kwam terug in 41 van 669 comments.",
-        "n": 41,
-        "denominator": 669,
-        "pct": 6.1,
+        "claim": "Directe subset: 94 van 206 “bondscoach onder vuur”; volledige dataset: 177 van 669 bredere fricties.",
+        "n": 94,
+        "denominator": 206,
+        "pct": 45.6,
+        "comparison": {
+          "CF02_Bliksemafleider_bredere_fricties": {
+            "n": 177,
+            "pct": 26.5
+          }
+        },
         "codes": [
-          "T13_Humor_sarcasme_meme_taal"
+          "CF01_Bondscoach_onder_vuur_selectie_tactiek_Depay",
+          "CF02_Bliksemafleider_bredere_fricties"
         ],
         "comment_ids": [
-          "ostkr0s",
-          "osv8ofa",
-          "ost98jz"
+          "orr17qn",
+          "ostk2qe",
+          "orr2jrq"
         ],
         "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
