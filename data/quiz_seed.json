@@ -1,0 +1,491 @@
+{
+  "quizTitle": "Publieke Peiler: Social Media Verbod",
+  "subtitle": "Vijf snelle aha-vragen. Drie goed is winnen.",
+  "game": {
+    "questionCount": 5,
+    "winThreshold": 3,
+    "featuredQuestionIds": [
+      "Q05",
+      "Q08",
+      "Q02",
+      "Q07",
+      "Q06"
+    ]
+  },
+  "source": {
+    "mode": "Modus 3 Dashboard Bundle / Codex Dump",
+    "dataset": "Weer verbiedt een land sociale media voor jongeren-2026-06-15-Nu_NL-799-reacties-PublicInsights.json",
+    "analyzed_comments": 799,
+    "article_title": "Weer verbiedt een land sociale media voor jongeren: 'Onbewezen dat dit werkt'",
+    "publication_date": "2026-06-15",
+    "rules": [
+      "Geen percentages zonder expliciete noemer.",
+      "Geen usernames tonen; gebruik comment_id als audit trail.",
+      "Whize alleen als hypotheselens, niet als respondentclassificatie.",
+      "Gender alleen als probabilistische signaalrichting, niet als feitelijke registratie.",
+      "Codex/Next.js mag de analyse visualiseren of quizzen, maar niet opnieuw inhoudelijk interpreteren."
+    ]
+  },
+  "questions": [
+    {
+      "id": "Q01",
+      "type": "multiple_choice",
+      "tone": "raad-de-onderstroom",
+      "context": "De reacties gingen over een mogelijk verbod op sociale media voor jongeren. Mensen praatten niet alleen over het verbod zelf, maar ook over ouders, platforms, privacy en schoolpraktijk.",
+      "prompt": "Welk onderwerp kwam het vaakst terug in de 799 reacties?",
+      "options": [
+        "Privacy, ID en online controle",
+        "Ouders, opvoeding en thuisregels",
+        "Positieve functies van sociale media",
+        "Schoolapps en praktische uitvoering"
+      ],
+      "optionDetails": [
+        "Zorgen dat leeftijdscontrole verandert in online identificatie of dataverzameling.",
+        "Reacties over opvoeding, thuisregels, smartphones en wat ouders wel of niet kunnen doen.",
+        "Reacties die noemen dat sociale media ook contact, informatie of identiteit kunnen bieden.",
+        "Reacties over school, huiswerk, apps en hoe zo'n verbod praktisch zou werken."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Ja. Het vaakst ging het over ouders en opvoeding: regels thuis, smartphones, toezicht en de vraag wat je redelijkerwijs van ouders kunt vragen.",
+      "feedbackWrong": "Net niet. Het meest genoemde onderwerp was ouders en opvoeding: 240 van 799 reacties. Privacy was belangrijk, maar kwam minder vaak terug.",
+      "evidence": {
+        "claim": "Ouders, opvoeding en thuisregels was het grootste afzonderlijke thema.",
+        "n": 240,
+        "denominator": 799,
+        "pct": 30.0,
+        "codes": [
+          "T04_OUDERS_OPVOEDING"
+        ],
+        "comment_ids": [
+          "C0003",
+          "C0005",
+          "C0012",
+          "C0014",
+          "C0016",
+          "C0719"
+        ]
+      }
+    },
+    {
+      "id": "Q02",
+      "type": "multiple_choice",
+      "tone": "publieke-peiler",
+      "context": "Niet elke reactie was simpel ‘voor’ of ‘tegen’. Een opvallende groep zei eigenlijk: los het praktischer op, bijvoorbeeld via ouders, platforms of betere regels voor apps.",
+      "prompt": "Welke groep reacties was groter dan simpelweg ‘voor een verbod’?",
+      "options": [
+        "Kritisch door privacyzorgen",
+        "Liever een oplossing via ouders of platforms",
+        "Twijfelend",
+        "Geen enkele: pro-verbod was het grootst"
+      ],
+      "optionDetails": [
+        "Deze reacties vinden vooral online ID-controle en privacyrisico's eng.",
+        "Deze reacties willen niet alleen een verbod, maar ook meer grip voor ouders en meer verantwoordelijkheid bij apps.",
+        "Deze reacties zien meerdere kanten en kiezen niet duidelijk één kamp.",
+        "Deze optie zegt: de simpele voorstanders waren de grootste groep."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Klopt. De praktische middenweg was groter dan het simpele ‘verbied maar’: veel mensen wilden ouders helpen én platforms verantwoordelijker maken.",
+      "feedbackWrong": "De grootste duidelijke houding was de oplossingsroute via ouders en platforms: 157 van 799 reacties. Dat was meer dan puur pro-verbod.",
+      "evidence": {
+        "claim": "Alternatief: ouders/platforms had 157 reacties, pro-verbod 130.",
+        "n": 157,
+        "denominator": 799,
+        "pct": 19.6,
+        "comparison": {
+          "Pro-verbod": {
+            "n": 130,
+            "pct": 16.3
+          }
+        },
+        "codes": [
+          "stance:Alternatief: ouders/platforms"
+        ],
+        "comment_ids": [
+          "C0719",
+          "C0685",
+          "C0014"
+        ]
+      }
+    },
+    {
+      "id": "Q03",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Sommige mensen waren bang dat leeftijdscontrole voor jongeren betekent dat uiteindelijk iedereen online zijn ID moet laten zien.",
+      "prompt": "Bij welk onderwerp past deze quote het best: “Het is de manier om iedereen met ID op het internet te laten, verkapt als bescherming voor de jeugd.”",
+      "options": [
+        "Privacy en online ID-controle",
+        "Of het verbod wel werkt",
+        "Waar sociale media ook goed voor is",
+        "Schoolapps en praktische gedoe"
+      ],
+      "optionDetails": [
+        "De quote gaat over identificatie, controle en privacy voor iedereen online.",
+        "Dit zou gaan over handhaving of effectiviteit, maar dat is hier niet de kern.",
+        "Dit zou gaan over positieve kanten van sociale media, maar de quote is juist wantrouwend.",
+        "Dit zou gaan over scholen of praktische uitvoering, maar daar zegt de quote niets over."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Bingo. Deze quote zegt eigenlijk: pas op, bescherming van jongeren kan omslaan in een soort online paspoort voor iedereen.",
+      "feedbackWrong": "Deze quote hoort bij privacy en online ID-controle. De kern is niet school of bewijs, maar de angst voor verplichte identificatie online.",
+      "evidence": {
+        "claim": "Quote C0002 is gebruikt als evidence voor privacy/ID-controle.",
+        "n": 117,
+        "denominator": 799,
+        "pct": 14.6,
+        "codes": [
+          "T01_PRIVACY_ID_CONTROLE"
+        ],
+        "comment_ids": [
+          "C0002"
+        ]
+      }
+    },
+    {
+      "id": "Q04",
+      "type": "multiple_choice",
+      "tone": "onderbuik-bingo",
+      "context": "Het artikel draaide om de vraag of zo'n verbod bewezen werkt. Daardoor gingen veel reacties over bewijs: wat weten we, wat weten we niet, en wanneer mag je ingrijpen?",
+      "prompt": "Hoe groot was het thema ‘wetenschappelijk bewijs en experts’?",
+      "options": [
+        "63 van 799 reacties",
+        "117 van 799 reacties",
+        "220 van 799 reacties",
+        "337 van 799 reacties"
+      ],
+      "optionDetails": [
+        "Dat zou een kleiner bijonderwerp zijn.",
+        "Dat is ongeveer de grootte van het privacy/ID-onderwerp.",
+        "Dit betekent dat ruim een kwart van de reacties over bewijs of experts ging.",
+        "Dat zou bijna de helft van alle reacties zijn."
+      ],
+      "correctIndex": 2,
+      "feedbackCorrect": "Correct. Bewijs was een groot onderdeel van de discussie: 220 van 799 reacties gingen over wetenschap, experts of de vraag wat wel en niet bewezen is.",
+      "feedbackWrong": "Het was 220 van 799 reacties, dus 27,5%. Dat is veel: ruim een kwart van alle reacties ging over bewijs of experts.",
+      "evidence": {
+        "claim": "Wetenschappelijk bewijs en experts kwam terug in 220 reacties.",
+        "n": 220,
+        "denominator": 799,
+        "pct": 27.5,
+        "codes": [
+          "T07_BEWIJS_WETENSCHAP"
+        ],
+        "comment_ids": [
+          "C0012",
+          "C0014",
+          "C0501",
+          "C0777",
+          "C0799"
+        ]
+      }
+    },
+    {
+      "id": "Q05",
+      "type": "true_false",
+      "tone": "mythe-of-datapunt",
+      "context": "Privacy en online ID kwamen duidelijk terug in de discussie. Maar duidelijk aanwezig is niet automatisch hetzelfde als het grootste onderwerp.",
+      "prompt": "Waar of niet waar: privacy/ID was het meest genoemde onderwerp in de reacties.",
+      "options": [
+        "Waar",
+        "Niet waar"
+      ],
+      "optionDetails": [
+        "Kies dit als je denkt dat privacy/ID bovenaan stond.",
+        "Kies dit als een ander onderwerp vaker voorkwam."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Niet waar. Privacy was belangrijk, maar niet het grootste onderwerp. Ouders en opvoeding kwamen ongeveer twee keer zo vaak terug.",
+      "feedbackWrong": "Privacy/ID had 117 van 799 reacties. Ouders en opvoeding had 240 van 799 reacties en was dus duidelijk groter.",
+      "evidence": {
+        "claim": "Privacy/ID had 117 reacties; ouders/opvoeding had 240 reacties.",
+        "n": 117,
+        "denominator": 799,
+        "pct": 14.6,
+        "comparison": {
+          "T04_OUDERS_OPVOEDING": {
+            "n": 240,
+            "pct": 30.0
+          }
+        },
+        "codes": [
+          "T01_PRIVACY_ID_CONTROLE",
+          "T04_OUDERS_OPVOEDING"
+        ],
+        "comment_ids": [
+          "C0002",
+          "C0020",
+          "C0719"
+        ]
+      }
+    },
+    {
+      "id": "Q06",
+      "type": "multiple_choice",
+      "tone": "botsing-raden",
+      "context": "Een groot deel van de discussie draaide om twee gevoelens tegelijk: kinderen beschermen tegen schadelijke apps, maar niet iedereen online extra controleren.",
+      "prompt": "Welke botsing zag je vaak in de reacties?",
+      "options": [
+        "Offline nostalgie versus digitale sociale functies",
+        "Beschermen versus controleren",
+        "Schoolroosters versus papier",
+        "Jongeren versus influencers"
+      ],
+      "optionDetails": [
+        "Sommige reacties gingen over vroeger buiten spelen versus online contact, maar dat was hier niet de grootste botsing.",
+        "Veel reacties zeiden: jongeren beschermen is goed, maar verplichte controle of ID voelt riskant.",
+        "Schoolapps kwamen langs, maar dit was niet de centrale tegenstelling.",
+        "Influencers werden niet de hoofdtegenstander in deze discussie."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Ja. De kern was: mensen snappen de wens om jongeren te beschermen, maar vrezen dat de oplossing voelt als controle over iedereen.",
+      "feedbackWrong": "De grote botsing was beschermen versus controleren. Veel reacties wilden veiligheid voor jongeren, maar zonder online ID of brede datacontrole.",
+      "evidence": {
+        "claim": "Reacties koppelden bescherming van jongeren vaak aan zorgen over privacy, ID-controle en vrijheid.",
+        "n": 391,
+        "denominator": 799,
+        "pct": 48.9,
+        "codes": [
+          "T02_SCHADE_BESCHERMING",
+          "T01_PRIVACY_ID_CONTROLE",
+          "T06_VRIJHEID_PROPORTIONALITEIT"
+        ],
+        "comment_ids": [
+          "C0002",
+          "C0003",
+          "C0014",
+          "C0020"
+        ]
+      }
+    },
+    {
+      "id": "Q07",
+      "type": "multiple_choice",
+      "tone": "wat-leeft-er",
+      "context": "Als je alle reacties heel plat samenvat, zie je een paar terugkerende gedachten. Deze vraag gaat over de gedachte die het vaakst terugkwam.",
+      "prompt": "Welke gedachte kwam het vaakst terug?",
+      "options": [
+        "Leeftijdscheck voelt als online paspoort",
+        "Ik twijfel of een verbod werkt",
+        "Bescherm kinderen, maar leg niet alles bij ouders",
+        "Schoolapps worden straks ook een probleem"
+      ],
+      "optionDetails": [
+        "Dit is de privacy-angst: straks moet iedereen zich online identificeren.",
+        "Dit is de effectiviteitsvraag: werkt een verbod wel, of omzeilen jongeren het gewoon?",
+        "Dit combineert twee dingen: kinderen beschermen én ouders niet alleen laten opdraaien voor het probleem.",
+        "Dit gaat over praktische gevolgen voor onderwijs en schoolapps."
+      ],
+      "correctIndex": 2,
+      "feedbackCorrect": "Klopt. De grootste terugkerende gedachte was: kinderen moeten beschermd worden, maar ouders kunnen dit niet in hun eentje oplossen.",
+      "feedbackWrong": "Het vaakst terug kwam: bescherm kinderen, maar leg niet alles bij ouders. Dat patroon zat in 434 van 799 reacties.",
+      "evidence": {
+        "claim": "Bescherming zonder alles bij ouders neer te leggen kwam terug in 434 van 799 reacties.",
+        "n": 434,
+        "denominator": 799,
+        "pct": 54.3,
+        "codes": [
+          "CEP01",
+          "T02_SCHADE_BESCHERMING",
+          "T04_OUDERS_OPVOEDING",
+          "T05_PLATFORM_ALGORITME"
+        ],
+        "comment_ids": [
+          "C0719",
+          "C0685"
+        ]
+      }
+    },
+    {
+      "id": "Q08",
+      "type": "multiple_choice",
+      "tone": "emotie-meter",
+      "context": "Bij de reacties is ook gekeken naar de toon. Veel reacties waren neutraal of moeilijk te plaatsen. Deze vraag gaat over de emotie die daarna het meest zichtbaar was.",
+      "prompt": "Welke emotie zag je, na ‘neutraal/onduidelijk’, het meest?",
+      "options": [
+        "Boosheid/frustratie",
+        "Zorg/bescherming",
+        "Wantrouwen/controle",
+        "Spot/sarcasme"
+      ],
+      "optionDetails": [
+        "Reacties die vooral boos of geïrriteerd klinken.",
+        "Reacties waarin mensen vooral jongeren willen beschermen of zich zorgen maken.",
+        "Reacties die bang zijn voor overheid, platformcontrole, online ID of dataverzameling.",
+        "Reacties die het onderwerp vooral spottend of sarcastisch benaderen."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Ja. Na neutraal/onduidelijk was zorg en bescherming het grootst. Veel mensen reageerden vanuit de vraag: hoe houden we jongeren veilig?",
+      "feedbackWrong": "Na neutraal/onduidelijk was zorg/bescherming het grootst: 192 van 799 reacties. Het ging dus vaker om bezorgdheid dan om pure boosheid.",
+      "evidence": {
+        "claim": "Zorg/bescherming kwam voor in 192 reacties.",
+        "n": 192,
+        "denominator": 799,
+        "pct": 24.0,
+        "codes": [
+          "emotion:Zorg/bescherming"
+        ],
+        "comment_ids": [
+          "C0777",
+          "C0012",
+          "C0014"
+        ]
+      }
+    },
+    {
+      "id": "Q09",
+      "type": "multiple_choice",
+      "tone": "voorzichtig-lezen",
+      "context": "Soms probeert de analyse voorzichtig te raden welke brede doelgroep een thema interessant kan vinden. Dat is nuttig voor ideeën, maar het zegt niet wie de individuele reageerders echt zijn.",
+      "prompt": "Soms doet de analyse een ruwe gok over welk soort mensen dit interessant vindt. Hoe moet je die lezen?",
+      "options": [
+        "Als harde waarheid over wie er reageerde",
+        "Als bewezen leeftijdsgroep",
+        "Als ruwe gok die je nog moet checken",
+        "Gewoon negeren"
+      ],
+      "optionDetails": [
+        "Dit zou te hard zijn: de analyse weet niet precies wie achter elke reactie zit.",
+        "Dit kan niet, want leeftijden van reageerders zijn niet bekend.",
+        "Dit is de veilige lezing: handig als richting, maar eerst toetsen voordat je erop bouwt.",
+        "Helemaal negeren hoeft niet, zolang je het maar voorzichtig gebruikt."
+      ],
+      "correctIndex": 2,
+      "feedbackCorrect": "Precies. Het is een hulpmiddel om verder over na te denken, geen bewijs over wie er letterlijk gereageerd heeft.",
+      "feedbackWrong": "Voorzichtig lezen: het is een ruwe inschatting, niet een feit over wie er reageerde. Je moet zo'n gok dus altijd nog checken.",
+      "evidence": {
+        "claim": "Deze doelgroep-gokken zijn alleen ruwe inschattingen die nog gecheckt moeten worden.",
+        "n": 4,
+        "denominator": 4,
+        "pct": 100,
+        "codes": [
+          "strategic_lenses.whize_hypotheses"
+        ],
+        "note": "Niet gebruiken als harde uitspraak over wie er reageerde."
+      }
+    },
+    {
+      "id": "Q10",
+      "type": "multiple_choice",
+      "tone": "voorzichtig-lezen",
+      "context": "Sommige gebruikersnamen geven misschien een hint over man/vrouw, maar vaak weet je het gewoon niet. Daarom moet deze laag heel voorzichtig worden gelezen.",
+      "prompt": "Wat kun je zeggen over man/vrouw-inschattingen uit gebruikersnamen?",
+      "options": [
+        "62% van de reageerders is man",
+        "Bij een klein deel lijkt de richting vooral man; bij veel mensen weten we het niet",
+        "Gender is niet belangrijk, dus gewoon weglaten",
+        "Gebruikersnamen vertellen altijd betrouwbaar wie iemand is"
+      ],
+      "optionDetails": [
+        "Te hard geformuleerd: dit klinkt alsof het zeker gemeten is.",
+        "Voorzichtige formulering: er zijn hints, maar de onbekende groep blijft groot.",
+        "Weglaten kan, maar als je het noemt moet je de onzekerheid erbij zeggen.",
+        "Niet waar: een gebruikersnaam is geen betrouwbare registratie van iemands identiteit."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Juist. Dit moet voorzichtig: bij een deel lijkt er een richting zichtbaar, maar bij veel gebruikers weten we het niet.",
+      "feedbackWrong": "Voorzichtig: het is geen harde meting. Bij veel gebruikers weten we het niet, dus je mag niet doen alsof alle reageerders betrouwbaar zijn ingedeeld.",
+      "evidence": {
+        "claim": "Van 546 unieke gebruikers hadden 159 een bruikbare hint; 387 bleven onbekend.",
+        "n": 159,
+        "denominator": 546,
+        "pct": 29.1,
+        "codes": [
+          "gender_signal_summary"
+        ],
+        "note": "Geen harde uitspraak over iemands gender; veel is onbekend."
+      }
+    },
+    {
+      "id": "Q11",
+      "type": "multiple_choice",
+      "tone": "oplossingsradar",
+      "context": "Veel reacties zaten niet in het kamp ‘alles verbieden’ of ‘niets doen’. Ze zochten een middenweg: jongeren beschermen, maar wel praktisch en eerlijk.",
+      "prompt": "Wat leek de beste middenweg?",
+      "options": [
+        "Alle sociale media direct offline",
+        "Niets doen en wachten op perfecte wetenschap",
+        "Platforms strenger maken én ouders helpen",
+        "Alle schoolapps terug naar papier"
+      ],
+      "optionDetails": [
+        "Dit is de hardste variant: alles dichtzetten.",
+        "Dit is de passieve variant: pas iets doen als alles perfect bewezen is.",
+        "Dit combineert twee routes: apps veiliger maken en ouders meer grip geven.",
+        "Dit gaat vooral over schoolpraktijk, niet over de hele oplossing."
+      ],
+      "correctIndex": 2,
+      "feedbackCorrect": "Yes. De middenweg was niet alleen verbieden, maar apps veiliger maken én ouders helpen om thuis regels te kunnen stellen.",
+      "feedbackWrong": "De middenweg was: platforms strenger maken en ouders meer grip geven. Dus niet alleen ‘verbieden’ en ook niet ‘niets doen’.",
+      "evidence": {
+        "claim": "Platforms strenger maken en ouders meer grip geven kwam terug in 357 van 799 reacties.",
+        "n": 357,
+        "denominator": 799,
+        "pct": 44.7,
+        "codes": [
+          "T04_OUDERS_OPVOEDING",
+          "T05_PLATFORM_ALGORITME",
+          "T10_SCHOOL_PRAKTIJK"
+        ],
+        "comment_ids": [
+          "C0719",
+          "C0685"
+        ]
+      }
+    },
+    {
+      "id": "Q12",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Sommige reacties legden de verantwoordelijkheid niet bij jongeren of ouders, maar bij de bedrijven achter de apps.",
+      "prompt": "Welke quote zegt eigenlijk: platforms moeten verantwoordelijkheid nemen?",
+      "options": [
+        "“Leg het probleem gewoon bij de app aanbieders.”",
+        "“Waarom weer terug naar papier?”",
+        "“Ik zie het enorme probleem echt niet.”",
+        "“Vrijheid is een groot goed.”"
+      ],
+      "optionDetails": [
+        "Deze quote wijst direct naar de bedrijven die de apps aanbieden.",
+        "Deze quote gaat eerder over school of praktische gevolgen.",
+        "Deze quote bagatelliseert het probleem en wijst geen verantwoordelijke aan.",
+        "Deze quote gaat vooral over rechten en vrijheid."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. Deze reactie zegt eigenlijk: laat appbedrijven leeftijdsgrenzen en veiligheid beter regelen, en spreek hen daarop aan.",
+      "feedbackWrong": "Dat zit het duidelijkst in: “Leg het probleem gewoon bij de app aanbieders.” Die quote wijst direct naar de bedrijven achter de apps.",
+      "evidence": {
+        "claim": "Deze quote is een voorbeeld van platformen verantwoordelijk maken.",
+        "n": 125,
+        "denominator": 799,
+        "pct": 15.6,
+        "codes": [
+          "T05_PLATFORM_ALGORITME"
+        ],
+        "comment_ids": [
+          "C0685"
+        ]
+      }
+    }
+  ],
+  "resultBands": [
+    {
+      "min": 0,
+      "max": 2,
+      "title": "Nog niet gewonnen",
+      "description": "Je zat in de buurt, maar 3 van de 5 is de winstgrens. De uitleg laat zien waar de verrassing zat."
+    },
+    {
+      "min": 3,
+      "max": 4,
+      "title": "Gewonnen: Publieke Peiler",
+      "description": "Je had genoeg verrassingen te pakken. Je leest de onderstroom van de reacties scherp."
+    },
+    {
+      "min": 5,
+      "max": 5,
+      "title": "Perfecte Peiler",
+      "description": "Vijf uit vijf. Jij voelde precies aan waar de reacties anders waren dan je misschien verwacht."
+    }
+  ]
+}
