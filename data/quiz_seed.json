@@ -1,470 +1,598 @@
 {
-  "quizTitle": "Publieke Peiler: Social Media Verbod",
-  "subtitle": "Vijf snelle aha-vragen. Drie goed is winnen.",
+  "quizTitle": "Publieke Peiler: Koeman",
+  "subtitle": "Bondscoach of bliksemafleider? Vijf snelle Oranje-vragen. Drie goed is winnen.",
   "game": {
     "questionCount": 5,
     "winThreshold": 3,
     "featuredQuestionIds": [
-      "Q05",
-      "Q08",
-      "Q02",
-      "Q07",
-      "Q06"
+      "K01",
+      "K02",
+      "K03",
+      "K04",
+      "K05"
     ]
   },
   "source": {
-    "mode": "Modus 3 Dashboard Bundle / Codex Dump",
-    "dataset": "Weer verbiedt een land sociale media voor jongeren-2026-06-15-Nu_NL-799-reacties-PublicInsights.json",
-    "analyzed_comments": 799,
-    "article_title": "Weer verbiedt een land sociale media voor jongeren: 'Onbewezen dat dit werkt'",
-    "publication_date": "2026-06-15",
+    "mode": "Modus 2 Evidence Dump / Koeman quizpack",
+    "dataset": "koeman_quiz_evidence_dump",
+    "analyzed_comments": 669,
+    "article_title": "Wat denkt Nederland over Koeman — Bondscoach of bliksemafleider?",
+    "publication_date": "2026-06-20",
     "rules": [
-      "Geen percentages zonder expliciete noemer.",
-      "Geen usernames tonen; gebruik comment_id als audit trail.",
-      "Whize alleen als hypotheselens, niet als respondentclassificatie.",
-      "Gender alleen als probabilistische signaalrichting, niet als feitelijke registratie.",
-      "Codex/Next.js mag de analyse visualiseren of quizzen, maar niet opnieuw inhoudelijk interpreteren."
+      "De dataset bestaat uit publieke Reddit-comments en is geen representatieve steekproef van Nederland.",
+      "Percentages gebruiken expliciete noemers per tabel; meestal n=669 analytische comments.",
+      "Engagement_score is de in de export meegeleverde custom metric score + reply_count, geen officiële Reddit-metric.",
+      "Whize-hypothesen zijn strategische lenzen en geen feitelijke respondentclassificaties.",
+      "Gender-signalen zijn probabilistische signaalrichtingen op user-level en geen feitelijke genderregistratie; coverage is laag."
     ]
   },
   "questions": [
     {
-      "id": "Q01",
+      "id": "K01",
       "type": "multiple_choice",
-      "tone": "raad-de-onderstroom",
-      "context": "De reacties gingen over een mogelijk verbod op sociale media voor jongeren. Mensen praatten niet alleen over het verbod zelf, maar ook over ouders, platforms, privacy en schoolpraktijk.",
-      "prompt": "Welk onderwerp kwam het vaakst terug in de 799 reacties?",
+      "tone": "wat-leeft-er",
+      "context": "De dump gaat over reacties rond Koeman, Depay, de wissels en Oranje na de wedstrijden tegen Japan en Zweden. De eerste valkuil: niet alles gaat letterlijk over Koeman zelf.",
+      "prompt": "Welk concreet onderwerp kwam in de volledige dump het vaakst terug?",
       "options": [
-        "Privacy, ID en online controle",
-        "Ouders, opvoeding en thuisregels",
-        "Positieve functies van sociale media",
-        "Schoolapps en praktische uitvoering"
+        "Koemans wissels en tactiek",
+        "Depay moet niet starten",
+        "Selectie- en rolpuzzel bij Oranje",
+        "Humor en memes over het elftal"
       ],
       "optionDetails": [
-        "Zorgen dat leeftijdscontrole verandert in online identificatie of dataverzameling.",
-        "Reacties over opvoeding, thuisregels, smartphones en wat ouders wel of niet kunnen doen.",
-        "Reacties die noemen dat sociale media ook contact, informatie of identiteit kunnen bieden.",
-        "Reacties over school, huiswerk, apps en hoe zo'n verbod praktisch zou werken."
-      ],
-      "correctIndex": 1,
-      "feedbackCorrect": "Ja. Het vaakst ging het over ouders en opvoeding: regels thuis, smartphones, toezicht en de vraag wat je redelijkerwijs van ouders kunt vragen.",
-      "feedbackWrong": "Net niet. Het meest genoemde onderwerp was ouders en opvoeding: 240 van 799 reacties. Privacy was belangrijk, maar kwam minder vaak terug.",
-      "evidence": {
-        "claim": "Ouders, opvoeding en thuisregels was het grootste afzonderlijke thema.",
-        "n": 240,
-        "denominator": 799,
-        "pct": 30.0,
-        "codes": [
-          "T04_OUDERS_OPVOEDING"
-        ],
-        "comment_ids": [
-          "C0003",
-          "C0005",
-          "C0012",
-          "C0014",
-          "C0016",
-          "C0719"
-        ]
-      }
-    },
-    {
-      "id": "Q02",
-      "type": "multiple_choice",
-      "tone": "publieke-peiler",
-      "context": "Niet elke reactie was simpel ‘voor’ of ‘tegen’. Een opvallende groep zei eigenlijk: los het praktischer op, bijvoorbeeld via ouders, platforms of betere regels voor apps.",
-      "prompt": "Welke groep reacties was groter dan simpelweg ‘voor een verbod’?",
-      "options": [
-        "Kritisch door privacyzorgen",
-        "Liever een oplossing via ouders of platforms",
-        "Twijfelend",
-        "Geen enkele: pro-verbod was het grootst"
-      ],
-      "optionDetails": [
-        "Deze reacties vinden vooral online ID-controle en privacyrisico's eng.",
-        "Deze reacties willen niet alleen een verbod, maar ook meer grip voor ouders en meer verantwoordelijkheid bij apps.",
-        "Deze reacties zien meerdere kanten en kiezen niet duidelijk één kamp.",
-        "Deze optie zegt: de simpele voorstanders waren de grootste groep."
-      ],
-      "correctIndex": 1,
-      "feedbackCorrect": "Klopt. De praktische middenweg was groter dan het simpele ‘verbied maar’: veel mensen wilden ouders helpen én platforms verantwoordelijker maken.",
-      "feedbackWrong": "De grootste duidelijke houding was de oplossingsroute via ouders en platforms: 157 van 799 reacties. Dat was meer dan puur pro-verbod.",
-      "evidence": {
-        "claim": "Alternatief: ouders/platforms had 157 reacties, pro-verbod 130.",
-        "n": 157,
-        "denominator": 799,
-        "pct": 19.6,
-        "comparison": {
-          "Pro-verbod": {
-            "n": 130,
-            "pct": 16.3
-          }
-        },
-        "codes": [
-          "stance:Alternatief: ouders/platforms"
-        ],
-        "comment_ids": [
-          "C0719",
-          "C0685",
-          "C0014"
-        ]
-      }
-    },
-    {
-      "id": "Q03",
-      "type": "multiple_choice",
-      "tone": "quote-detective",
-      "context": "Sommige mensen waren bang dat leeftijdscontrole voor jongeren betekent dat uiteindelijk iedereen online zijn ID moet laten zien.",
-      "prompt": "Bij welk onderwerp past deze quote het best: “Het is de manier om iedereen met ID op het internet te laten, verkapt als bescherming voor de jeugd.”",
-      "options": [
-        "Privacy en online ID-controle",
-        "Of het verbod wel werkt",
-        "Waar sociale media ook goed voor is",
-        "Schoolapps en praktische gedoe"
-      ],
-      "optionDetails": [
-        "De quote gaat over identificatie, controle en privacy voor iedereen online.",
-        "Dit zou gaan over handhaving of effectiviteit, maar dat is hier niet de kern.",
-        "Dit zou gaan over positieve kanten van sociale media, maar de quote is juist wantrouwend.",
-        "Dit zou gaan over scholen of praktische uitvoering, maar daar zegt de quote niets over."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Bingo. Deze quote zegt eigenlijk: pas op, bescherming van jongeren kan omslaan in een soort online paspoort voor iedereen.",
-      "feedbackWrong": "Deze quote hoort bij privacy en online ID-controle. De kern is niet school of bewijs, maar de angst voor verplichte identificatie online.",
-      "evidence": {
-        "claim": "Quote C0002 is gebruikt als evidence voor privacy/ID-controle.",
-        "n": 117,
-        "denominator": 799,
-        "pct": 14.6,
-        "codes": [
-          "T01_PRIVACY_ID_CONTROLE"
-        ],
-        "comment_ids": [
-          "C0002"
-        ]
-      }
-    },
-    {
-      "id": "Q04",
-      "type": "multiple_choice",
-      "tone": "onderbuik-bingo",
-      "context": "Het artikel draaide om de vraag of zo'n verbod bewezen werkt. Daardoor gingen veel reacties over bewijs: wat weten we, wat weten we niet, en wanneer mag je ingrijpen?",
-      "prompt": "Hoe groot was het thema ‘wetenschappelijk bewijs en experts’?",
-      "options": [
-        "63 van 799 reacties",
-        "117 van 799 reacties",
-        "220 van 799 reacties",
-        "337 van 799 reacties"
-      ],
-      "optionDetails": [
-        "Dat zou een kleiner bijonderwerp zijn.",
-        "Dat is ongeveer de grootte van het privacy/ID-onderwerp.",
-        "Dit betekent dat ruim een kwart van de reacties over bewijs of experts ging.",
-        "Dat zou bijna de helft van alle reacties zijn."
+        "Veel besproken, maar niet het grootste thema in de volledige dataset.",
+        "Depay is een sterk symbooldossier, maar kleiner dan de bredere selectiepuzzel.",
+        "Reacties over wie waar moet spelen: backs, middenveld, Kluivert, Reijnders, Til en invallers.",
+        "Leuk en opvallend, maar veel kleiner in aantal."
       ],
       "correctIndex": 2,
-      "feedbackCorrect": "Correct. Bewijs was een groot onderdeel van de discussie: 220 van 799 reacties gingen over wetenschap, experts of de vraag wat wel en niet bewezen is.",
-      "feedbackWrong": "Het was 220 van 799 reacties, dus 27,5%. Dat is veel: ruim een kwart van alle reacties ging over bewijs of experts.",
+      "feedbackCorrect": "Ja. Het grootste concrete thema was niet één trainer of één speler, maar de hele selectie- en rolpuzzel rond Oranje.",
+      "feedbackWrong": "Net niet. De meeste concrete reacties gingen over de selectie- en rolpuzzel: wie speelt waar, en wie past in welke rol?",
       "evidence": {
-        "claim": "Wetenschappelijk bewijs en experts kwam terug in 220 reacties.",
-        "n": 220,
-        "denominator": 799,
-        "pct": 27.5,
+        "claim": "Selectie- en rolpuzzel was het grootste concrete thema: 105 van 669 comments.",
+        "n": 105,
+        "denominator": 669,
+        "pct": 15.7,
         "codes": [
-          "T07_BEWIJS_WETENSCHAP"
+          "T12_Selectie_middenveld_backs_wisselspelers"
         ],
         "comment_ids": [
-          "C0012",
-          "C0014",
-          "C0501",
-          "C0777",
-          "C0799"
-        ]
+          "ost8sca",
+          "osta2a4",
+          "ost9cnj"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "Q05",
+      "id": "K02",
+      "type": "multiple_choice",
+      "tone": "raad-het-frame",
+      "context": "Als je alleen kijkt naar comments die direct over Koeman, Depay of de wissels gingen, wordt het beeld scherper: daar draaide het veel vaker om de bondscoach zelf.",
+      "prompt": "Wat was in die directe Koeman/Depay/wissel-subset het grootste frame?",
+      "options": [
+        "Koeman als bondscoach onder vuur",
+        "Koeman krijgt vooral credit",
+        "Japan was gewoon te sterk",
+        "Iedereen was vooral blij met 5-1"
+      ],
+      "optionDetails": [
+        "De reacties lazen zijn keuzes als patroon: wissels, tactiek, Depay en controleverlies.",
+        "Er was nuance, maar dat was klein.",
+        "Japan-context kwam voor, maar was geen dominant frame.",
+        "Optimisme bestond, maar niet in deze directe subset als hoofdframe."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. In de directe subset stond Koeman vooral onder vuur: bijna de helft van die relevante reacties viel in dat frame.",
+      "feedbackWrong": "Het grootste frame was Koeman als bondscoach onder vuur. In de directe subset waren dat 94 van 206 reacties.",
+      "evidence": {
+        "claim": "Bondscoach onder vuur was 94 van 206 comments in de directe Koeman/Depay/wissel-subset.",
+        "n": 94,
+        "denominator": 206,
+        "pct": 45.6,
+        "codes": [
+          "CF01_Bondscoach_onder_vuur_selectie_tactiek_Depay",
+          "T01_Koeman_tactiek_wissels_kritiek"
+        ],
+        "comment_ids": [
+          "orr17qn",
+          "ostdc88",
+          "ost9rzw"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K03",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Soms wordt één speler het symbool van een veel grotere ergernis. In deze dump ging dat vooral over loyaliteit, vorm en de vraag of oude namen te lang blijven staan.",
+      "prompt": "Welke speler werd het sterkste symbool voor Koemans loyaliteitsprobleem?",
+      "options": [
+        "Memphis Depay",
+        "Brian Brobbey",
+        "Donyell Malen",
+        "Cody Gakpo"
+      ],
+      "optionDetails": [
+        "Veel reacties vroegen zich af of Koeman hem toch weer zou blijven opstellen.",
+        "Hij was juist vaak het positieve alternatief.",
+        "Hij werd genoemd, maar niet als hét symbooldossier.",
+        "Hij hoorde meer bij de positieve aanvalslijn."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Depay was de snelste quizhaak: hij werd gebruikt als symbool voor de angst dat Koeman oude loyaliteiten boven actuele vorm zet.",
+      "feedbackWrong": "Het ging vooral om Memphis Depay. Brobbey was juist vaker het positieve alternatief in de reacties.",
+      "evidence": {
+        "claim": "Depay-scepsis kwam terug in 70 van 669 comments.",
+        "n": 70,
+        "denominator": 669,
+        "pct": 10.5,
+        "codes": [
+          "T03_Depay_scepsis_niet_starten"
+        ],
+        "comment_ids": [
+          "ost8r4t",
+          "osta2a4",
+          "osteg9g"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K04",
       "type": "true_false",
       "tone": "mythe-of-datapunt",
-      "context": "Privacy en online ID kwamen duidelijk terug in de discussie. Maar duidelijk aanwezig is niet automatisch hetzelfde als het grootste onderwerp.",
-      "prompt": "Waar of niet waar: privacy/ID was het meest genoemde onderwerp in de reacties.",
+      "context": "Nederland won met 5-1 van Zweden. Dat klinkt alsof de discussie daarna klaar is. Maar voetbalreacties zijn zelden zo simpel.",
+      "prompt": "Waar of niet waar: na de 5-1 winst werd de discussie volledig positief.",
       "options": [
         "Waar",
         "Niet waar"
       ],
       "optionDetails": [
-        "Kies dit als je denkt dat privacy/ID bovenaan stond.",
-        "Kies dit als een ander onderwerp vaker voorkwam."
+        "Kies dit als je denkt dat de ruime winst de kritiek wegpoetste.",
+        "Kies dit als optimisme en kritiek naast elkaar bleven bestaan."
       ],
       "correctIndex": 1,
-      "feedbackCorrect": "Niet waar. Privacy was belangrijk, maar niet het grootste onderwerp. Ouders en opvoeding kwamen ongeveer twee keer zo vaak terug.",
-      "feedbackWrong": "Privacy/ID had 117 van 799 reacties. Ouders en opvoeding had 240 van 799 reacties en was dus duidelijk groter.",
+      "feedbackCorrect": "Niet waar. Er was duidelijk plezier, maar tegelijk bleven defensieve gaten, Depay en selectievragen terugkomen.",
+      "feedbackWrong": "Niet waar. De 5-1 gaf optimisme, maar poetste de kritiek niet weg: vooral achterin en rond keuzes bleef het schuren.",
       "evidence": {
-        "claim": "Privacy/ID had 117 reacties; ouders/opvoeding had 240 reacties.",
-        "n": 117,
-        "denominator": 799,
-        "pct": 14.6,
+        "claim": "Optimisme/plezier kwam terug in 78 comments, maar defensieve kwetsbaarheid in 80 comments.",
+        "n": 80,
+        "denominator": 669,
+        "pct": 12,
         "comparison": {
-          "T04_OUDERS_OPVOEDING": {
-            "n": 240,
-            "pct": 30.0
+          "T08_Resultaat_optimisme_en_plezier": {
+            "n": 78,
+            "pct": 11.7
           }
         },
         "codes": [
-          "T01_PRIVACY_ID_CONTROLE",
-          "T04_OUDERS_OPVOEDING"
+          "T07_Verdedigende_kwetsbaarheid",
+          "T08_Resultaat_optimisme_en_plezier"
         ],
         "comment_ids": [
-          "C0002",
-          "C0020",
-          "C0719"
-        ]
-      }
-    },
-    {
-      "id": "Q06",
-      "type": "multiple_choice",
-      "tone": "botsing-raden",
-      "context": "Een groot deel van de discussie draaide om twee gevoelens tegelijk: kinderen beschermen tegen schadelijke apps, maar niet iedereen online extra controleren.",
-      "prompt": "Welke botsing zag je vaak in de reacties?",
-      "options": [
-        "Offline nostalgie versus digitale sociale functies",
-        "Beschermen versus controleren",
-        "Schoolroosters versus papier",
-        "Jongeren versus influencers"
-      ],
-      "optionDetails": [
-        "Sommige reacties gingen over vroeger buiten spelen versus online contact, maar dat was hier niet de grootste botsing.",
-        "Veel reacties zeiden: jongeren beschermen is goed, maar verplichte controle of ID voelt riskant.",
-        "Schoolapps kwamen langs, maar dit was niet de centrale tegenstelling.",
-        "Influencers werden niet de hoofdtegenstander in deze discussie."
-      ],
-      "correctIndex": 1,
-      "feedbackCorrect": "Ja. De kern was: mensen snappen de wens om jongeren te beschermen, maar vrezen dat de oplossing voelt als controle over iedereen.",
-      "feedbackWrong": "De grote botsing was beschermen versus controleren. Veel reacties wilden veiligheid voor jongeren, maar zonder online ID of brede datacontrole.",
-      "evidence": {
-        "claim": "Reacties koppelden bescherming van jongeren vaak aan zorgen over privacy, ID-controle en vrijheid.",
-        "n": 391,
-        "denominator": 799,
-        "pct": 48.9,
-        "codes": [
-          "T02_SCHADE_BESCHERMING",
-          "T01_PRIVACY_ID_CONTROLE",
-          "T06_VRIJHEID_PROPORTIONALITEIT"
+          "ostk2qe",
+          "ost98jz",
+          "ost9onf"
         ],
-        "comment_ids": [
-          "C0002",
-          "C0003",
-          "C0014",
-          "C0020"
-        ]
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "Q07",
-      "type": "multiple_choice",
-      "tone": "wat-leeft-er",
-      "context": "Als je alle reacties heel plat samenvat, zie je een paar terugkerende gedachten. Deze vraag gaat over de gedachte die het vaakst terugkwam.",
-      "prompt": "Welke gedachte kwam het vaakst terug?",
-      "options": [
-        "Leeftijdscheck voelt als online paspoort",
-        "Ik twijfel of een verbod werkt",
-        "Bescherm kinderen, maar leg niet alles bij ouders",
-        "Schoolapps worden straks ook een probleem"
-      ],
-      "optionDetails": [
-        "Dit is de privacy-angst: straks moet iedereen zich online identificeren.",
-        "Dit is de effectiviteitsvraag: werkt een verbod wel, of omzeilen jongeren het gewoon?",
-        "Dit combineert twee dingen: kinderen beschermen én ouders niet alleen laten opdraaien voor het probleem.",
-        "Dit gaat over praktische gevolgen voor onderwijs en schoolapps."
-      ],
-      "correctIndex": 2,
-      "feedbackCorrect": "Klopt. De grootste terugkerende gedachte was: kinderen moeten beschermd worden, maar ouders kunnen dit niet in hun eentje oplossen.",
-      "feedbackWrong": "Het vaakst terug kwam: bescherm kinderen, maar leg niet alles bij ouders. Dat patroon zat in 434 van 799 reacties.",
-      "evidence": {
-        "claim": "Bescherming zonder alles bij ouders neer te leggen kwam terug in 434 van 799 reacties.",
-        "n": 434,
-        "denominator": 799,
-        "pct": 54.3,
-        "codes": [
-          "CEP01",
-          "T02_SCHADE_BESCHERMING",
-          "T04_OUDERS_OPVOEDING",
-          "T05_PLATFORM_ALGORITME"
-        ],
-        "comment_ids": [
-          "C0719",
-          "C0685"
-        ]
-      }
-    },
-    {
-      "id": "Q08",
-      "type": "multiple_choice",
-      "tone": "emotie-meter",
-      "context": "Bij de reacties is ook gekeken naar de toon. Veel reacties waren neutraal of moeilijk te plaatsen. Deze vraag gaat over de emotie die daarna het meest zichtbaar was.",
-      "prompt": "Welke emotie zag je, na ‘neutraal/onduidelijk’, het meest?",
-      "options": [
-        "Boosheid/frustratie",
-        "Zorg/bescherming",
-        "Wantrouwen/controle",
-        "Spot/sarcasme"
-      ],
-      "optionDetails": [
-        "Reacties die vooral boos of geïrriteerd klinken.",
-        "Reacties waarin mensen vooral jongeren willen beschermen of zich zorgen maken.",
-        "Reacties die bang zijn voor overheid, platformcontrole, online ID of dataverzameling.",
-        "Reacties die het onderwerp vooral spottend of sarcastisch benaderen."
-      ],
-      "correctIndex": 1,
-      "feedbackCorrect": "Ja. Na neutraal/onduidelijk was zorg en bescherming het grootst. Veel mensen reageerden vanuit de vraag: hoe houden we jongeren veilig?",
-      "feedbackWrong": "Na neutraal/onduidelijk was zorg/bescherming het grootst: 192 van 799 reacties. Het ging dus vaker om bezorgdheid dan om pure boosheid.",
-      "evidence": {
-        "claim": "Zorg/bescherming kwam voor in 192 reacties.",
-        "n": 192,
-        "denominator": 799,
-        "pct": 24.0,
-        "codes": [
-          "emotion:Zorg/bescherming"
-        ],
-        "comment_ids": [
-          "C0777",
-          "C0012",
-          "C0014"
-        ]
-      }
-    },
-    {
-      "id": "Q09",
-      "type": "multiple_choice",
-      "tone": "voorzichtig-lezen",
-      "context": "Soms probeert de analyse voorzichtig te raden welke brede doelgroep een thema interessant kan vinden. Dat is nuttig voor ideeën, maar het zegt niet wie de individuele reageerders echt zijn.",
-      "prompt": "Soms doet de analyse een ruwe gok over welk soort mensen dit interessant vindt. Hoe moet je die lezen?",
-      "options": [
-        "Als harde waarheid over wie er reageerde",
-        "Als bewezen leeftijdsgroep",
-        "Als ruwe gok die je nog moet checken",
-        "Gewoon negeren"
-      ],
-      "optionDetails": [
-        "Dit zou te hard zijn: de analyse weet niet precies wie achter elke reactie zit.",
-        "Dit kan niet, want leeftijden van reageerders zijn niet bekend.",
-        "Dit is de veilige lezing: handig als richting, maar eerst toetsen voordat je erop bouwt.",
-        "Helemaal negeren hoeft niet, zolang je het maar voorzichtig gebruikt."
-      ],
-      "correctIndex": 2,
-      "feedbackCorrect": "Precies. Het is een hulpmiddel om verder over na te denken, geen bewijs over wie er letterlijk gereageerd heeft.",
-      "feedbackWrong": "Voorzichtig lezen: het is een ruwe inschatting, niet een feit over wie er reageerde. Je moet zo'n gok dus altijd nog checken.",
-      "evidence": {
-        "claim": "Deze doelgroep-gokken zijn alleen ruwe inschattingen die nog gecheckt moeten worden.",
-        "n": 4,
-        "denominator": 4,
-        "pct": 100,
-        "codes": [
-          "strategic_lenses.whize_hypotheses"
-        ],
-        "note": "Niet gebruiken als harde uitspraak over wie er reageerde."
-      }
-    },
-    {
-      "id": "Q10",
-      "type": "multiple_choice",
-      "tone": "voorzichtig-lezen",
-      "context": "Sommige gebruikersnamen geven misschien een hint over man/vrouw, maar vaak weet je het gewoon niet. Daarom moet deze laag heel voorzichtig worden gelezen.",
-      "prompt": "Wat kun je zeggen over man/vrouw-inschattingen uit gebruikersnamen?",
-      "options": [
-        "62% van de reageerders is man",
-        "Bij een klein deel lijkt de richting vooral man; bij veel mensen weten we het niet",
-        "Gender is niet belangrijk, dus gewoon weglaten",
-        "Gebruikersnamen vertellen altijd betrouwbaar wie iemand is"
-      ],
-      "optionDetails": [
-        "Te hard geformuleerd: dit klinkt alsof het zeker gemeten is.",
-        "Voorzichtige formulering: er zijn hints, maar de onbekende groep blijft groot.",
-        "Weglaten kan, maar als je het noemt moet je de onzekerheid erbij zeggen.",
-        "Niet waar: een gebruikersnaam is geen betrouwbare registratie van iemands identiteit."
-      ],
-      "correctIndex": 1,
-      "feedbackCorrect": "Juist. Dit moet voorzichtig: bij een deel lijkt er een richting zichtbaar, maar bij veel gebruikers weten we het niet.",
-      "feedbackWrong": "Voorzichtig: het is geen harde meting. Bij veel gebruikers weten we het niet, dus je mag niet doen alsof alle reageerders betrouwbaar zijn ingedeeld.",
-      "evidence": {
-        "claim": "Van 546 unieke gebruikers hadden 159 een bruikbare hint; 387 bleven onbekend.",
-        "n": 159,
-        "denominator": 546,
-        "pct": 29.1,
-        "codes": [
-          "gender_signal_summary"
-        ],
-        "note": "Geen harde uitspraak over iemands gender; veel is onbekend."
-      }
-    },
-    {
-      "id": "Q11",
-      "type": "multiple_choice",
-      "tone": "oplossingsradar",
-      "context": "Veel reacties zaten niet in het kamp ‘alles verbieden’ of ‘niets doen’. Ze zochten een middenweg: jongeren beschermen, maar wel praktisch en eerlijk.",
-      "prompt": "Wat leek de beste middenweg?",
-      "options": [
-        "Alle sociale media direct offline",
-        "Niets doen en wachten op perfecte wetenschap",
-        "Platforms strenger maken én ouders helpen",
-        "Alle schoolapps terug naar papier"
-      ],
-      "optionDetails": [
-        "Dit is de hardste variant: alles dichtzetten.",
-        "Dit is de passieve variant: pas iets doen als alles perfect bewezen is.",
-        "Dit combineert twee routes: apps veiliger maken en ouders meer grip geven.",
-        "Dit gaat vooral over schoolpraktijk, niet over de hele oplossing."
-      ],
-      "correctIndex": 2,
-      "feedbackCorrect": "Yes. De middenweg was niet alleen verbieden, maar apps veiliger maken én ouders helpen om thuis regels te kunnen stellen.",
-      "feedbackWrong": "De middenweg was: platforms strenger maken en ouders meer grip geven. Dus niet alleen ‘verbieden’ en ook niet ‘niets doen’.",
-      "evidence": {
-        "claim": "Platforms strenger maken en ouders meer grip geven kwam terug in 357 van 799 reacties.",
-        "n": 357,
-        "denominator": 799,
-        "pct": 44.7,
-        "codes": [
-          "T04_OUDERS_OPVOEDING",
-          "T05_PLATFORM_ALGORITME",
-          "T10_SCHOOL_PRAKTIJK"
-        ],
-        "comment_ids": [
-          "C0719",
-          "C0685"
-        ]
-      }
-    },
-    {
-      "id": "Q12",
+      "id": "K05",
       "type": "multiple_choice",
       "tone": "quote-detective",
-      "context": "Sommige reacties legden de verantwoordelijkheid niet bij jongeren of ouders, maar bij de bedrijven achter de apps.",
-      "prompt": "Welke quote zegt eigenlijk: platforms moeten verantwoordelijkheid nemen?",
+      "context": "Een goede quizquote vat vaak de hele spanning samen. Deze zin zegt eigenlijk: Oranje kan tegelijk leuk én kwetsbaar zijn.",
+      "prompt": "Bij welk onderwerp past de quote: “Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”",
       "options": [
-        "“Leg het probleem gewoon bij de app aanbieders.”",
-        "“Waarom weer terug naar papier?”",
-        "“Ik zie het enorme probleem echt niet.”",
-        "“Vrijheid is een groot goed.”"
+        "Verdedigende kwetsbaarheid",
+        "KNVB-systeemkritiek",
+        "Depay-verdediging",
+        "Japan-context"
       ],
       "optionDetails": [
-        "Deze quote wijst direct naar de bedrijven die de apps aanbieden.",
-        "Deze quote gaat eerder over school of praktische gevolgen.",
-        "Deze quote bagatelliseert het probleem en wijst geen verantwoordelijke aan.",
-        "Deze quote gaat vooral over rechten en vrijheid."
+        "De quote zegt: aanvallend leuk, maar achterin staat het open.",
+        "Daarvoor moet de quote over Zeist, opvolging of bestuur gaan.",
+        "Dit zou Depay juist nuanceren of verdedigen.",
+        "Dan zou de quote vooral Japan als sterke tegenstander uitleggen."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Klopt. Deze reactie zegt eigenlijk: laat appbedrijven leeftijdsgrenzen en veiligheid beter regelen, en spreek hen daarop aan.",
-      "feedbackWrong": "Dat zit het duidelijkst in: “Leg het probleem gewoon bij de app aanbieders.” Die quote wijst direct naar de bedrijven achter de apps.",
+      "feedbackCorrect": "Precies. De quote is bijna de samenvatting van de bliksemafleider-laag: Koeman krijgt kritiek, maar er zitten ook echte teamproblemen onder.",
+      "feedbackWrong": "Deze quote hoort bij verdedigende kwetsbaarheid: voorin potentie, achterin gaten.",
       "evidence": {
-        "claim": "Deze quote is een voorbeeld van platformen verantwoordelijk maken.",
-        "n": 125,
-        "denominator": 799,
-        "pct": 15.6,
+        "claim": "Verdedigende kwetsbaarheid kwam terug in 80 van 669 comments.",
+        "n": 80,
+        "denominator": 669,
+        "pct": 12,
         "codes": [
-          "T05_PLATFORM_ALGORITME"
+          "T07_Verdedigende_kwetsbaarheid",
+          "CF02_Bliksemafleider_bredere_fricties"
         ],
         "comment_ids": [
-          "C0685"
-        ]
+          "ostk2qe",
+          "osta2a4",
+          "osuuyua"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K06",
+      "type": "multiple_choice",
+      "tone": "publieke-peiler",
+      "context": "Naast kritiek op Depay was er ook een positieve tegenbeweging: wie geeft Oranje juist nieuwe energie?",
+      "prompt": "Welke spits werd in de reacties het vaakst als positief alternatief genoemd?",
+      "options": [
+        "Brian Brobbey",
+        "Wout Weghorst",
+        "Memphis Depay",
+        "Joshua Zirkzee"
+      ],
+      "optionDetails": [
+        "Veel reacties zagen hem als logische basisoptie.",
+        "Niet de speler die hier het meest naar voren kwam.",
+        "Hij was juist het discussiepunt.",
+        "Niet het belangrijkste alternatief in deze dump."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. Brobbey werd het positieve contrast met het Depay-dossier.",
+      "feedbackWrong": "Het meest genoemde positieve spits-alternatief was Brobbey.",
+      "evidence": {
+        "claim": "Brobbey als nieuwe spits kwam terug in 26 van 669 comments.",
+        "n": 26,
+        "denominator": 669,
+        "pct": 3.9,
+        "codes": [
+          "T05_Brobbey_als_nieuwe_spits"
+        ],
+        "comment_ids": [
+          "ost8sca",
+          "ostaao2",
+          "ostw57e"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K07",
+      "type": "multiple_choice",
+      "tone": "wat-leeft-er",
+      "context": "Sommige kritiek bleef niet bij Koeman als persoon, maar schoof door naar bestuur, opvolging en voetbalcultuur.",
+      "prompt": "Welke organisatie werd in die bredere systeemkritiek genoemd?",
+      "options": [
+        "De KNVB / Zeist",
+        "De UEFA",
+        "De FIFA",
+        "De Eredivisie CV"
+      ],
+      "optionDetails": [
+        "Reacties gingen over opvolging, oud-spelers als trainers en “ons kent ons”.",
+        "Dat was hier niet de kern.",
+        "Niet het systeem waar deze quotes vooral op mikten.",
+        "Niet de organisatie die in deze systeemlaag centraal stond."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. De kritiek verschoof soms naar de KNVB en Zeist: wie krijgt de baan, en waarom?",
+      "feedbackWrong": "Het antwoord is de KNVB / Zeist. Daar zat de bredere systeemkritiek.",
+      "evidence": {
+        "claim": "KNVB/opvolging/systeemkritiek kwam terug in 57 van 669 comments.",
+        "n": 57,
+        "denominator": 669,
+        "pct": 8.5,
+        "codes": [
+          "T10_KNVB_opvolging_systeemkritiek"
+        ],
+        "comment_ids": [
+          "orr2jrq",
+          "ostaao2",
+          "orrk898"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K08",
+      "type": "multiple_choice",
+      "tone": "voorzichtig-lezen",
+      "context": "Een goede quiz laat ook tegenbewijs zien. Niet iedereen vond dat elke slechte fase automatisch door Koeman kwam.",
+      "prompt": "Wat was het belangrijkste tegenargument tegen “alles lag aan Koeman”?",
+      "options": [
+        "Japan werd door sommigen gewoon als sterke ploeg gezien",
+        "Depay scoorde vijf keer",
+        "De KNVB koos de opstelling",
+        "Niemand had kritiek op de wissels"
+      ],
+      "optionDetails": [
+        "Dit relativeert de kritiek zonder die helemaal weg te nemen.",
+        "Dat is niet wat de dump laat zien.",
+        "Dat was niet het genoemde tegenargument.",
+        "Er was juist veel kritiek op wissels en tactiek."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Goed. Een kleine maar belangrijke nuance: sommige reacties vonden Japan tactisch sterk of lazen Koemans quote in die context.",
+      "feedbackWrong": "Het tegenargument was vooral: Japan was gewoon goed of tactisch sterk. Dat maakt het minder zwart-wit.",
+      "evidence": {
+        "claim": "Japan-context en tegenbewijs kwam terug in 15 van 669 comments.",
+        "n": 15,
+        "denominator": 669,
+        "pct": 2.2,
+        "codes": [
+          "T11_Japan_context_en_tegenbewijs"
+        ],
+        "comment_ids": [
+          "ostqdk2",
+          "orr3ygf",
+          "orr4bl3"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K09",
+      "type": "true_false",
+      "tone": "mythe-of-datapunt",
+      "context": "De toon in voetbalcomments kan hard zijn, maar dat betekent niet dat er nul nuance is.",
+      "prompt": "Waar of niet waar: er was helemaal geen Koeman-nuance in de dataset.",
+      "options": [
+        "Waar",
+        "Niet waar"
+      ],
+      "optionDetails": [
+        "Kies dit als je denkt dat alle reacties anti-Koeman waren.",
+        "Kies dit als er een kleine credit/nuance-laag bestond."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Niet waar. Die nuance was klein, maar hij bestond wel.",
+      "feedbackWrong": "Niet waar. Er was een kleine credit/nuance-laag, al was die veel kleiner dan de kritiek.",
+      "evidence": {
+        "claim": "Credit/nuance-tegenbewijs was 16 van 206 comments in de directe subset.",
+        "n": 16,
+        "denominator": 206,
+        "pct": 7.8,
+        "codes": [
+          "CF03_Credit_nuance_tegenbewijs",
+          "T02_Koeman_credit_of_nuance"
+        ],
+        "comment_ids": [
+          "ost8r7x",
+          "ostd7dq",
+          "orrcr93"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K10",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Een topcomment noemde een mogelijke nieuwe aanvalslijn. Dat maakt het debat concreter dan alleen “Koeman weg” of “Koeman blijven”.",
+      "prompt": "Welk aanvalstrio werd als duidelijke basis genoemd?",
+      "options": [
+        "Gakpo - Brobbey - Summerville",
+        "Depay - Weghorst - Malen",
+        "Lang - Zirkzee - Bergwijn",
+        "Malen - Depay - Simons"
+      ],
+      "optionDetails": [
+        "Deze combinatie stond letterlijk in een sterke reactie.",
+        "Niet de genoemde nieuwe basis.",
+        "Niet het trio uit de quote.",
+        "Niet het trio dat hier als basis werd genoemd."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Die combinatie stond voor nieuwe energie en een alternatief voor oude automatismen.",
+      "feedbackWrong": "Het ging om Gakpo - Brobbey - Summerville.",
+      "evidence": {
+        "claim": "Nieuwe aanvallende energie kwam terug in 64 van 669 comments.",
+        "n": 64,
+        "denominator": 669,
+        "pct": 9.6,
+        "codes": [
+          "T06_Aanval_energie_en_nieuwe_basis"
+        ],
+        "comment_ids": [
+          "ost8sca",
+          "ost9cnj",
+          "osub9rc"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K11",
+      "type": "multiple_choice",
+      "tone": "onderbuik-bingo",
+      "context": "Niet de meeste reacties, maar wel opvallend: sommige typen reacties trekken veel aandacht. Engagement is hier score plus replies uit de export.",
+      "prompt": "Welke toon had gemiddeld de hoogste engagement-score?",
+      "options": [
+        "Humor/sarcasme",
+        "Neutraal/overig",
+        "Analyse/nuance",
+        "Frustratie/boosheid"
+      ],
+      "optionDetails": [
+        "Minder vaak, maar gemiddeld het meest raakbaar/deelbaar.",
+        "Het grootst in aantal, maar niet gemiddeld het hoogst.",
+        "Rustiger en minder explosief.",
+        "Hoog, maar niet zo hoog als humor/sarcasme."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Humor/sarcasme was klein in aantal, maar had de hoogste gemiddelde engagement-score.",
+      "feedbackWrong": "Het was humor/sarcasme. Niet het grootst in aantal, wel gemiddeld het meest engagement.",
+      "evidence": {
+        "claim": "Humor/sarcasme had gemiddeld 42,4 engagement-score; hoger dan andere emotielagen.",
+        "n": 27,
+        "denominator": 669,
+        "pct": 4,
+        "comparison": {
+          "emotion:frustratie/boosheid": {
+            "n": 95,
+            "pct": 14.2
+          },
+          "emotion:optimisme/plezier": {
+            "n": 115,
+            "pct": 17.2
+          }
+        },
+        "codes": [
+          "emotion:humor/sarcasme",
+          "T13_Humor_sarcasme_meme_taal"
+        ],
+        "comment_ids": [
+          "ostkr0s",
+          "osv8ofa",
+          "ost98jz"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K12",
+      "type": "multiple_choice",
+      "tone": "raad-de-onderstroom",
+      "context": "Na een ruime overwinning kwam ook typische voetbalzelfspot voorbij.",
+      "prompt": "Welke zelfspot kwam terug na de 5-1 winst?",
+      "options": [
+        "Zelfs na 5-1 blijven we zeuren",
+        "We praten nooit over backs",
+        "Iedereen is het altijd eens over Oranje",
+        "Nederland houdt niet van voetbalhumor"
+      ],
+      "optionDetails": [
+        "Dit was precies de meta-laag.",
+        "Backs kwamen terug, maar dat is geen zelfspotlaag.",
+        "De dump laat juist veel meningsverschil zien.",
+        "Humor kwam duidelijk voor."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Precies. De nationale reflex was ook onderwerp van de grap: winnen en alsnog zeuren.",
+      "feedbackWrong": "De zelfspot was: zelfs na 5-1 blijven we zeuren.",
+      "evidence": {
+        "claim": "Het meta-frame “5-1 en toch zeuren” kwam terug in 7 van 669 comments.",
+        "n": 7,
+        "denominator": 669,
+        "pct": 1,
+        "codes": [
+          "T09_Meta_5_1_en_toch_zeuren"
+        ],
+        "comment_ids": [
+          "ost98jz",
+          "ost9onf",
+          "ostkvfy"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K13",
+      "type": "multiple_choice",
+      "tone": "spanning-spotter",
+      "context": "“Koeman als bliksemafleider” betekent: hij trekt de aandacht, maar daarachter liggen bredere spanningen in het elftal.",
+      "prompt": "Wat ondersteunt de lezing “Koeman als bliksemafleider” het sterkst?",
+      "options": [
+        "Veel reacties gingen ook over defensie, selectie en bredere Oranje-frictie",
+        "Alle reacties gingen alleen over zijn kapsel",
+        "Er waren geen spelerdiscussies",
+        "Depay werd nauwelijks genoemd"
+      ],
+      "optionDetails": [
+        "Dit is de bredere laag onder de trainerkritiek.",
+        "Niet relevant voor deze dataset.",
+        "Er waren juist veel speler- en roldiscussies.",
+        "Depay werd juist veel genoemd."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Koeman was de kapstok, maar daaronder zaten defensie, selectie, opvolging en teamidentiteit.",
+      "feedbackWrong": "De bliksemafleiderlezing wordt ondersteund door bredere fricties: defensie, selectie, KNVB/opvolging en context.",
+      "evidence": {
+        "claim": "Bliksemafleider/bredere fricties was 177 van 669 comments in de volledige dataset.",
+        "n": 177,
+        "denominator": 669,
+        "pct": 26.5,
+        "codes": [
+          "CF02_Bliksemafleider_bredere_fricties"
+        ],
+        "comment_ids": [
+          "ostk2qe",
+          "osta2a4",
+          "orr2jrq"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K14",
+      "type": "multiple_choice",
+      "tone": "voorzichtig-lezen",
+      "context": "Depay kreeg veel kritiek, maar ook daar zat nuance in. Niet elke reactie was simpel “weg ermee”.",
+      "prompt": "Welke nuance gebruikten Depay-verdedigers?",
+      "options": [
+        "Zijn assist, status of Koemans respectvolle communicatie",
+        "Dat hij nooit voor Oranje speelde",
+        "Dat Brobbey linksback moest staan",
+        "Dat Zweden eigenlijk had gewonnen"
+      ],
+      "optionDetails": [
+        "Dit zijn de nuances die terugkwamen.",
+        "Onjuist en niet uit de dump.",
+        "Niet de Depay-nuance.",
+        "Niet wat de dataset laat zien."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. De nuance zat in assist, status/verleden en hoe Koeman met hem communiceert.",
+      "feedbackWrong": "De nuance was: assist, status/verleden of respectvolle communicatie vanuit Koeman.",
+      "evidence": {
+        "claim": "Depay-verdediging/nuance kwam terug in 24 van 669 comments.",
+        "n": 24,
+        "denominator": 669,
+        "pct": 3.6,
+        "codes": [
+          "T04_Depay_verdediging_nuance"
+        ],
+        "comment_ids": [
+          "osta2a4",
+          "osx5a8p",
+          "ostc9pk"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "K15",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Sommige reacties zijn zo kort dat ze bijna kant-en-klare quizkaartjes zijn.",
+      "prompt": "Welke korte quote hoort bij de meme-/sarcasmelaag?",
+      "options": [
+        "“Arjen Brobben”",
+        "“Japan is gewoon echt goed.”",
+        "“Geen seconde aan Koeman getwijfeld.”",
+        "“Ons kent ons daar in Zeist.”"
+      ],
+      "optionDetails": [
+        "Compacte woordgrap rond Brobbey/Robben.",
+        "Dit is Japan-context, geen memequote.",
+        "Dit is Koeman-nuance/ironie, maar niet de bedoelde memequote.",
+        "Dit hoort meer bij KNVB-systeemkritiek."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. “Arjen Brobben” is precies zo’n korte voetbalmeme die blijft hangen.",
+      "feedbackWrong": "De memequote was “Arjen Brobben”. Kort, flauw, perfect quizmateriaal.",
+      "evidence": {
+        "claim": "Humor/sarcasme/meme-taal kwam terug in 41 van 669 comments.",
+        "n": 41,
+        "denominator": 669,
+        "pct": 6.1,
+        "codes": [
+          "T13_Humor_sarcasme_meme_taal"
+        ],
+        "comment_ids": [
+          "ostkr0s",
+          "osv8ofa",
+          "ost98jz"
+        ],
+        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
       }
     }
   ],
@@ -472,20 +600,20 @@
     {
       "min": 0,
       "max": 2,
-      "title": "Nog niet gewonnen",
-      "description": "Je zat in de buurt, maar 3 van de 5 is de winstgrens. De uitleg laat zien waar de verrassing zat."
+      "title": "Nog net geen bondscoachfluisteraar",
+      "description": "Je had al wat signalen te pakken, maar 3 van de 5 is de winstgrens. De uitleg laat zien waar de Oranje-valkuil zat."
     },
     {
       "min": 3,
       "max": 4,
-      "title": "Gewonnen: Publieke Peiler",
-      "description": "Je had genoeg verrassingen te pakken. Je leest de onderstroom van de reacties scherp."
+      "title": "Gewonnen: Oranje-inzicht",
+      "description": "Je zag genoeg onderstroom: Koeman, Depay, selectiegedoe en het Nederlandse “ja maar” na 5-1."
     },
     {
       "min": 5,
       "max": 5,
       "title": "Perfecte Peiler",
-      "description": "Vijf uit vijf. Jij voelde precies aan waar de reacties anders waren dan je misschien verwacht."
+      "description": "Vijf uit vijf. Jij las de voetbalonderbuik alsof je zelf in de dug-out stond."
     }
   ]
 }

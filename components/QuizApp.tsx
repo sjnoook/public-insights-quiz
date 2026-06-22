@@ -147,21 +147,21 @@ const TOPICS = [
   },
   {
     accent: "cyan",
-    available: true,
+    available: false,
     icon: "phone",
     id: "social-media",
     label: "SOCIAL MEDIA VERBOD JONGEREN",
     prompt: "Ja of nee?",
-    status: "Speel nu",
+    status: "Vorige quiz",
   },
   {
     accent: "orange",
-    available: false,
+    available: true,
     icon: "coach",
     id: "koeman",
     label: "WAT DENKT NEDERLAND OVER KOEMAN",
     prompt: "Bondscoach of bliksemafleider?",
-    status: "Nieuwe dump nodig",
+    status: "Speel nu",
   },
   {
     accent: "blue",
@@ -431,9 +431,9 @@ export default function QuizApp({
   const [runtimeEvidenceContext, setRuntimeEvidenceContext] = useState(evidenceContext);
   const [started, setStarted] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
-  const [spotlightTopicId, setSpotlightTopicId] = useState("social-media");
+  const [spotlightTopicId, setSpotlightTopicId] = useState("koeman");
   const [isDrawingTopic, setIsDrawingTopic] = useState(false);
-  const [topicNotice, setTopicNotice] = useState("Kies eerst een onderwerp. Daarna speel je 5 vragen.");
+  const [topicNotice, setTopicNotice] = useState("Kies Koeman of laat de opinie-radar spannend bepalen.");
   const [runId, setRunId] = useState(0);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -709,7 +709,7 @@ export default function QuizApp({
 
   function startQuiz() {
     unlockAudio(true);
-    if (!selectedTopicId) setSelectedTopicId("social-media");
+    if (!selectedTopicId) setSelectedTopicId("koeman");
     setStarted(true);
     setCurrent(0);
     setSelected(null);
@@ -809,7 +809,7 @@ export default function QuizApp({
     setVisibleIntroWords(0);
     setShowIntroDetails(false);
     setShowStartAction(false);
-    setTopicNotice("Kies eerst een onderwerp. Daarna speel je 5 vragen.");
+    setTopicNotice("Kies Koeman of laat de opinie-radar spannend bepalen.");
   }
 
   const resultBand =
@@ -869,13 +869,13 @@ export default function QuizApp({
               <p className="kicker">Live voorbeeld</p>
               <h2>Wat dacht Nederland echt?</h2>
               <div className="mini-bars">
-                <span style={{ "--bar": "74%" } as CSSProperties}>Tegen verbod / leer omgaan</span>
-                <span style={{ "--bar": "48%" } as CSSProperties}>Ouders moeten dit doen</span>
-                <span style={{ "--bar": "35%" } as CSSProperties}>Privacy / controle is gevaarlijk</span>
-                <span style={{ "--bar": "31%" } as CSSProperties}>Verbod werkt toch niet</span>
+                <span style={{ "--bar": "70%" } as CSSProperties}>Selectie- en rolpuzzel</span>
+                <span style={{ "--bar": "53%" } as CSSProperties}>Verdedigende gaten</span>
+                <span style={{ "--bar": "47%" } as CSSProperties}>Depay als symbool</span>
+                <span style={{ "--bar": "38%" } as CSSProperties}>Koeman onder vuur</span>
               </div>
               <p className="quote-teaser">
-                Quote: “Een verbod lost niks op. Leer jongeren ermee omgaan in plaats van alles af te pakken.”
+                Quote: “Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”
               </p>
               <a className="studio-link" href="/studio">
                 Naar quizstudio
@@ -922,11 +922,11 @@ export default function QuizApp({
             <div className="topic-intro-details">
               <p className="subtitle">{runtimeSeed.subtitle}</p>
               <div className="article-card">
-                <p className="article-eyebrow">Gebaseerd op het artikel</p>
+                <p className="article-eyebrow">Gebaseerd op de dump</p>
                 <h2>“{runtimeSeed.source.article_title}”</h2>
                 <p>
-                  NUjij · {runtimeSeed.source.publication_date} · {runtimeSeed.source.analyzed_comments} reacties
-                  geanalyseerd
+                  Publieke Reddit-reacties · {runtimeSeed.source.publication_date} ·{" "}
+                  {runtimeSeed.source.analyzed_comments} reacties geanalyseerd
                 </p>
               </div>
 
