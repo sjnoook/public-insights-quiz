@@ -232,7 +232,7 @@ export default function QuizStudio({
   const [currentSeed, setCurrentSeed] = useState(defaultSeed);
   const [customPacks, setCustomPacks] = useState<StudioStoredPack[]>([]);
   const [draftQuestion, setDraftQuestion] = useState<QuizQuestion | null>(null);
-  const [notice, setNotice] = useState("Kies minimaal 10 vragen. Daarna gebruikt de publieke quiz precies die selectie.");
+  const [notice, setNotice] = useState("Kies precies 10 vragen. Daarna gebruikt de publieke quiz precies die selectie.");
   const [savedQuestionId, setSavedQuestionId] = useState<string | null>(null);
   const [saveToast, setSaveToast] = useState("");
   const [selectedQuestionIds, setSelectedQuestionIds] = useState(() => getInitialSelection(defaultSeed));
@@ -251,6 +251,15 @@ export default function QuizStudio({
       if ((activePack.seed.game?.questionCount ?? 0) < QUESTION_TARGET) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
         setNotice("Oude 5-vragenselectie genegeerd. De studio werkt nu met minimaal 10 vragen.");
+        return;
+      }
+      if (
+        activePack.id === "active-built-in" &&
+        activePack.seed.source.dataset === defaultSeed.source.dataset &&
+        activePack.seed.questions.length < defaultSeed.questions.length
+      ) {
+        window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+        setNotice("De ingebouwde dump is vernieuwd naar 30 kandidaatvragen. Oude lokale selectie genegeerd.");
         return;
       }
 
@@ -633,7 +642,7 @@ export default function QuizStudio({
         <p className="kicker">Achter de schermen</p>
         <h1>Quizstudio</h1>
         <p className="subtitle">
-          Selecteer een dump of upload een quiz-pack met bijvoorbeeld 20 kandidaatvragen. Jij kiest minimaal 10 leuke
+          Selecteer een dump of upload een quiz-pack met bijvoorbeeld 30 kandidaatvragen. Jij kiest precies 10 leuke
           vragen, past ze handmatig aan en de publieke quiz gebruikt meteen die selectie.
         </p>
       </section>

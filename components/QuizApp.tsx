@@ -82,6 +82,8 @@ export type QuizSeed = {
   quizTitle: string;
   subtitle: string;
   source: {
+    dataset?: string;
+    mode?: string;
     analyzed_comments: number;
     article_title: string;
     publication_date: string;
@@ -462,12 +464,23 @@ export default function QuizApp({
 
       const parsed = JSON.parse(storedPack) as {
         evidenceContext?: EvidenceContext;
+        id?: string;
         seed?: QuizSeed;
       };
 
       if (!parsed.seed?.questions?.length) return;
       if ((parsed.seed.game?.questionCount ?? 0) < MIN_QUESTION_COUNT) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+        return;
+      }
+      if (
+        parsed.id === "active-built-in" &&
+        parsed.seed.source.dataset === seed.source.dataset &&
+        parsed.seed.questions.length < seed.questions.length
+      ) {
+        window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+        setRuntimeSeed(seed);
+        setRuntimeEvidenceContext(evidenceContext);
         return;
       }
 

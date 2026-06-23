@@ -605,6 +605,595 @@
         ],
         "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
+    },
+    {
+      "id": "S16",
+      "type": "multiple_choice",
+      "tone": "spanning-spotter",
+      "context": "Onder de grap zat een serieuze botsing: sommige mensen dachten praktisch, anderen dachten aan uitstraling op werk.",
+      "prompt": "Welke botsing maakte de korte broek groter dan alleen kleding?",
+      "options": [
+        "Koel blijven versus professioneel overkomen",
+        "Lunchpauze versus vergadertijd",
+        "Open kantoor versus flexplek",
+        "Koffie versus thee"
+      ],
+      "optionDetails": [
+        "Ja. Comfort en representativiteit waren de twee grote krachten.",
+        "Niet de kern van deze dump.",
+        "Werkplek kwam terug, maar niet als hoofdspanning.",
+        "Kantoorwaardig, maar geen datahaakje."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Precies. Het ging tegelijk over hitte/comfort en over netjes of professioneel overkomen.",
+      "feedbackWrong": "De grootste botsing was: koel blijven versus professioneel overkomen.",
+      "evidence": {
+        "claim": "Netjes/professioneel kwam terug in 186 reacties; hitte/comfort in 174.",
+        "n": 186,
+        "denominator": 1002,
+        "pct": 18.6,
+        "comparison": {
+          "T03_hitte_warmte_comfort": {
+            "n": 174,
+            "pct": 17.4
+          }
+        },
+        "codes": [
+          "T02_representatief_professioneel_netjes",
+          "T03_hitte_warmte_comfort"
+        ],
+        "comment_ids": [
+          "C0038",
+          "C0985"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S17",
+      "type": "multiple_choice",
+      "tone": "emotie-meter",
+      "context": "Sommige reacties waren geen beleidsstandpunt, maar een soort oogrol naar oude kantoorregels.",
+      "prompt": "Welke opmerking klinkt het meest als lichte spot of sarcasme?",
+      "options": [
+        "Welkom in 2025.",
+        "Bij klantcontact zou ik het niet doen.",
+        "Een linnen broek is een goed alternatief.",
+        "Veiligheid en hygiëne kunnen meespelen."
+      ],
+      "optionDetails": [
+        "Ja. Kort, droog en duidelijk: de regel voelt ouderwets.",
+        "Dit is eerder een praktische uitzondering.",
+        "Dit is een compromis, geen spot.",
+        "Dit is een formeel argument."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. 'Welkom in 2025' is precies zo'n korte reactie waarin de tijdgeest meedoet.",
+      "feedbackWrong": "De meest sarcastische/tijdgeest-achtige optie is: 'Welkom in 2025.'",
+      "evidence": {
+        "claim": "Ouderwets/2025/tijdgeest kwam terug in 48 van 1002 reacties.",
+        "n": 48,
+        "denominator": 1002,
+        "pct": 4.8,
+        "codes": [
+          "T08_ouderwets_2025_tijdgeest"
+        ],
+        "comment_ids": [
+          "C0319",
+          "C0574"
+        ],
+        "note": "Sarcasme is hier een leeslaag; de telling gaat over reacties waarin ouderwets/2025/tijdgeest werd gecodeerd."
+      }
+    },
+    {
+      "id": "S18",
+      "type": "multiple_choice",
+      "tone": "raad-het-frame",
+      "context": "Niet iedereen vond dezelfde regel logisch. De functie, klantcontact en context deden vaak mee in de afweging.",
+      "prompt": "Welke factor maakte 'mag het?' vooral afhankelijk van de situatie?",
+      "options": [
+        "Of je klanten of externe afspraken hebt",
+        "Of het maandag is",
+        "Of de koffieautomaat werkt",
+        "Of je op de bovenste verdieping zit"
+      ],
+      "optionDetails": [
+        "Ja. Klantcontact maakte de dresscode veel minder zwart-wit.",
+        "Geen hoofdpatroon in de dump.",
+        "Altijd belangrijk, maar niet in deze telling.",
+        "Niet de datahaak."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. Korte broek werd minder spannend zonder klantcontact, en gevoeliger bij externe afspraken.",
+      "feedbackWrong": "De belangrijkste contextfactor was klantcontact of externe afspraken.",
+      "evidence": {
+        "claim": "Klant/externe afspraak/functie kwam terug in 92 van 1002 reacties.",
+        "n": 92,
+        "denominator": 1002,
+        "pct": 9.2,
+        "codes": [
+          "T05_klant_extern_functie"
+        ],
+        "comment_ids": [
+          "C0103",
+          "C0624"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S19",
+      "type": "multiple_choice",
+      "tone": "oplossingsradar",
+      "context": "Tussen 'gewoon doen' en 'nooit doen' zat ook een rustige middenweg: los het op zonder kantooroorlog.",
+      "prompt": "Welke optie was de meest diplomatieke kleding-oplossing?",
+      "options": [
+        "Een linnen of dunne lange broek",
+        "Een bivakmuts bij mooie benen",
+        "Een smoking op warme dagen",
+        "Geen schoenen meer op kantoor"
+      ],
+      "optionDetails": [
+        "Ja. Een praktische tussenoplossing: luchtig, maar nog steeds lang.",
+        "Die hoort bij het absurde benenargument.",
+        "Te formeel en niet uit de dump.",
+        "De voetendiscussie ging juist de andere kant op."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Linnen/dunne broeken waren de vrede-aan-de-kantoorvloer-optie.",
+      "feedbackWrong": "De diplomatieke oplossing was: een linnen of dunne lange broek.",
+      "evidence": {
+        "claim": "Linnen/dunne broek als alternatief kwam terug in 41 van 1002 reacties.",
+        "n": 41,
+        "denominator": 1002,
+        "pct": 4.1,
+        "codes": [
+          "T10_linnen_dunne_broek_alternatief"
+        ],
+        "comment_ids": [
+          "C0624",
+          "C0650"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S20",
+      "type": "multiple_choice",
+      "tone": "onderbuik-bingo",
+      "context": "Sommige verklaringen klinken allebei plausibel. De vraag is: welke kwam in deze reacties veel vaker langs?",
+      "prompt": "Wat werd vaker genoemd: airco of thuiswerken?",
+      "options": [
+        "Airco en temperatuurregeling",
+        "Thuiswerken",
+        "Ze kwamen precies even vaak terug",
+        "Geen van beide kwam voor"
+      ],
+      "optionDetails": [
+        "Ja. Airco was een veel groter zijspoor.",
+        "Thuiswerken kwam terug, maar minder vaak.",
+        "Niet gelijk.",
+        "Allebei kwamen voor."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Juist. Airco won deze mini-strijd ruim van thuiswerken.",
+      "feedbackWrong": "Airco/temperatuurregeling kwam vaker terug: 129 keer, tegenover 39 keer thuiswerken.",
+      "evidence": {
+        "claim": "Airco/temperatuurregeling kwam terug in 129 reacties; thuiswerken in 39.",
+        "n": 129,
+        "denominator": 1002,
+        "pct": 12.9,
+        "comparison": {
+          "T09_thuiswerken_ontsnappingsroute": {
+            "n": 39,
+            "pct": 3.9
+          }
+        },
+        "codes": [
+          "T04_airco_temperatuurregeling",
+          "T09_thuiswerken_ontsnappingsroute"
+        ],
+        "comment_ids": [
+          "C0020",
+          "C0001"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S21",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Een deel van de reacties draaide niet om temperatuur, maar om hoe werk eruit hoort te zien.",
+      "prompt": "Welke reactie past het best bij het frame 'netjes en professioneel'?",
+      "options": [
+        "Niet elke werkplek is een strandtent",
+        "Als een jurk mag, waarom dan geen korte broek?",
+        "De airco moet gewoon beter",
+        "Thuis zit ik al in korte broek"
+      ],
+      "optionDetails": [
+        "Ja. Dit gaat over uitstraling en grenzen op werk.",
+        "Dat is het gelijkheidsframe.",
+        "Dat is het temperatuurframe.",
+        "Dat is de thuiswerkvariant."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Het netjes/professioneel-frame was de grootste gecodeerde laag.",
+      "feedbackWrong": "Het professioneel-frame zit het meest in: niet elke werkplek is een strandtent.",
+      "evidence": {
+        "claim": "Representatief/professioneel/netjes was het grootste thema met 186 van 1002 reacties.",
+        "n": 186,
+        "denominator": 1002,
+        "pct": 18.6,
+        "codes": [
+          "T02_representatief_professioneel_netjes"
+        ],
+        "comment_ids": [
+          "C0038",
+          "C0973"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S22",
+      "type": "multiple_choice",
+      "tone": "raad-de-onderstroom",
+      "context": "De korte broek werd vaak naast iets anders gelegd. Daardoor ging het ineens niet meer alleen over mannenbenen.",
+      "prompt": "Welke opmerking maakte er vooral een gelijkheidsvraag van?",
+      "options": [
+        "Als een rok of jurk mag, waarom dan geen korte broek?",
+        "De airco staat te laag",
+        "Klanten willen nette kleding zien",
+        "Een linnen broek ademt beter"
+      ],
+      "optionDetails": [
+        "Ja. Dit was de grote vergelijking in de dump.",
+        "Dat gaat over temperatuur.",
+        "Dat gaat over functie en klantcontact.",
+        "Dat is de compromis-oplossing."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Precies. Het rok/jurk-argument maakte van de korte broek een eerlijkheidskwestie.",
+      "feedbackWrong": "De gelijkheidsvraag zat vooral in de vergelijking met rokken en jurken.",
+      "evidence": {
+        "claim": "Het rok/jurk-gelijkheidsframe kwam terug in 159 van 1002 reacties.",
+        "n": 159,
+        "denominator": 1002,
+        "pct": 15.9,
+        "codes": [
+          "T01_rok_jurk_gelijkheidsframe"
+        ],
+        "comment_ids": [
+          "C0884",
+          "C0907"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S23",
+      "type": "multiple_choice",
+      "tone": "mythe-of-datapunt",
+      "context": "Sommige oplossingen waren serieus. Andere waren meer een demonstratie: als de regel krom voelt, dan zoeken mensen een uitweg.",
+      "prompt": "Welke grappige escape-route kwam echt meerdere keren terug?",
+      "options": [
+        "Een kilt aantrekken",
+        "Een skihelm opzetten",
+        "Een toga verplichten",
+        "Een wetsuit dragen"
+      ],
+      "optionDetails": [
+        "Ja. De kilt was een kleine maar echte protest-route.",
+        "Niet in de telling.",
+        "Mooi absurd, maar niet de dump.",
+        "Niet uit deze reacties."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. De kilt kwam terug als creatieve manier om de dresscode te omzeilen.",
+      "feedbackWrong": "De echte escape-route was: een kilt aantrekken. Die kwam 8 keer terug.",
+      "evidence": {
+        "claim": "De kilt kwam 8 keer terug als subsignaal binnen protest/jurk/kilt-reacties.",
+        "n": 8,
+        "denominator": 1002,
+        "pct": 0.8,
+        "codes": [
+          "kilt_subsignal_within_T12",
+          "T12_protest_jurk_kilt_mannen"
+        ],
+        "comment_ids": [
+          "C0234",
+          "C0912"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S24",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Niet elk argument bleef netjes bij beleid. Soms schoof de discussie door naar uiterlijk, benen en wat collega's wel of niet willen zien.",
+      "prompt": "Welke reactie hoort het meest bij de 'benen en uiterlijk'-laag?",
+      "options": [
+        "Dan wil ik ook een bivakmuts als iemand mooie benen heeft",
+        "Een linnen broek is koeler",
+        "Klantcontact vraagt om nette kleding",
+        "Thuiswerken lost dit op"
+      ],
+      "optionDetails": [
+        "Ja. Dit maakte het benenargument expres absurd.",
+        "Dat is praktisch comfort.",
+        "Dat is context en functie.",
+        "Dat is de ontsnappingsroute."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. De bivakmuts-grap zat in de laag rond lichaam, benen en bloot.",
+      "feedbackWrong": "De benen/uiterlijk-laag past het best bij de bivakmutsvergelijking.",
+      "evidence": {
+        "claim": "Body/benen/bloot/esthetiek kwam terug in 73 van 1002 reacties.",
+        "n": 73,
+        "denominator": 1002,
+        "pct": 7.3,
+        "codes": [
+          "T14_body_benen_bloot_esthetiek"
+        ],
+        "comment_ids": [
+          "C0052"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S25",
+      "type": "multiple_choice",
+      "tone": "spanning-spotter",
+      "context": "Als de korte broek eenmaal mag, komt meteen de volgende grens in beeld. Dat maakte de discussie lekker menselijk.",
+      "prompt": "Welke 'volgende grens' kwam opvallend vaak langs?",
+      "options": [
+        "Slippers, sandalen en zichtbare voeten",
+        "Winterjassen op kantoor",
+        "Zonnebrillen bij meetings",
+        "Sporthorloges bij de directie"
+      ],
+      "optionDetails": [
+        "Ja. De discussie gleed opvallend vaak richting voeten.",
+        "Niet de volgende grens in deze dump.",
+        "Niet het patroon.",
+        "Niet uit deze reacties."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. De korte broek trok de voetendiscussie mee naar binnen.",
+      "feedbackWrong": "De volgende grens was vooral: slippers, sandalen en voeten.",
+      "evidence": {
+        "claim": "Slippers/sandalen/voeten kwamen terug in 97 van 1002 reacties.",
+        "n": 97,
+        "denominator": 1002,
+        "pct": 9.7,
+        "codes": [
+          "T06_slippers_sandalen_voeten"
+        ],
+        "comment_ids": [
+          "C0402",
+          "C0871"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S26",
+      "type": "multiple_choice",
+      "tone": "onderbuik-bingo",
+      "context": "Twee herkenbare zijpaden streden om aandacht: eerlijkheid tussen kledingkeuzes en de vraag waar de grens daarna ligt.",
+      "prompt": "Wat kwam vaker terug: rok/jurk-gelijkheid of slippers/voeten?",
+      "options": [
+        "Rok/jurk-gelijkheid",
+        "Slippers/voeten",
+        "Ze waren precies gelijk",
+        "Allebei kwamen bijna niet voor"
+      ],
+      "optionDetails": [
+        "Ja. Dit frame was duidelijk groter.",
+        "Voeten kwamen veel terug, maar minder vaak.",
+        "Niet gelijk.",
+        "Allebei waren zichtbaar."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Juist. Rok/jurk-gelijkheid was groter dan de slippers-en-voetenlijn.",
+      "feedbackWrong": "Rok/jurk-gelijkheid kwam vaker terug: 159 reacties tegenover 97 voor slippers/voeten.",
+      "evidence": {
+        "claim": "Rok/jurk-gelijkheid kwam terug in 159 reacties; slippers/sandalen/voeten in 97.",
+        "n": 159,
+        "denominator": 1002,
+        "pct": 15.9,
+        "comparison": {
+          "T06_slippers_sandalen_voeten": {
+            "n": 97,
+            "pct": 9.7
+          }
+        },
+        "codes": [
+          "T01_rok_jurk_gelijkheidsframe",
+          "T06_slippers_sandalen_voeten"
+        ],
+        "comment_ids": [
+          "C0884",
+          "C0402"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S27",
+      "type": "multiple_choice",
+      "tone": "raad-het-frame",
+      "context": "Officiële argumenten klinken zwaar, maar in deze dump waren ze kleiner dan de dagelijkse kantoorrealiteit.",
+      "prompt": "Welke officiële reden was kleiner dan airco en temperatuur?",
+      "options": [
+        "Veiligheid, hygiëne of ARBO",
+        "Rok/jurk-gelijkheid",
+        "Netjes/professioneel overkomen",
+        "Hitte en comfort"
+      ],
+      "optionDetails": [
+        "Ja. Dat kwam voor, maar veel minder vaak dan airco.",
+        "Dat was groter dan airco.",
+        "Dat was zelfs het grootste thema.",
+        "Dat was ook groter dan airco."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Veiligheid/hygiëne/ARBO klonk formeel, maar was kleiner dan airco in de telling.",
+      "feedbackWrong": "De kleinere officiële reden was veiligheid/hygiëne/ARBO: 35 reacties tegenover 129 voor airco.",
+      "evidence": {
+        "claim": "Veiligheid/hygiëne/ARBO kwam terug in 35 reacties; airco/temperatuurregeling in 129.",
+        "n": 35,
+        "denominator": 1002,
+        "pct": 3.5,
+        "comparison": {
+          "T04_airco_temperatuurregeling": {
+            "n": 129,
+            "pct": 12.9
+          }
+        },
+        "codes": [
+          "T07_veiligheid_hygiene_arbo",
+          "T04_airco_temperatuurregeling"
+        ],
+        "comment_ids": [
+          "C0061",
+          "C0020"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S28",
+      "type": "multiple_choice",
+      "tone": "oplossingsradar",
+      "context": "Veel reacties waren minder absoluut dan je zou denken. Ze bouwden eigenlijk een soort beslisboom voor werk.",
+      "prompt": "Welke situatie maakt korte broek volgens veel reacties het minst spannend?",
+      "options": [
+        "Warm kantoor, geen klantcontact, normaal bureauwerk",
+        "Sollicitatiegesprek bij een formeel bedrijf",
+        "Externe presentatie bij een klant",
+        "Veiligheidswerkplaats met voorschriften"
+      ],
+      "optionDetails": [
+        "Ja. Dan vallen comfort en weinig representatiedruk samen.",
+        "Daar wordt de dresscode juist gevoeliger.",
+        "Klantcontact maakte het minder vanzelfsprekend.",
+        "Veiligheid/ARBO is een aparte uitzondering."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. Zonder klantcontact en met hitte wordt de korte broek veel makkelijker te verdedigen.",
+      "feedbackWrong": "De minst spannende situatie was: warm kantoor, geen klantcontact, normaal bureauwerk.",
+      "evidence": {
+        "claim": "Hitte/comfort kwam terug in 174 reacties; klant/externe afspraak/functie in 92.",
+        "n": 174,
+        "denominator": 1002,
+        "pct": 17.4,
+        "comparison": {
+          "T05_klant_extern_functie": {
+            "n": 92,
+            "pct": 9.2
+          }
+        },
+        "codes": [
+          "T03_hitte_warmte_comfort",
+          "T05_klant_extern_functie"
+        ],
+        "comment_ids": [
+          "C0985",
+          "C0103"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S29",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Kleding werd soms een statussignaal. Dan gaat het niet om temperatuur, maar om hoe serieus iemand wordt genomen.",
+      "prompt": "Welke optie hoort het meest bij status en formeel werk?",
+      "options": [
+        "Pak, das of sollicitatiegesprek",
+        "Slippers bij het koffieapparaat",
+        "Een zomerjurk als protest",
+        "Thuiswerken in korte broek"
+      ],
+      "optionDetails": [
+        "Ja. Dit is de formele statuslaag.",
+        "Dat hoort bij de volgende-grens-discussie.",
+        "Dat hoort bij protest en gelijkheid.",
+        "Dat is de ontsnappingsroute."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. Pak, das en sollicitatiegesprek waren symbolen voor formeel werk.",
+      "feedbackWrong": "De statuslaag zat vooral in pak, das en sollicitatiegesprek.",
+      "evidence": {
+        "claim": "Pak/driedelig grijs/das/sollicitatie kwam terug in 55 van 1002 reacties.",
+        "n": 55,
+        "denominator": 1002,
+        "pct": 5.5,
+        "codes": [
+          "T13_pak_sollicitatie_formeel"
+        ],
+        "comment_ids": [
+          "C0040",
+          "C0044",
+          "C0624"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S30",
+      "type": "multiple_choice",
+      "tone": "raad-de-onderstroom",
+      "context": "Als je de gekke voorbeelden wegdenkt, blijft er een simpele publieksvraag over.",
+      "prompt": "Welke zin vat de dump het best samen?",
+      "options": [
+        "Het gaat niet alleen om de broek, maar om wat werk nog netjes vindt",
+        "Iedereen wilde exact dezelfde kantoorregel",
+        "Niemand had het over warmte",
+        "Het onderwerp ging vooral over voetbal"
+      ],
+      "optionDetails": [
+        "Ja. Dat is de onderstroom achter de grappen.",
+        "Nee, de reacties waren juist verdeeld en contextueel.",
+        "Warmte en comfort waren juist groot.",
+        "Niet deze dump."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Precies. De korte broek was de ingang; de echte vraag was wat professioneel nog betekent.",
+      "feedbackWrong": "De beste samenvatting is: het gaat niet alleen om de broek, maar om wat werk nog netjes vindt.",
+      "evidence": {
+        "claim": "Topthema's waren netjes/professioneel 186, hitte/comfort 174 en rok/jurk-gelijkheid 159.",
+        "n": 186,
+        "denominator": 1002,
+        "pct": 18.6,
+        "comparison": {
+          "T03_hitte_warmte_comfort": {
+            "n": 174,
+            "pct": 17.4
+          },
+          "T01_rok_jurk_gelijkheidsframe": {
+            "n": 159,
+            "pct": 15.9
+          }
+        },
+        "codes": [
+          "T02_representatief_professioneel_netjes",
+          "T03_hitte_warmte_comfort",
+          "T01_rok_jurk_gelijkheidsframe"
+        ],
+        "comment_ids": [
+          "C0038",
+          "C0985",
+          "C0884"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
     }
   ],
   "resultBands": [
