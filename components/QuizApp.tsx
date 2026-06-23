@@ -591,7 +591,11 @@ export default function QuizApp({
     if (!AudioContextCtor) return null;
 
     if (!audioContextRef.current) {
-      audioContextRef.current = new AudioContextCtor();
+      try {
+        audioContextRef.current = new AudioContextCtor();
+      } catch {
+        return null;
+      }
     }
 
     return audioContextRef.current;
@@ -602,7 +606,10 @@ export default function QuizApp({
     if (!context) return;
 
     if (context.state === "suspended") {
-      void context.resume();
+      void context.resume().catch(() => {
+        soundEnabledRef.current = false;
+        setSoundEnabled(false);
+      });
     }
 
     soundEnabledRef.current = true;
@@ -617,19 +624,24 @@ export default function QuizApp({
     const context = audioContextRef.current;
     if (!context || !soundEnabledRef.current) return;
 
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    const now = context.currentTime;
+    try {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const now = context.currentTime;
 
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, now);
-    gain.gain.setValueAtTime(volume, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, now);
+      gain.gain.setValueAtTime(volume, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-    oscillator.start(now);
-    oscillator.stop(now + duration + 0.02);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start(now);
+      oscillator.stop(now + duration + 0.02);
+    } catch {
+      soundEnabledRef.current = false;
+      setSoundEnabled(false);
+    }
   }
 
   function playSound(cue: SoundCue) {
