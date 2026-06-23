@@ -1068,7 +1068,7 @@ export default function QuizApp({
                 style={{ "--option-delay": `${index * 55}ms` } as CSSProperties}
               >
                 <span className="option-label">{option}</span>
-                {question.optionDetails?.[index] ? (
+                {isAnswered && question.optionDetails?.[index] ? (
                   <span className="option-detail">{question.optionDetails[index]}</span>
                 ) : null}
               </button>

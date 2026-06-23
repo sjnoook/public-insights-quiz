@@ -30,7 +30,7 @@
       "id": "S01",
       "type": "multiple_choice",
       "tone": "raad-de-topreactie",
-      "context": "De stelling was simpel: korte broek op kantoor, doen of niet doen? Maar de populairste reactie was geen beleidsnota. Het was iemand die het debat met een outfit hackte.",
+      "context": "De stelling was simpel: korte broek op kantoor, doen of niet doen? Maar online wint niet altijd het meest serieuze argument. Soms blijft juist de meest herkenbare reactie hangen.",
       "prompt": "Welke reactie kreeg de meeste likes?",
       "options": [
         "Een strak airco-argument",
@@ -69,7 +69,7 @@
       "id": "S02",
       "type": "multiple_choice",
       "tone": "quote-detective",
-      "context": "De discussie ging niet alleen over warmte. Veel mensen maakten er een eerlijkheidsvraag van: waarom mag de ene outfit wel en de andere niet?",
+      "context": "De discussie ging niet alleen over warmte. Veel mensen trokken vergelijkingen met andere kledingregels op kantoor.",
       "prompt": "Welke vergelijking werd het vaakst gebruikt als eerlijkheidsargument?",
       "options": [
         "Pak vs hoodie",
@@ -106,7 +106,7 @@
       "id": "S03",
       "type": "multiple_choice",
       "tone": "onderbuik-bingo",
-      "context": "Zodra de korte broek bijna normaal wordt, schuift de grens op. Dan gaat het ineens niet meer over knieen, maar over wat daaronder zit.",
+      "context": "Zodra een kledingregel ter discussie staat, schuift de grens op. Dan duikt er ineens een tweede dresscode-discussie op.",
       "prompt": "Waar gleed de discussie verrassend vaak naartoe?",
       "options": [
         "Stropdassen",
@@ -143,7 +143,7 @@
       "id": "S04",
       "type": "true_false",
       "tone": "mythe-of-datapunt",
-      "context": "Sommige mensen zoeken niet de discussie, maar de maas in de dresscode. Als korte broek niet mag maar rok wel, krijg je vanzelf kantoor-theater.",
+      "context": "Sommige mensen zoeken niet de discussie, maar de maas in de dresscode. Dan krijg je vanzelf kantoor-theater.",
       "prompt": "Waar of niet waar: de kilt kwam meer dan een keer terug als workaround.",
       "options": [
         "Waar",
@@ -177,19 +177,19 @@
       "id": "S05",
       "type": "multiple_choice",
       "tone": "quote-detective",
-      "context": "Sommige quotes zijn zo absurd dat ze meteen op een beursvloer werken. Deze ging over het beoordelen van mannenbenen, maar schoot door naar kantoorbeleid op slapstickniveau.",
-      "prompt": "Welke quote maakt van “mooie benen” ineens een bivakmuts-argument?",
+      "context": "Sommige quotes zijn zo absurd dat ze meteen op een beursvloer werken. Deze ging over uiterlijksoordelen op kantoor en schoot door naar slapstickniveau.",
+      "prompt": "Waarmee werd het ‘mooie benen’-argument absurd vergeleken?",
       "options": [
-        "“We gaan toch ook niet iedereen verplichten een bivakmuts te dragen?”",
-        "“Welkom in 2025.”",
-        "“Korte broek en blote voeten. Voelt heerlijk.”",
-        "“Dichte schoen eronder.”"
+        "Bivakmutsen",
+        "Stropdassen",
+        "Zonnebrillen",
+        "Veiligheidsschoenen"
       ],
       "optionDetails": [
         "Ja. Dit is het absurde spiegelargument tegen uiterlijksoordelen.",
-        "Sterk tijdgeestargument, maar niet de bivakmutsquote.",
-        "Dat hoort bij de voetengrens.",
-        "Dat is de nette-schoenen-compromisregel."
+        "Klinkt kantoorachtig, maar dat was niet de grap.",
+        "Ook zichtbaar, maar niet de absurde vergelijking.",
+        "Meer werkvloer dan grap, maar niet dit datapunt."
       ],
       "correctIndex": 0,
       "feedbackCorrect": "Goed. De quote zegt eigenlijk: als lelijke benen een probleem zijn, gaan we dan ook lelijke hoofden verstoppen?",
