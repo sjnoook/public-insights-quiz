@@ -1,613 +1,604 @@
 {
-  "quizTitle": "Publieke Peiler: Koeman",
-  "subtitle": "Vijf snelle Oranje-valkuilen. Niet saai analyseren, gewoon raden wat de commentsectie deed.",
+  "quizTitle": "Publieke Peiler: Korte Broek Op Kantoor",
+  "subtitle": "Vijf snelle kantoor-valkuilen. Gaat dit over benen, beleid of gewoon airco?",
   "game": {
     "questionCount": 5,
     "winThreshold": 3,
     "featuredQuestionIds": [
-      "K01",
-      "K02",
-      "K03",
-      "K04",
-      "K05"
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
     ]
   },
   "source": {
-    "mode": "Modus 2 Evidence Dump / Koeman quizpack",
-    "dataset": "koeman_quiz_evidence_dump",
-    "analyzed_comments": 669,
-    "article_title": "Wat denkt Nederland over Koeman — Bondscoach of bliksemafleider?",
-    "publication_date": "2026-06-20",
+    "mode": "Quiz Evidence Dump / korte broek kantoor",
+    "dataset": "korte_broek_kantoor_quiz_evidence_dump",
+    "analyzed_comments": 1002,
+    "article_title": "Stelling Korte broek op kantoor: doen of niet doen?",
+    "publication_date": "2025-07-01",
     "rules": [
-      "De dataset bestaat uit publieke Reddit-comments en is geen representatieve steekproef van Nederland.",
-      "Percentages gebruiken expliciete noemers per tabel; meestal n=669 analytische comments.",
-      "Engagement_score is de in de export meegeleverde custom metric score + reply_count, geen officiële Reddit-metric.",
-      "Whize-hypothesen zijn strategische lenzen en geen feitelijke respondentclassificaties.",
-      "Gender-signalen zijn probabilistische signaalrichtingen op user-level en geen feitelijke genderregistratie; coverage is laag."
+      "Geen claim zonder telling, noemer, code of comment_id.",
+      "Gender is probabilistische signaalrichting, geen feitelijke registratie.",
+      "Whize is een hypotheselens, geen respondentclassificatie.",
+      "Deze reacties zijn publiek, maar niet representatief voor Nederland."
     ]
   },
   "questions": [
     {
-      "id": "K01",
+      "id": "S01",
       "type": "multiple_choice",
-      "tone": "raad-de-onderstroom",
-      "context": "Oranje won met 5-1 van Zweden. Normaal zou je denken: klaar, iedereen blij. Maar dit is Nederlands voetbalinternet, dus de vraag is: wat gebeurde er daarna?",
-      "prompt": "Wat deed de commentsectie na die 5-1 winst?",
+      "tone": "raad-de-topreactie",
+      "context": "De stelling was simpel: korte broek op kantoor, doen of niet doen? Maar de populairste reactie was geen beleidsnota. Het was iemand die het debat met een outfit hackte.",
+      "prompt": "Welke reactie kreeg de meeste likes?",
       "options": [
-        "Feest vieren en de laptop dichtklappen",
-        "Genieten, maar meteen de gaten achterin aanwijzen",
-        "Alle schuld bij de scheids leggen",
-        "Alleen maar “Koemanball” roepen zonder inhoud"
+        "Een strak airco-argument",
+        "Iemand die in een zomerjurkje naar kantoor ging",
+        "Een pleidooi voor sandalen",
+        "Een manager met een dresscodebeleid"
       ],
       "optionDetails": [
-        "Dit zou logisch zijn, maar zo simpel werd het niet.",
-        "Precies de Nederlandse dubbelstand: mooi gewonnen, maar achterin stond het open.",
-        "De scheids was hier niet het hoofdverhaal.",
-        "Koeman kwam terug, maar de reacties waren concreter dan alleen een meme."
+        "Klinkt serieus, maar won niet.",
+        "Deze reactie draaide het rok/jurk-argument meteen om.",
+        "Voeten kwamen veel terug, maar waren niet de top-liked reactie.",
+        "Beleid kwam terug, maar niet als publieksfavoriet."
       ],
       "correctIndex": 1,
-      "feedbackCorrect": "Ja. De winst gaf plezier, maar de kritiek verdween niet. De reacties zagen tegelijk potentie voorin én problemen achterin.",
-      "feedbackWrong": "Het meest quizwaardige patroon was: blij met 5-1, maar alsnog meteen zien waar Oranje kwetsbaar bleef.",
+      "feedbackCorrect": "Ja. De zomerjurk won. De beste reactie was: als een jurk mag, waarom dan geen korte broek?",
+      "feedbackWrong": "De populairste reactie was de zomerjurk-hack: iemand trok een zomerjurkje aan en niemand zei er iets van.",
       "evidence": {
-        "claim": "Defensieve kwetsbaarheid kwam terug in 80 comments; optimisme/plezier in 78 comments.",
-        "n": 80,
-        "denominator": 669,
-        "pct": 12,
-        "comparison": {
-          "T08_Resultaat_optimisme_en_plezier": {
-            "n": 78,
-            "pct": 11.7
-          }
-        },
+        "claim": "Comment C0884 was de top-liked reactie met 153 likes.",
+        "n": 153,
+        "denominator": 4362,
+        "pct": 3.5,
         "codes": [
-          "T07_Verdedigende_kwetsbaarheid",
-          "T08_Resultaat_optimisme_en_plezier"
+          "top_liked_comment",
+          "T01_rok_jurk_gelijkheidsframe",
+          "T08_ouderwets_2025_tijdgeest"
         ],
         "comment_ids": [
-          "ostk2qe",
-          "ost98jz",
-          "ost9onf"
+          "C0884",
+          "C0777",
+          "C0985"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "K02",
+      "id": "S02",
       "type": "multiple_choice",
       "tone": "quote-detective",
-      "context": "Sommige comments zijn eigenlijk kant-en-klare samenvattingen. Deze vraag gaat niet over ingewikkelde codes, maar over: welke zin vangt de hele Oranje-stemming?",
-      "prompt": "Welke quote vat de Koeman/Oranje-discussie het best samen?",
+      "context": "De discussie ging niet alleen over warmte. Veel mensen maakten er een eerlijkheidsvraag van: waarom mag de ene outfit wel en de andere niet?",
+      "prompt": "Welke vergelijking werd het vaakst gebruikt als eerlijkheidsargument?",
       "options": [
-        "“Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”",
-        "“Japan is gewoon echt goed.”",
-        "“Geen seconde aan Koeman getwijfeld. Nooit niet.”",
-        "“Arjen Brobben”"
+        "Pak vs hoodie",
+        "Rok/jurk vs korte broek",
+        "Sneakers vs nette schoenen",
+        "Trui vs overhemd"
       ],
       "optionDetails": [
-        "Deze quote heeft precies de dubbele laag: hoop én zorg.",
-        "Dit is nuance bij Japan, maar niet de hele Oranje-stemming.",
-        "Leuke ironie/nuance, maar smaller dan de hoofdspanning.",
-        "Prima meme, maar geen samenvatting van het debat."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Precies. Dat is de hele spanning in één zin: Oranje ziet er leuk uit, maar je vertrouwt de achterdeur nog niet.",
-      "feedbackWrong": "De beste samenvatting was: “Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.” Die zin draagt tegelijk optimisme en twijfel.",
-      "evidence": {
-        "claim": "Deze quote is gekoppeld aan verdedigende kwetsbaarheid en Oranje-optimisme.",
-        "n": 80,
-        "denominator": 669,
-        "pct": 12,
-        "codes": [
-          "T07_Verdedigende_kwetsbaarheid",
-          "CF02_Bliksemafleider_bredere_fricties"
-        ],
-        "comment_ids": [
-          "ostk2qe",
-          "osta2a4",
-          "ostd7dq"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K03",
-      "type": "multiple_choice",
-      "tone": "spanning-spotter",
-      "context": "Iedere voetbalsoap heeft een symbool. In deze dump werd één speler de snelle haak voor de vraag: kiest Koeman voor vorm, of voor oude loyaliteit?",
-      "prompt": "Wie werd het symbool van Koemans “oude liefde of actuele vorm?”-probleem?",
-      "options": [
-        "Memphis Depay",
-        "Brian Brobbey",
-        "Denzel Dumfries",
-        "Cody Gakpo"
-      ],
-      "optionDetails": [
-        "Veel reacties waren bang dat Koeman toch weer bij hem zou uitkomen.",
-        "Hij was juist vaak het frisse alternatief.",
-        "Hij was niet het hoofdpersonage in deze dump.",
-        "Hij hoorde meer bij het optimisme over de aanval."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Ja. Memphis werd minder besproken als losse speler en meer als symbool: durft Koeman door te selecteren?",
-      "feedbackWrong": "Het symbool was Memphis Depay. Brobbey was in deze dump juist vaker de frisse tegenpool.",
-      "evidence": {
-        "claim": "Depay-scepsis kwam terug in 70 van 669 comments.",
-        "n": 70,
-        "denominator": 669,
-        "pct": 10.5,
-        "codes": [
-          "T03_Depay_scepsis_niet_starten"
-        ],
-        "comment_ids": [
-          "osta2a4",
-          "osteg9g",
-          "osx5a8p"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K04",
-      "type": "multiple_choice",
-      "tone": "onderbuik-bingo",
-      "context": "Dit is de luchtige vraag. De dump had ook een laag pure zelfspot: mensen die doorhadden hoe Nederlands de discussie eigenlijk was.",
-      "prompt": "Wat was de meest Nederlandse reactie na 5-1?",
-      "options": [
-        "“5-1 winnen en alsnog zeuren.”",
-        "“We zijn officieel wereldkampioen.”",
-        "“Nooit meer over linksbacks praten.”",
-        "“Iedereen is het nu eens.”"
-      ],
-      "optionDetails": [
-        "Bingo. Dit is bijna het volkslied van voetbalcommentaar.",
-        "Er was optimisme, maar niet zó simpel.",
-        "Linksbacks en gaten achterin bleven juist terugkomen.",
-        "De dump zat vol discussie, niet vol consensus."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Bingo. De zelfspot was: zelfs bij 5-1 blijft Nederland verbeterpunten zoeken.",
-      "feedbackWrong": "Het was “5-1 winnen en alsnog zeuren.” Dat is precies de zelfspotlaag: blij zijn en toch analyseren.",
-      "evidence": {
-        "claim": "Het meta-frame “5-1 en toch zeuren” kwam terug in 7 van 669 comments.",
-        "n": 7,
-        "denominator": 669,
-        "pct": 1,
-        "codes": [
-          "T09_Meta_5_1_en_toch_zeuren",
-          "T13_Humor_sarcasme_meme_taal"
-        ],
-        "comment_ids": [
-          "ost98jz",
-          "ost9onf",
-          "ostkvfy"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K05",
-      "type": "multiple_choice",
-      "tone": "raad-het-frame",
-      "context": "De titel zegt Koeman, maar de reacties deden meer dan één man beoordelen. De verrassende laag: mensen waren vooral elftal-tetris aan het spelen.",
-      "prompt": "Wat was de echte plot twist in de volledige dump?",
-      "options": [
-        "Het ging alleen maar over Koeman ontslaan",
-        "Het grootste concrete onderwerp was: wie moet waar spelen?",
-        "Niemand had het over Depay",
-        "De KNVB kreeg helemaal geen kritiek"
-      ],
-      "optionDetails": [
-        "Koeman stond onder druk, maar dit was niet het hele verhaal.",
-        "Ja: backs, middenveld, aanval, invallers, rollen. Oranje als puzzel.",
-        "Depay was juist een belangrijk symbooldossier.",
-        "Er was wel degelijk systeemkritiek richting Zeist/KNVB."
+        "Formele kleding kwam voor, maar dit was niet het dominante gelijkheidsframe.",
+        "Dit was de grote vergelijking: als rokken/jurken mogen, waarom korte broeken niet?",
+        "Schoenen werden vooral later een voetendiscussie.",
+        "Niet het hoofdframe."
       ],
       "correctIndex": 1,
-      "feedbackCorrect": "Ja. De dump was eigenlijk een grote Oranje-legpuzzel: wie past waar, met welke rol, en wie moet eruit?",
-      "feedbackWrong": "De plot twist: het grootste concrete thema was de selectie- en rolpuzzel. Niet alleen “Koeman weg”, maar “hoe moet dit elftal werken?”",
+      "feedbackCorrect": "Precies. De korte broek werd een gelijkheidskwestie: rok of jurk mag, dus waarom benen bij mannen ineens niet?",
+      "feedbackWrong": "Het was rok/jurk vs korte broek. Dat frame zat in 159 van de 1.002 reacties.",
       "evidence": {
-        "claim": "Selectie- en rolpuzzel was het grootste concrete thema: 105 van 669 comments.",
-        "n": 105,
-        "denominator": 669,
-        "pct": 15.7,
+        "claim": "Rok/jurk als gelijkheidsargument kwam terug in 159 van 1002 reacties.",
+        "n": 159,
+        "denominator": 1002,
+        "pct": 15.9,
         "codes": [
-          "T12_Selectie_middenveld_backs_wisselspelers"
+          "T01_rok_jurk_gelijkheidsframe"
         ],
         "comment_ids": [
-          "ost8sca",
-          "osta2a4",
-          "ost9cnj"
+          "C0985",
+          "C0777",
+          "C0514"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "K06",
+      "id": "S03",
+      "type": "multiple_choice",
+      "tone": "onderbuik-bingo",
+      "context": "Zodra de korte broek bijna normaal wordt, schuift de grens op. Dan gaat het ineens niet meer over knieen, maar over wat daaronder zit.",
+      "prompt": "Waar gleed de discussie verrassend vaak naartoe?",
+      "options": [
+        "Stropdassen",
+        "Blote voeten, slippers en sandalen",
+        "Regenjassen",
+        "Petjes met logo"
+      ],
+      "optionDetails": [
+        "Bijna nostalgisch, maar nee.",
+        "Ja. De echte volgende dresscode-baas was: wat doen we met voeten?",
+        "Niet de onverwachte zijroute.",
+        "Niet het grote zijpad in deze dump."
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Ja. Eerst de korte broek, daarna meteen: slippers? sandalen? blote voeten? De kantoorvloer werd ineens strandgrensgebied.",
+      "feedbackWrong": "Het ging opvallend vaak naar voeten: slippers, sandalen en blote voeten kwamen terug in 97 reacties.",
+      "evidence": {
+        "claim": "Slippers/sandalen/open schoenen/voeten kwam terug in 97 van 1002 reacties.",
+        "n": 97,
+        "denominator": 1002,
+        "pct": 9.7,
+        "codes": [
+          "T06_slippers_sandalen_voeten"
+        ],
+        "comment_ids": [
+          "C0514",
+          "C0973",
+          "C0515"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S04",
+      "type": "true_false",
+      "tone": "mythe-of-datapunt",
+      "context": "Sommige mensen zoeken niet de discussie, maar de maas in de dresscode. Als korte broek niet mag maar rok wel, krijg je vanzelf kantoor-theater.",
+      "prompt": "Waar of niet waar: de kilt kwam meer dan een keer terug als workaround.",
+      "options": [
+        "Waar",
+        "Niet waar"
+      ],
+      "optionDetails": [
+        "Kies dit als mensen echt met het Schotland-argument kwamen.",
+        "Kies dit als de kilt maar een verzonnen voorbeeld is."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Waar. De kilt werd echt meerdere keren genoemd: protestkostuum, dresscode-hack en grap tegelijk.",
+      "feedbackWrong": "Toch waar. De kilt kwam in 8 reacties terug als workaround tegen korte-broekregels.",
+      "evidence": {
+        "claim": "De kilt werd in 8 reacties genoemd als protest- of dresscode-workaround.",
+        "n": 8,
+        "denominator": 1002,
+        "pct": 0.8,
+        "codes": [
+          "kilt_subsignal_within_T12",
+          "T12_protest_jurk_kilt_mannen"
+        ],
+        "comment_ids": [
+          "C0061",
+          "C0347",
+          "C0783"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S05",
+      "type": "multiple_choice",
+      "tone": "quote-detective",
+      "context": "Sommige quotes zijn zo absurd dat ze meteen op een beursvloer werken. Deze ging over het beoordelen van mannenbenen, maar schoot door naar kantoorbeleid op slapstickniveau.",
+      "prompt": "Welke quote maakt van “mooie benen” ineens een bivakmuts-argument?",
+      "options": [
+        "“We gaan toch ook niet iedereen verplichten een bivakmuts te dragen?”",
+        "“Welkom in 2025.”",
+        "“Korte broek en blote voeten. Voelt heerlijk.”",
+        "“Dichte schoen eronder.”"
+      ],
+      "optionDetails": [
+        "Ja. Dit is het absurde spiegelargument tegen uiterlijksoordelen.",
+        "Sterk tijdgeestargument, maar niet de bivakmutsquote.",
+        "Dat hoort bij de voetengrens.",
+        "Dat is de nette-schoenen-compromisregel."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Goed. De quote zegt eigenlijk: als lelijke benen een probleem zijn, gaan we dan ook lelijke hoofden verstoppen?",
+      "feedbackWrong": "Het bivakmuts-argument was: we gaan toch niet iedereen verplichten een bivakmuts te dragen omdat sommige mensen een lelijk hoofd hebben?",
+      "evidence": {
+        "claim": "Benen/bloot/lichamelijke esthetiek kwam terug in 73 van 1002 reacties; C0052 had 57 likes.",
+        "n": 73,
+        "denominator": 1002,
+        "pct": 7.3,
+        "codes": [
+          "T14_body_benen_bloot_esthetiek"
+        ],
+        "comment_ids": [
+          "C0052",
+          "C0514",
+          "C0985"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S06",
+      "type": "multiple_choice",
+      "tone": "raad-het-frame",
+      "context": "De grootste laag was niet de grappigste, maar wel de kern van de discussie: wat vinden mensen nog professioneel?",
+      "prompt": "Wat was het grootste gecodeerde thema?",
+      "options": [
+        "Representatief, professioneel en netjes",
+        "Airco en klimaatregeling",
+        "Thuiswerken",
+        "Kilt als protest"
+      ],
+      "optionDetails": [
+        "Dit was de grootste laag: kantoor als netheidsritueel.",
+        "Groot, maar niet de grootste.",
+        "Aanwezig, maar veel kleiner.",
+        "Leuk, maar klein."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. De korte broek ging vooral over de vraag: wat ziet er nog “netjes” uit op werk?",
+      "feedbackWrong": "Het grootste thema was representatief/professioneel/netjes: 186 van 1.002 reacties.",
+      "evidence": {
+        "claim": "Representatief/professioneel/netjes kwam terug in 186 van 1002 reacties.",
+        "n": 186,
+        "denominator": 1002,
+        "pct": 18.6,
+        "codes": [
+          "T02_representatief_professioneel_netjes"
+        ],
+        "comment_ids": [
+          "C0038",
+          "C0020",
+          "C0624"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S07",
+      "type": "multiple_choice",
+      "tone": "spanning-spotter",
+      "context": "Niet iedereen zei simpel ja of nee. Veel reacties hingen af van de setting: intern achter je scherm is anders dan voor een klant staan.",
+      "prompt": "Wat was de meest genoemde uitzondering op “korte broek moet kunnen”?",
+      "options": [
+        "Klantcontact of externe afspraken",
+        "Vrijdagmiddagborrel",
+        "Lunchpauze",
+        "Als de baas jarig is"
+      ],
+      "optionDetails": [
+        "Ja. Veel mensen vonden: intern oké, klantcontext anders.",
+        "Niet de hoofd-uitzondering.",
+        "Niet wat de data laat zien.",
+        "Helaas geen dresscode-theorie in de dump."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Ja. De nuance was vaak: op kantoor kan veel, maar bij klanten of externe afspraken gelden andere verwachtingen.",
+      "feedbackWrong": "De meest genoemde uitzondering was klantcontact/externe afspraken: 92 reacties.",
+      "evidence": {
+        "claim": "Klantcontact/externe afspraken/functie kwam terug in 92 van 1002 reacties.",
+        "n": 92,
+        "denominator": 1002,
+        "pct": 9.2,
+        "codes": [
+          "T05_klant_extern_functie"
+        ],
+        "comment_ids": [
+          "C0895",
+          "C0038",
+          "C0624"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S08",
       "type": "multiple_choice",
       "tone": "publieke-peiler",
-      "context": "Naast kritiek was er ook zin in iets nieuws. Vooral voorin zagen mensen ineens een andere energie.",
-      "prompt": "Welke aanval klonk in de comments ineens als nieuw speelgoed?",
+      "context": "Als je korte broek net niet representatief vindt, komt er al snel een compromisuniform. Niet stoer, wel praktisch.",
+      "prompt": "Wat was de diplomatieke middenweg tussen hitte en netjes?",
       "options": [
-        "Gakpo - Brobbey - Summerville",
-        "Depay - Weghorst - Malen",
-        "Lang - Zirkzee - Bergwijn",
-        "Malen - Depay - Simons"
+        "Linnen of dunne broek",
+        "Een regenjas",
+        "Een driedelig pak zonder sokken",
+        "Een kilt met das"
       ],
       "optionDetails": [
-        "Deze combinatie werd letterlijk als duidelijke basis genoemd.",
-        "Niet de nieuwe basis uit de topquote.",
-        "Niet het trio dat hier terugkwam.",
-        "Niet het genoemde trio."
+        "Ja. Luchtige stof: minder strand, meer kantoor.",
+        "Niet bepaald zomerproof.",
+        "Creatief, maar nee.",
+        "Leuk, maar niet het compromisuniform."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. Gakpo - Brobbey - Summerville stond voor snelheid, frisheid en minder oude automatismen.",
-      "feedbackWrong": "Het ging om Gakpo - Brobbey - Summerville. Die combinatie voelde voor reacties als nieuwe energie.",
+      "feedbackCorrect": "Precies. De middenweg was: niet per se korte broek, maar wel luchtige stof zoals linnen.",
+      "feedbackWrong": "Het compromis was linnen/dunne broek/katoen/chino: 41 reacties.",
       "evidence": {
-        "claim": "Nieuwe aanvallende energie kwam terug in 64 van 669 comments.",
-        "n": 64,
-        "denominator": 669,
-        "pct": 9.6,
+        "claim": "Linnen/dunne broek/katoen/chino kwam terug in 41 van 1002 reacties.",
+        "n": 41,
+        "denominator": 1002,
+        "pct": 4.1,
         "codes": [
-          "T06_Aanval_energie_en_nieuwe_basis"
+          "T10_linnen_dunne_broek_alternatief"
         ],
         "comment_ids": [
-          "ost8sca",
-          "ost9cnj",
-          "osub9rc"
+          "C0039",
+          "C0020",
+          "C0103"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "K07",
+      "id": "S09",
       "type": "multiple_choice",
-      "tone": "wat-leeft-er",
-      "context": "Als Depay de twijfel was, dan had de dump ook een positieve tegenpool: iemand die liet zien dat een alternatief Oranje voorstelbaar werd.",
-      "prompt": "Wie was de positieve tegenpool van het Depay-dossier?",
+      "tone": "raad-de-onderstroom",
+      "context": "Voor sommige mensen is de korte broek geen kledingstuk, maar een mini-revolutie tegen kantoorregels uit een vorige eeuw.",
+      "prompt": "Welke tijdgeest-zin past het best bij deze discussie?",
       "options": [
-        "Brian Brobbey",
-        "Ronald Koeman",
-        "Van Persie",
-        "Japan"
+        "“Welkom in 2025.”",
+        "“Terug naar de fax.”",
+        "“Alleen op casual friday.”",
+        "“Eerst toestemming van HR.”"
       ],
       "optionDetails": [
-        "Hij werd genoemd als logische spits en bewijs voor een alternatief.",
-        "Koeman was de coachdiscussie, niet de tegenpool.",
-        "Hij kwam terug in opvolgingsgrappen, niet als spitsoplossing.",
-        "Japan was context/tegenbewijs, geen Oranje-alternatief."
+        "Ja. De discussie werd expliciet naar modernisering getrokken.",
+        "Grappig, maar niet de quote.",
+        "Casual friday was niet de kern.",
+        "HR-achtig, maar niet de tijdgeestzin."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Klopt. Brobbey maakte de kritiek concreet: niet alleen “Depay eruit”, maar “dit kan dus ook”.",
-      "feedbackWrong": "Het was Brian Brobbey. Hij was de positieve tegenpool van het Depay-dossier.",
+      "feedbackCorrect": "Ja. Een deel van de reacties zei eigenlijk: dit is geen kledingvraag, dit is een 2025-vraag.",
+      "feedbackWrong": "De tijdgeestzin was “Welkom in 2025.” Die code kwam terug in 48 reacties rond ouderwets/gedateerd/2025.",
       "evidence": {
-        "claim": "Brobbey als nieuwe spits kwam terug in 26 van 669 comments.",
-        "n": 26,
-        "denominator": 669,
-        "pct": 3.9,
+        "claim": "Ouderwets/2025/tijdgeest kwam terug in 48 van 1002 reacties.",
+        "n": 48,
+        "denominator": 1002,
+        "pct": 4.8,
         "codes": [
-          "T05_Brobbey_als_nieuwe_spits"
+          "T08_ouderwets_2025_tijdgeest"
         ],
         "comment_ids": [
-          "ost8sca",
-          "ostaao2",
-          "ostw57e"
+          "C0777",
+          "C0884",
+          "C0018"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "K08",
-      "type": "multiple_choice",
-      "tone": "voorzichtig-lezen",
-      "context": "Niet elke reactie was “Koeman slecht, einde verhaal”. Er zat ook een kleine correctielaag in de dump.",
-      "prompt": "Welke zin maakt de Koeman-kritiek iets minder zwart-wit?",
-      "options": [
-        "“Japan is gewoon echt goed.”",
-        "“Arjen Brobben.”",
-        "“5-1 winnen en alsnog zeuren.”",
-        "“Ons kent ons daar in Zeist.”"
-      ],
-      "optionDetails": [
-        "Dit zegt: misschien lag niet alles alleen aan Koeman.",
-        "Meme, geen nuance.",
-        "Zelfspot, geen inhoudelijk tegenargument.",
-        "Systeemkritiek, geen Koeman-nuance."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Goed. De Japan-context is klein, maar belangrijk: soms is de tegenstander ook gewoon goed.",
-      "feedbackWrong": "De nuance zat in “Japan is gewoon echt goed.” Daarmee wordt het verhaal minder simpel.",
-      "evidence": {
-        "claim": "Japan-context en tegenbewijs kwam terug in 15 van 669 comments.",
-        "n": 15,
-        "denominator": 669,
-        "pct": 2.2,
-        "codes": [
-          "T11_Japan_context_en_tegenbewijs"
-        ],
-        "comment_ids": [
-          "ostqdk2",
-          "orr3ygf",
-          "orr4bl3"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K09",
-      "type": "multiple_choice",
-      "tone": "quote-detective",
-      "context": "Een beetje steun, een beetje ironie, een beetje voetbalhumor: sommige quotes kun je twee kanten op lezen.",
-      "prompt": "Welke quote klinkt als sarcastische Koeman-steun?",
-      "options": [
-        "“Geen seconde aan Koeman getwijfeld. Nooit niet.”",
-        "“Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”",
-        "“Japan is gewoon echt goed.”",
-        "“Bosz zou wel gaaf zijn maar da wilt de knvb nie.”"
-      ],
-      "optionDetails": [
-        "Dit is precies die knipoog-steun.",
-        "Sterke samenvatting, maar geen Koeman-steun.",
-        "Nuance over Japan.",
-        "Systeemkritiek richting KNVB."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Ja. Dit is zo’n quote die op een scherm meteen werkt: steun, maar met een knipoog.",
-      "feedbackWrong": "De sarcastische steun zat in: “Geen seconde aan Koeman getwijfeld. Nooit niet.”",
-      "evidence": {
-        "claim": "Credit/nuance-tegenbewijs was 16 van 206 comments in de directe subset.",
-        "n": 16,
-        "denominator": 206,
-        "pct": 7.8,
-        "codes": [
-          "CF03_Credit_nuance_tegenbewijs",
-          "T02_Koeman_credit_of_nuance"
-        ],
-        "comment_ids": [
-          "ost8r7x",
-          "ostd7dq",
-          "orrcr93"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K10",
-      "type": "multiple_choice",
-      "tone": "wat-leeft-er",
-      "context": "Soms ging het niet meer om Koeman als persoon, maar om hoe Nederland trainers kiest en wie elkaar kent in het voetbalwereldje.",
-      "prompt": "Waar kwam de systeemkritiek terecht?",
-      "options": [
-        "Bij de KNVB / Zeist",
-        "Bij de UEFA",
-        "Bij de VAR",
-        "Bij de stadionspeaker"
-      ],
-      "optionDetails": [
-        "Ja: opvolging, oud-spelers als trainers en “ons kent ons”.",
-        "Niet het hoofdadres van deze kritiek.",
-        "Niet waar deze laag over ging.",
-        "Leuk, maar nee."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Ja. In die laag werd Koeman onderdeel van een groter verhaal over Zeist, opvolging en voetbalnetwerken.",
-      "feedbackWrong": "De systeemkritiek kwam terecht bij de KNVB / Zeist.",
-      "evidence": {
-        "claim": "KNVB/opvolging/systeemkritiek kwam terug in 57 van 669 comments.",
-        "n": 57,
-        "denominator": 669,
-        "pct": 8.5,
-        "codes": [
-          "T10_KNVB_opvolging_systeemkritiek"
-        ],
-        "comment_ids": [
-          "orr2jrq",
-          "orrk898",
-          "ostaao2"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K11",
+      "id": "S10",
       "type": "multiple_choice",
       "tone": "onderbuik-bingo",
-      "context": "Niet alles wat veel voorkomt, krijgt ook de meeste aandacht. De dump had ook engagement: score plus reacties in de export.",
-      "prompt": "Welke toon trok gemiddeld de meeste aandacht?",
+      "context": "Het kantoor heeft altijd een ontsnappingsroute. Als niemand je ziet, is de dresscode ineens een stuk minder streng.",
+      "prompt": "Wat was de thuiswerkvariant van de korte-broek-discussie?",
       "options": [
-        "Humor/sarcasme",
-        "Rustige analyse",
-        "Neutraal gemompel",
-        "Beleefde persconferentietaal"
+        "Thuis is de korte broek allang gewonnen terrein",
+        "Thuis moet je in pak achter Teams",
+        "Thuis mag alleen een korte broek op vrijdag",
+        "Thuiswerken werd niet genoemd"
       ],
       "optionDetails": [
-        "Minder vaak, maar gemiddeld het meeste engagement.",
-        "Aanwezig, maar minder explosief.",
-        "Het grootst in aantal, maar niet het meest raakbaar.",
-        "Mooi geprobeerd, maar dit was Reddit."
+        "Ja. Thuiswerken maakte de dresscode eigenlijk al irrelevant.",
+        "Niet wat de reacties zeggen.",
+        "Niet uit de dump.",
+        "Het werd wel genoemd."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. Humor/sarcasme was niet de grootste groep, maar gemiddeld wel het meest plakkend.",
-      "feedbackWrong": "Het was humor/sarcasme: klein in volume, groot in aandacht.",
+      "feedbackCorrect": "Klopt. Thuis is de dresscode al verslagen: korte broek en slippers winnen daar zonder stemming.",
+      "feedbackWrong": "De thuiswerkvariant was: thuis is de korte broek allang gewonnen terrein. Thuiswerken kwam terug in 39 reacties.",
       "evidence": {
-        "claim": "Humor/sarcasme had gemiddeld de hoogste engagement-score in de export.",
-        "n": 27,
-        "denominator": 669,
-        "pct": 4,
-        "comparison": {
-          "emotion:frustratie/boosheid": {
-            "n": 95,
-            "pct": 14.2
-          },
-          "emotion:optimisme/plezier": {
-            "n": 115,
-            "pct": 17.2
-          }
-        },
+        "claim": "Thuiswerken/ontsnappingsroute kwam terug in 39 van 1002 reacties.",
+        "n": 39,
+        "denominator": 1002,
+        "pct": 3.9,
         "codes": [
-          "emotion:humor/sarcasme",
-          "T13_Humor_sarcasme_meme_taal"
+          "T09_thuiswerken_ontsnappingsroute"
         ],
         "comment_ids": [
-          "ostkr0s",
-          "ost98jz",
-          "osv8ofa"
+          "C0001"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "K12",
+      "id": "S11",
+      "type": "multiple_choice",
+      "tone": "mythe-of-datapunt",
+      "context": "De discussie lijkt licht, maar mensen gingen diep. Echt diep. Tot sollicitatieadvies, werkgeversmacht en het nut van kledingvoorschriften.",
+      "prompt": "Hoe diep ging het langste reply-draadje?",
+      "options": [
+        "3 comments diep",
+        "6 comments diep",
+        "10 comments diep",
+        "31 comments diep"
+      ],
+      "optionDetails": [
+        "Te kort.",
+        "Nog steeds te kort.",
+        "Ja. Een korte broek werd een mini-debat van 10 reacties diep.",
+        "Dat was de meest actieve gebruiker, niet de draad-diepte."
+      ],
+      "correctIndex": 2,
+      "feedbackCorrect": "Ja. Tien comments diep. Zelfs kantoorbenen kunnen een lang debat over werkcultuur worden.",
+      "feedbackWrong": "Het langste draadje ging 10 comments diep.",
+      "evidence": {
+        "claim": "Het langste reply-draadje ging 10 comments diep.",
+        "n": 10,
+        "denominator": 1002,
+        "pct": 1,
+        "codes": [
+          "thread_depth"
+        ],
+        "comment_ids": [
+          "C0624",
+          "C0628",
+          "C0634"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S12",
       "type": "multiple_choice",
       "tone": "quote-detective",
-      "context": "Sommige reacties zijn geen analyse maar pure snackbare voetbaltaal. Perfect voor een quizscherm.",
-      "prompt": "Welke mini-meme hoort bij Brobbey?",
+      "context": "De korte broek is niet alleen kleding, maar ook status: pak, sollicitatie, geloofwaardigheid en “hoe hoor je je te gedragen?”.",
+      "prompt": "Welke kleding werd symbool van formeel werk?",
       "options": [
-        "“Arjen Brobben”",
-        "“Ons kent ons daar in Zeist.”",
-        "“Japan is gewoon echt goed.”",
-        "“We blijven Nederlanders!”"
+        "Het pak / driedelig grijs / das",
+        "De regenjas",
+        "De hoodie",
+        "De sportlegging"
       ],
       "optionDetails": [
-        "Korte woordgrap, meteen raak.",
-        "Dat hoort bij KNVB-kritiek.",
-        "Dat hoort bij Japan-context.",
-        "Dat hoort bij zelfspot na 5-1."
+        "Ja. Het pak werd symbool voor status en kantoorritueel.",
+        "Niet het formele symbool.",
+        "Kwam niet als hoofdbeeld terug.",
+        "Niet uit deze laag."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Ja. “Arjen Brobben” is precies de soort korte quote die mensen onthouden.",
-      "feedbackWrong": "De Brobbey-meme was “Arjen Brobben”.",
+      "feedbackCorrect": "Ja. Het pak was niet zomaar kleding, maar het symbool van formeel werk en status.",
+      "feedbackWrong": "Het symbool was het pak: pak, driedelig grijs, das en sollicitatiegesprek kwamen terug in 55 reacties.",
       "evidence": {
-        "claim": "Humor/sarcasme/meme-taal kwam terug in 41 van 669 comments.",
-        "n": 41,
-        "denominator": 669,
-        "pct": 6.1,
+        "claim": "Pak/driedelig grijs/das/sollicitatie kwam terug in 55 van 1002 reacties.",
+        "n": 55,
+        "denominator": 1002,
+        "pct": 5.5,
         "codes": [
-          "T13_Humor_sarcasme_meme_taal"
+          "T13_pak_sollicitatie_formeel"
         ],
         "comment_ids": [
-          "ostkr0s",
-          "osv8ofa",
-          "ost98jz"
+          "C0040",
+          "C0044",
+          "C0624"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     },
     {
-      "id": "K13",
+      "id": "S13",
+      "type": "multiple_choice",
+      "tone": "publieke-peiler",
+      "context": "Sommige reacties gingen niet over kantoor als abstract idee, maar over sectoren: waar kan het wel en waar voelt het raar?",
+      "prompt": "Welke werelden kwamen vaak terug als voorbeeld?",
+      "options": [
+        "IT, zorg, onderwijs en taxi",
+        "Ruimtevaart en opera",
+        "Bakkerij en dierentuin",
+        "Alleen advocatenkantoren"
+      ],
+      "optionDetails": [
+        "Ja. Voorbeelden maakten het concreet: functie en sector doen ertoe.",
+        "Mooi beeld, maar niet de dump.",
+        "Niet de hoofdvoorbeelden.",
+        "Te smal."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Klopt. De dresscode bleek afhankelijk van werksoort: IT, zorg, onderwijs, taxi en klantcontact kwamen terug.",
+      "feedbackWrong": "Het ging vooral om sectorvoorbeelden zoals IT, zorg, onderwijs en taxi.",
+      "evidence": {
+        "claim": "IT/zorg/onderwijs/sectorvoorbeelden kwamen terug in 43 van 1002 reacties.",
+        "n": 43,
+        "denominator": 1002,
+        "pct": 4.3,
+        "codes": [
+          "T15_it_zorg_sectorvoorbeelden"
+        ],
+        "comment_ids": [
+          "C0103",
+          "C0895"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S14",
       "type": "multiple_choice",
       "tone": "spanning-spotter",
-      "context": "“Bliksemafleider” klinkt abstract. In gewone taal betekent het: één persoon krijgt de klap, terwijl er meer onder zit.",
-      "prompt": "Wat betekent “Koeman als bliksemafleider” hier gewoon?",
+      "context": "Airco was geen detail. Voor veel mensen is de vraag: is korte broek nodig omdat het warm is, of moet het kantoor gewoon beter geregeld zijn?",
+      "prompt": "Wat werd vaker genoemd dan veiligheid/hygiëne/ARBO?",
       "options": [
-        "Hij krijgt kritiek, maar veel irritatie gaat eigenlijk over het hele elftal",
-        "Hij werd door niemand genoemd",
-        "Hij won alle discussies",
-        "Het ging alleen over zijn jas"
+        "Airco en temperatuurregeling",
+        "De kerstborrel",
+        "Parkeerplekken",
+        "Koffiebonen"
       ],
       "optionDetails": [
-        "Precies: Koeman als kapstok voor bredere Oranje-frictie.",
-        "Hij werd juist duidelijk genoemd.",
-        "Nee, de kritiek bleef bestaan.",
-        "Was het maar zo simpel."
+        "Ja. De facilitaire realiteit won van het formele veiligheidsargument.",
+        "Niet relevant.",
+        "Niet in deze discussie.",
+        "Kantoorwaardig, maar nee."
       ],
       "correctIndex": 0,
-      "feedbackCorrect": "Precies. Koeman is de kapstok, maar de frustratie gaat ook over defensie, selectie, opvolging en teamidentiteit.",
-      "feedbackWrong": "Het betekent: Koeman krijgt de kop van de kritiek, maar daaronder zitten bredere Oranje-problemen.",
+      "feedbackCorrect": "Ja. Airco/temperatuurregeling was veel groter dan ARBO/veiligheid in deze dump.",
+      "feedbackWrong": "Airco/temperatuurregeling werd vaker genoemd: 129 reacties versus 35 voor veiligheid/hygiëne/ARBO.",
       "evidence": {
-        "claim": "Bliksemafleider/bredere fricties was 177 van 669 comments in de volledige dataset.",
-        "n": 177,
-        "denominator": 669,
-        "pct": 26.5,
-        "codes": [
-          "CF02_Bliksemafleider_bredere_fricties"
-        ],
-        "comment_ids": [
-          "ostk2qe",
-          "osta2a4",
-          "orr2jrq"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K14",
-      "type": "multiple_choice",
-      "tone": "voorzichtig-lezen",
-      "context": "Zelfs rond Depay zat nuance. Niet gigantisch veel, maar genoeg om de quiz niet plat anti-Depay te maken.",
-      "prompt": "Welke nuance gebruikten Depay-verdedigers?",
-      "options": [
-        "Hij had een assist/status, of Koeman communiceerde respectvol",
-        "Hij speelde helemaal niet mee",
-        "Brobbey moest linksback",
-        "Zweden had eigenlijk gewonnen"
-      ],
-      "optionDetails": [
-        "Dit zijn de echte nuances uit de dump.",
-        "Onjuist.",
-        "Creatief, maar nee.",
-        "Nee, Oranje won 5-1."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Klopt. De nuance was niet dominant, maar wel aanwezig: assist, status/verleden en communicatie.",
-      "feedbackWrong": "De nuance was: assist/status, of dat Koeman hem respectvol/tactisch behandelt.",
-      "evidence": {
-        "claim": "Depay-verdediging/nuance kwam terug in 24 van 669 comments.",
-        "n": 24,
-        "denominator": 669,
-        "pct": 3.6,
-        "codes": [
-          "T04_Depay_verdediging_nuance"
-        ],
-        "comment_ids": [
-          "osx5a8p",
-          "ostc9pk",
-          "osta2a4"
-        ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
-      }
-    },
-    {
-      "id": "K15",
-      "type": "multiple_choice",
-      "tone": "raad-het-frame",
-      "context": "Als je de hele dump in één antwoord moet proppen, krijg je geen simpel “voor” of “tegen” Koeman. Het is rommeliger, en daarom leuker.",
-      "prompt": "Dus: bondscoach of bliksemafleider?",
-      "options": [
-        "Allebei: direct onder vuur, maar ook kapstok voor bredere Oranje-frictie",
-        "Alleen bondscoach onder vuur, verder niks",
-        "Alleen bliksemafleider, niemand vond iets van Koeman",
-        "Geen van beide: iedereen had het over de kantine"
-      ],
-      "optionDetails": [
-        "Dit is de kern van de dump.",
-        "Te simpel: de bredere frictie was groot.",
-        "Ook te simpel: in de directe subset stond Koeman duidelijk onder vuur.",
-        "Leuk geprobeerd."
-      ],
-      "correctIndex": 0,
-      "feedbackCorrect": "Ja. Dat is de hele clou: Koeman stond onder vuur, maar was ook de kapstok voor grotere Oranje-twijfel.",
-      "feedbackWrong": "Het beste antwoord is allebei. In de directe subset stond Koeman onder vuur; in de totale dump zie je bredere fricties.",
-      "evidence": {
-        "claim": "Directe subset: 94 van 206 “bondscoach onder vuur”; volledige dataset: 177 van 669 bredere fricties.",
-        "n": 94,
-        "denominator": 206,
-        "pct": 45.6,
+        "claim": "Airco/temperatuurregeling kwam terug in 129 reacties; veiligheid/hygiëne/ARBO in 35.",
+        "n": 129,
+        "denominator": 1002,
+        "pct": 12.9,
         "comparison": {
-          "CF02_Bliksemafleider_bredere_fricties": {
-            "n": 177,
-            "pct": 26.5
+          "T07_veiligheid_hygiene_arbo": {
+            "n": 35,
+            "pct": 3.5
           }
         },
         "codes": [
-          "CF01_Bondscoach_onder_vuur_selectie_tactiek_Depay",
-          "CF02_Bliksemafleider_bredere_fricties"
+          "T04_airco_temperatuurregeling",
+          "T07_veiligheid_hygiene_arbo"
         ],
         "comment_ids": [
-          "orr17qn",
-          "ostk2qe",
-          "orr2jrq"
+          "C0020",
+          "C0061",
+          "C0624"
         ],
-        "note": "Gebaseerd op publieke Reddit-comments; dit is geen representatieve peiling van Nederland."
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
+      }
+    },
+    {
+      "id": "S15",
+      "type": "multiple_choice",
+      "tone": "raad-het-frame",
+      "context": "Als je de hele dump plat slaat, krijg je geen simpel ja/nee. Het gaat om een botsing tussen vier logica’s.",
+      "prompt": "Wat is de echte kern van deze korte-broekdump?",
+      "options": [
+        "Netjes willen lijken, koel willen blijven, gelijk behandeld willen worden en grenzen zoeken bij voeten",
+        "Alleen maar modeadvies",
+        "Alleen maar mannen tegen vrouwen",
+        "Een discussie over regenlaarzen"
+      ],
+      "optionDetails": [
+        "Dit is de kern: etiquette, comfort, gelijkheid en de volgende grens.",
+        "Te oppervlakkig.",
+        "Gelijkheid speelt mee, maar het is breder.",
+        "Nee, al had kantoorweer ook gekund."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Precies. De korte broek is de ingang; de echte discussie gaat over werkcultuur.",
+      "feedbackWrong": "De kern is: netjes/professioneel, hitte/comfort, rok-jurk-gelijkheid en de grens bij slippers/voeten.",
+      "evidence": {
+        "claim": "Topthema’s: netjes/professioneel 186, hitte/comfort 174, rok/jurk-gelijkheid 159, airco 129 en voeten/slippers 97.",
+        "n": 186,
+        "denominator": 1002,
+        "pct": 18.6,
+        "comparison": {
+          "T03_hitte_warmte_comfort": {
+            "n": 174,
+            "pct": 17.4
+          },
+          "T01_rok_jurk_gelijkheidsframe": {
+            "n": 159,
+            "pct": 15.9
+          },
+          "T06_slippers_sandalen_voeten": {
+            "n": 97,
+            "pct": 9.7
+          }
+        },
+        "codes": [
+          "T02_representatief_professioneel_netjes",
+          "T03_hitte_warmte_comfort",
+          "T01_rok_jurk_gelijkheidsframe",
+          "T06_slippers_sandalen_voeten"
+        ],
+        "comment_ids": [
+          "C0038",
+          "C0985",
+          "C0973"
+        ],
+        "note": "Gebaseerd op 1.002 publieke NU.nl-reacties; dit is geen representatieve peiling van Nederland."
       }
     }
   ],
@@ -615,20 +606,20 @@
     {
       "min": 0,
       "max": 2,
-      "title": "Nog net geen bondscoachfluisteraar",
-      "description": "Je had al wat signalen te pakken, maar 3 van de 5 is de winstgrens. De uitleg laat zien waar de Oranje-valkuil zat."
+      "title": "Nog geen dresscode-detective",
+      "description": "Je zat nog in de lange-broekenstand. Vanaf 3 goed win je de kantoorvloer."
     },
     {
       "min": 3,
       "max": 4,
-      "title": "Gewonnen: Oranje-inzicht",
-      "description": "Je zag genoeg onderstroom: Koeman, Depay, selectiegedoe en het Nederlandse “ja maar” na 5-1."
+      "title": "Gewonnen: Kantoor-Kniekenner",
+      "description": "Jij voelt de grens tussen zomercomfort, netjes doen en kantoorabsurditeit."
     },
     {
       "min": 5,
       "max": 5,
       "title": "Perfecte Peiler",
-      "description": "Vijf uit vijf. Jij las de voetbalonderbuik alsof je zelf in de dug-out stond."
+      "description": "Vijf uit vijf. Jij kunt de dresscodecommissie leiden zonder te zweten."
     }
   ]
 }

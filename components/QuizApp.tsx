@@ -138,12 +138,12 @@ const TOPICS = [
   },
   {
     accent: "purple",
-    available: false,
+    available: true,
     icon: "shorts",
     id: "korte-broek",
     label: "KORTE BROEK OP WERK",
-    prompt: "Ja of nee?",
-    status: "Nieuwe dump nodig",
+    prompt: "Kantoorhit of dresscode-drama?",
+    status: "Speel nu",
   },
   {
     accent: "cyan",
@@ -156,12 +156,12 @@ const TOPICS = [
   },
   {
     accent: "orange",
-    available: true,
+    available: false,
     icon: "coach",
     id: "koeman",
     label: "WAT DENKT NEDERLAND OVER KOEMAN",
     prompt: "Bondscoach of bliksemafleider?",
-    status: "Speel nu",
+    status: "Vorige quiz",
   },
   {
     accent: "blue",
@@ -431,9 +431,9 @@ export default function QuizApp({
   const [runtimeEvidenceContext, setRuntimeEvidenceContext] = useState(evidenceContext);
   const [started, setStarted] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
-  const [spotlightTopicId, setSpotlightTopicId] = useState("koeman");
+  const [spotlightTopicId, setSpotlightTopicId] = useState("korte-broek");
   const [isDrawingTopic, setIsDrawingTopic] = useState(false);
-  const [topicNotice, setTopicNotice] = useState("Kies Koeman of laat de opinie-radar spannend bepalen.");
+  const [topicNotice, setTopicNotice] = useState("Kies korte broek of laat de opinie-radar spannend bepalen.");
   const [runId, setRunId] = useState(0);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -709,7 +709,7 @@ export default function QuizApp({
 
   function startQuiz() {
     unlockAudio(true);
-    if (!selectedTopicId) setSelectedTopicId("koeman");
+    if (!selectedTopicId) setSelectedTopicId("korte-broek");
     setStarted(true);
     setCurrent(0);
     setSelected(null);
@@ -809,7 +809,7 @@ export default function QuizApp({
     setVisibleIntroWords(0);
     setShowIntroDetails(false);
     setShowStartAction(false);
-    setTopicNotice("Kies Koeman of laat de opinie-radar spannend bepalen.");
+    setTopicNotice("Kies korte broek of laat de opinie-radar spannend bepalen.");
   }
 
   const resultBand =
@@ -869,13 +869,13 @@ export default function QuizApp({
               <p className="kicker">Live voorbeeld</p>
               <h2>Wat dacht Nederland echt?</h2>
               <div className="mini-bars">
-                <span style={{ "--bar": "70%" } as CSSProperties}>Selectie- en rolpuzzel</span>
-                <span style={{ "--bar": "53%" } as CSSProperties}>Verdedigende gaten</span>
-                <span style={{ "--bar": "47%" } as CSSProperties}>Depay als symbool</span>
-                <span style={{ "--bar": "38%" } as CSSProperties}>Koeman onder vuur</span>
+                <span style={{ "--bar": "74%" } as CSSProperties}>Netjes/professioneel</span>
+                <span style={{ "--bar": "69%" } as CSSProperties}>Hitte en comfort</span>
+                <span style={{ "--bar": "63%" } as CSSProperties}>Rok/jurk vs korte broek</span>
+                <span style={{ "--bar": "39%" } as CSSProperties}>Slippers en voeten</span>
               </div>
               <p className="quote-teaser">
-                Quote: “Mooie wedstrijd. Voorin volop potentie, achterin volop gaten.”
+                Quote: “Ik heb vanochtend een zomerjurkje van mijn vrouw aangedaan naar kantoor.”
               </p>
               <a className="studio-link" href="/studio">
                 Naar quizstudio
@@ -925,8 +925,8 @@ export default function QuizApp({
                 <p className="article-eyebrow">Gebaseerd op de dump</p>
                 <h2>“{runtimeSeed.source.article_title}”</h2>
                 <p>
-                  Publieke Reddit-reacties · {runtimeSeed.source.publication_date} ·{" "}
-                  {runtimeSeed.source.analyzed_comments} reacties geanalyseerd
+                  Publieke reacties · {runtimeSeed.source.publication_date} · {runtimeSeed.source.analyzed_comments}{" "}
+                  reacties geanalyseerd
                 </p>
               </div>
 
