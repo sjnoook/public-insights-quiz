@@ -169,22 +169,23 @@ function showReducedSlide(slide) {
 function buildSlideTimeline(slide) {
   const tl = gsap.timeline({ paused: true });
   const revealInner = slide.querySelectorAll(".reveal-inner");
-  const typeTargets = slide.querySelectorAll("[data-typewriter]");
+  const copyTypeTargets = slide.querySelectorAll(".copy [data-typewriter]");
+  const visualTypeTargets = slide.querySelectorAll(".visual [data-typewriter]");
   const tags = slide.querySelectorAll("[data-stagger] span");
   const builds = slide.querySelectorAll(".build");
   const drawPaths = slide.querySelectorAll(".draw");
 
   if (revealInner.length) {
     tl.to(revealInner, {
-      duration: 0.95,
+      duration: 0.82,
       ease: "expo.out",
-      stagger: 0.12,
+      stagger: 0.16,
       yPercent: 0,
-    });
+    }, 0.28);
   }
 
-  typeTargets.forEach((element, index) => {
-    addTypewriter(tl, element, index === 0 ? "-=0.42" : "-=0.28", element.closest(".insight-card") ? 0.018 : 0.02);
+  copyTypeTargets.forEach((element) => {
+    addTypewriter(tl, element, 1.08, 0.019);
   });
 
   if (tags.length) {
@@ -197,7 +198,7 @@ function buildSlideTimeline(slide) {
         stagger: 0.09,
         y: 0,
       },
-      "-=0.2",
+      1.55,
     );
   }
 
@@ -207,13 +208,13 @@ function buildSlideTimeline(slide) {
       {
         autoAlpha: 1,
         clipPath: "inset(0 0 0% 0 round 22px)",
-        duration: 0.86,
+        duration: 0.78,
         ease: "expo.out",
         scale: 1,
-        stagger: 0.08,
+        stagger: 0.075,
         y: 0,
       },
-      "-=0.58",
+      1.72,
     );
   }
 
@@ -226,23 +227,27 @@ function buildSlideTimeline(slide) {
         stagger: 0.08,
         strokeDashoffset: 0,
       },
-      "-=0.72",
+      2.08,
     );
   }
+
+  visualTypeTargets.forEach((element, index) => {
+    addTypewriter(tl, element, 2.12 + index * 0.28, 0.017);
+  });
 
   const floaties = slide.querySelectorAll(".floaty");
   if (floaties.length) {
     tl.to(
       floaties,
       {
-        duration: 4.4,
+        duration: 8,
         ease: "sine.inOut",
         repeat: -1,
-        stagger: 0.35,
-        y: "-=14",
+        stagger: 0.55,
+        y: "-=7",
         yoyo: true,
       },
-      "+=0.15",
+      3.05,
     );
   }
 
@@ -251,13 +256,13 @@ function buildSlideTimeline(slide) {
     tl.to(
       pulseTargets,
       {
-        duration: 2.6,
+        duration: 4.2,
         ease: "sine.inOut",
         repeat: -1,
-        scale: 1.025,
+        scale: 1.012,
         yoyo: true,
       },
-      "<",
+      3.05,
     );
   }
 
