@@ -25,3 +25,9 @@ Zet Chrome op fullscreen voor een 1920x1080 scherm.
 - Spatie: pauze/play
 
 De slideshow loopt automatisch door en begint na slide 8 opnieuw.
+
+## Techniek
+
+- Pure HTML/CSS/JS.
+- GSAP wordt lokaal meegeleverd als `gsap.min.js`, dus geen internet nodig op de beursvloer.
+- Tekst is echte HTML-tekst; visuals zijn CSS/SVG en blijven scherp op 1920x1080.
