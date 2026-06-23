@@ -868,6 +868,9 @@ export default function QuizApp({
               <p className="brand-short-copy">
                 Laat de opinie-radar draaien of tik zelf op een onderwerp. De echte uitleg draait op het tweede scherm.
               </p>
+              <a className="booth-link" href="/slideshow/index.html" rel="noreferrer" target="_blank">
+                Open uitlegshow
+              </a>
             </aside>
 
             <section className={`topic-arena ${isDrawingTopic ? "spinning" : ""}`}>
