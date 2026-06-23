@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, useEffect, useMemo, useState } from "react";
+import { type ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { EvidenceContext, QuizSeed } from "@/components/QuizApp";
 import { buildEvidenceContext, type DashboardBundle } from "@/lib/evidence";
 import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY } from "@/lib/studioStorage";
@@ -28,6 +28,11 @@ type UploadShape = {
   quizSeed?: QuizSeed;
   seed?: QuizSeed;
 };
+
+type StudioWindowWithWebAudio = Window &
+  typeof globalThis & {
+    webkitAudioContext?: typeof AudioContext;
+  };
 
 const DEFAULT_RESULT_BANDS = [
   {
@@ -166,7 +171,10 @@ export default function QuizStudio({
   const [customPacks, setCustomPacks] = useState<StudioStoredPack[]>([]);
   const [draftQuestion, setDraftQuestion] = useState<QuizQuestion | null>(null);
   const [notice, setNotice] = useState("Kies minimaal 10 vragen. Daarna gebruikt de publieke quiz precies die selectie.");
+  const [savedQuestionId, setSavedQuestionId] = useState<string | null>(null);
+  const [saveToast, setSaveToast] = useState("");
   const [selectedQuestionIds, setSelectedQuestionIds] = useState(() => getInitialSelection(defaultSeed));
+  const saveFeedbackTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const storedPacks = readStoredPacks();
@@ -194,9 +202,62 @@ export default function QuizStudio({
     }
   }, [defaultEvidenceContext]);
 
+  useEffect(
+    () => () => {
+      if (saveFeedbackTimeoutRef.current) window.clearTimeout(saveFeedbackTimeoutRef.current);
+    },
+    [],
+  );
+
   const selectedQuestions = selectedQuestionIds
     .map((id) => currentSeed.questions.find((question) => question.id === id))
     .filter(Boolean);
+
+  function playSaveSound() {
+    try {
+      const audioWindow = window as StudioWindowWithWebAudio;
+      const AudioContextCtor = audioWindow.AudioContext ?? audioWindow.webkitAudioContext;
+      if (!AudioContextCtor) return;
+
+      const context = new AudioContextCtor();
+      const now = context.currentTime;
+      const frequencies = [520, 780, 1040];
+
+      frequencies.forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const start = now + index * 0.055;
+
+        oscillator.type = index === 0 ? "triangle" : "sine";
+        oscillator.frequency.setValueAtTime(frequency, start);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.045, start + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.13);
+
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(start);
+        oscillator.stop(start + 0.15);
+      });
+
+      window.setTimeout(() => void context.close().catch(() => undefined), 320);
+    } catch {
+      // Saving should never depend on browser audio support.
+    }
+  }
+
+  function triggerSavedFeedback(message: string, questionId?: string) {
+    if (saveFeedbackTimeoutRef.current) window.clearTimeout(saveFeedbackTimeoutRef.current);
+
+    playSaveSound();
+    setSaveToast(message);
+    setSavedQuestionId(questionId ?? null);
+
+    saveFeedbackTimeoutRef.current = window.setTimeout(() => {
+      setSaveToast("");
+      setSavedQuestionId(null);
+    }, 1900);
+  }
 
   function loadBuiltInPack() {
     setCurrentDashboard(defaultDashboard);
@@ -293,7 +354,12 @@ export default function QuizStudio({
     });
   }
 
-  function persistActivePack(seedToSave: QuizSeed, selectionToSave: string[], successNotice: string) {
+  function persistActivePack(
+    seedToSave: QuizSeed,
+    selectionToSave: string[],
+    successNotice: string,
+    savedQuestion?: QuizQuestion,
+  ) {
     if (seedToSave.questions.length < QUESTION_TARGET) {
       setNotice(`Deze quiz heeft maar ${seedToSave.questions.length} vragen. Maak of upload minimaal 10 vragen.`);
       return false;
@@ -327,6 +393,7 @@ export default function QuizStudio({
     setCurrentPackId(nextPack.id);
     setSelectedQuestionIds(selectionToSave);
     setNotice(successNotice);
+    triggerSavedFeedback("Opgeslagen", savedQuestion?.id);
     return true;
   }
 
@@ -407,7 +474,14 @@ export default function QuizStudio({
     };
     const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds);
 
-    if (persistActivePack(nextSeed, nextSelection, `Vraag ${cleanQuestion.id} opgeslagen. De publieke quiz gebruikt je aangepaste tekst.`)) {
+    if (
+      persistActivePack(
+        nextSeed,
+        nextSelection,
+        `Vraag ${cleanQuestion.id} opgeslagen. De publieke quiz gebruikt je aangepaste tekst.`,
+        cleanQuestion,
+      )
+    ) {
       setDraftQuestion(cloneQuestion(cleanQuestion));
     }
   }
@@ -494,6 +568,11 @@ export default function QuizStudio({
         </div>
 
         <p className="studio-notice">{notice}</p>
+        {saveToast ? (
+          <p className="studio-save-toast" role="status" aria-live="polite">
+            {saveToast}
+          </p>
+        ) : null}
 
         <div className="studio-actions">
           <button className="primary-button" disabled={selectedQuestionIds.length !== QUESTION_TARGET} onClick={saveSelection}>
@@ -643,8 +722,12 @@ export default function QuizStudio({
           </div>
 
           <div className="studio-actions">
-            <button className="primary-button" onClick={saveQuestionEdits} type="button">
-              Sla vraag op
+            <button
+              className={`primary-button save-question-button ${savedQuestionId === draftQuestion.id ? "saved" : ""}`}
+              onClick={saveQuestionEdits}
+              type="button"
+            >
+              {savedQuestionId === draftQuestion.id ? "Opgeslagen" : "Sla vraag op"}
             </button>
             <button className="secondary-button" onClick={() => startEditing(draftQuestion.id)} type="button">
               Herstel laatste opgeslagen versie

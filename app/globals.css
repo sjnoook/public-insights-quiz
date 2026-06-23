@@ -1150,6 +1150,32 @@ h2 {
   padding: 12px 14px;
 }
 
+.studio-save-toast {
+  align-items: center;
+  animation: save-toast-pop 260ms ease-out;
+  background: linear-gradient(135deg, #22c55e, #84cc16);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  box-shadow:
+    0 14px 32px rgba(34, 197, 94, 0.24),
+    0 0 0 6px rgba(132, 204, 22, 0.10);
+  color: #04130a;
+  display: inline-flex;
+  font-weight: 950;
+  gap: 8px;
+  line-height: 1.2;
+  margin: 12px 0 0;
+  max-width: min(100%, 720px);
+  padding: 11px 16px;
+}
+
+.studio-save-toast::before {
+  content: "✓";
+  display: inline-grid;
+  font-size: 1.1rem;
+  place-items: center;
+}
+
 .studio-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1160,6 +1186,12 @@ h2 {
 .studio-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+.save-question-button.saved {
+  animation: saved-button-pulse 520ms ease-out;
+  background: linear-gradient(135deg, #22c55e, #a3e635);
+  color: #04130a;
 }
 
 .studio-section-header {
@@ -1356,6 +1388,35 @@ h2 {
 .audit-trail summary {
   cursor: pointer;
   font-weight: 800;
+}
+
+@keyframes save-toast-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes saved-button-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(132, 204, 22, 0.44);
+    transform: scale(1);
+  }
+
+  45% {
+    box-shadow: 0 0 0 10px rgba(132, 204, 22, 0.00);
+    transform: scale(1.035);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(132, 204, 22, 0.00);
+    transform: scale(1);
+  }
 }
 
 .evidence code {
