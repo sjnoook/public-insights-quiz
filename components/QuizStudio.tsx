@@ -25,6 +25,8 @@ type UploadShape = {
   dashboardBundle?: DashboardBundle;
   dump?: DashboardBundle;
   evidenceContext?: EvidenceContext;
+  kind?: string;
+  questions?: unknown;
   quizSeed?: QuizSeed;
   seed?: QuizSeed;
 };
@@ -86,6 +88,26 @@ function extractDashboard(value: unknown) {
   return undefined;
 }
 
+function isQuestionEdit(value: unknown): value is QuizQuestion {
+  const candidate = value as Partial<QuizQuestion> | undefined;
+  return Boolean(
+    candidate?.id &&
+      candidate?.prompt &&
+      Array.isArray(candidate?.options) &&
+      candidate.options.length >= 2 &&
+      typeof candidate?.correctIndex === "number",
+  );
+}
+
+function extractQuestionEdits(value: unknown) {
+  if (Array.isArray(value) && value.every(isQuestionEdit)) return value;
+
+  const wrapped = value as UploadShape | undefined;
+  if (Array.isArray(wrapped?.questions) && wrapped.questions.every(isQuestionEdit)) return wrapped.questions;
+
+  return undefined;
+}
+
 function getInitialSelection(seed: QuizSeed, preferredIds = seed.game?.featuredQuestionIds) {
   const validIds = new Set(seed.questions.map((question) => question.id));
   const configuredIds = preferredIds?.filter((id) => validIds.has(id)).slice(0, QUESTION_TARGET) ?? [];
@@ -126,6 +148,46 @@ function cloneQuestion(question: QuizQuestion): QuizQuestion {
     },
     optionDetails: question.optionDetails ? [...question.optionDetails] : question.options.map(() => ""),
     options: [...question.options],
+  };
+}
+
+function mergeQuestionEdit(existing: QuizQuestion | undefined, edit: QuizQuestion): QuizQuestion {
+  const base = existing ?? edit;
+  const baseEvidence = base.evidence ?? { claim: "Handmatig aangepaste vraag." };
+  const editEvidence = edit.evidence ?? ({} as QuizQuestion["evidence"]);
+  const options = edit.options.length ? [...edit.options] : [...base.options];
+  const correctIndex = Math.min(Math.max(edit.correctIndex, 0), options.length - 1);
+
+  return {
+    ...base,
+    ...edit,
+    correctIndex,
+    evidence: {
+      ...baseEvidence,
+      ...editEvidence,
+      codes: editEvidence.codes ? [...editEvidence.codes] : baseEvidence.codes,
+      comment_ids: editEvidence.comment_ids ? [...editEvidence.comment_ids] : baseEvidence.comment_ids,
+      comparison: editEvidence.comparison ?? baseEvidence.comparison,
+    },
+    optionDetails: edit.optionDetails ? [...edit.optionDetails] : base.optionDetails,
+    options,
+  };
+}
+
+function mergeQuestionEdits(seed: QuizSeed, questionEdits: QuizQuestion[]): QuizSeed {
+  const editsById = new Map(questionEdits.map((question) => [question.id, question]));
+  const existingIds = new Set(seed.questions.map((question) => question.id));
+  const updatedQuestions = seed.questions.map((question) => {
+    const edit = editsById.get(question.id);
+    return edit ? mergeQuestionEdit(question, edit) : question;
+  });
+  const newQuestions = questionEdits
+    .filter((question) => !existingIds.has(question.id))
+    .map((question) => mergeQuestionEdit(undefined, question));
+
+  return {
+    ...seed,
+    questions: [...updatedQuestions, ...newQuestions],
   };
 }
 
@@ -294,9 +356,29 @@ export default function QuizStudio({
       const parsed = JSON.parse(await file.text()) as UploadShape;
       const uploadedSeed = extractSeed(parsed);
       const uploadedDashboard = extractDashboard(parsed);
+      const uploadedQuestionEdits = extractQuestionEdits(parsed);
 
-      if (!uploadedSeed && !uploadedDashboard) {
+      if (!uploadedSeed && !uploadedDashboard && !uploadedQuestionEdits) {
         setNotice("Ik herken dit JSON-bestand niet als quiz-pack of dashboard-bundle.");
+        return;
+      }
+
+      if (uploadedQuestionEdits && !uploadedSeed) {
+        const nextSeed = mergeQuestionEdits(currentSeed, uploadedQuestionEdits);
+        const nextEvidenceContext = parsed.evidenceContext ?? currentEvidenceContext;
+        const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds);
+
+        setCurrentEvidenceContext(nextEvidenceContext);
+        setDraftQuestion(null);
+
+        persistActivePack(
+          nextSeed,
+          nextSelection,
+          `${uploadedQuestionEdits.length} vragen geüpload en opgeslagen. Controleer nog even de quiz voordat je live laat spelen.`,
+          undefined,
+          nextEvidenceContext,
+          "Vragen geüpload",
+        );
         return;
       }
 
@@ -359,6 +441,8 @@ export default function QuizStudio({
     selectionToSave: string[],
     successNotice: string,
     savedQuestion?: QuizQuestion,
+    evidenceContextToSave = currentEvidenceContext,
+    feedbackMessage = "Opgeslagen",
   ) {
     if (seedToSave.questions.length < QUESTION_TARGET) {
       setNotice(`Deze quiz heeft maar ${seedToSave.questions.length} vragen. Maak of upload minimaal 10 vragen.`);
@@ -372,7 +456,7 @@ export default function QuizStudio({
 
     const normalizedSeed = normalizeSeed(seedToSave, selectionToSave);
     const nextPack: StudioStoredPack = {
-      evidenceContext: currentEvidenceContext,
+      evidenceContext: evidenceContextToSave,
       id: currentPackId === "builtin" ? "active-built-in" : currentPackId,
       name: normalizedSeed.quizTitle,
       seed: normalizedSeed,
@@ -393,7 +477,7 @@ export default function QuizStudio({
     setCurrentPackId(nextPack.id);
     setSelectedQuestionIds(selectionToSave);
     setNotice(successNotice);
-    triggerSavedFeedback("Opgeslagen", savedQuestion?.id);
+    triggerSavedFeedback(feedbackMessage, savedQuestion?.id);
     return true;
   }
 
@@ -492,6 +576,39 @@ export default function QuizStudio({
     setNotice("Publieke quiz teruggezet naar de ingebouwde selectie.");
   }
 
+  function downloadJson(data: unknown, filename: string) {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = filename;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadEditableQuestions() {
+    const exportQuestions = {
+      kind: "public-insights-question-edits-v1",
+      instructions: [
+        "Bewerk vooral context, prompt, options, optionDetails, feedbackCorrect en feedbackWrong.",
+        "Laat id staan; daarmee zet de studio de vraag later terug op de juiste plek.",
+        "correctIndex is nul-gebaseerd: 0 is antwoord 1, 1 is antwoord 2, enzovoort.",
+        "Laat evidence, codes en comment_ids bij voorkeur staan, tenzij je precies weet wat je aanpast.",
+        "Upload dit bestand terug in de Quizstudio via 'Upload quiz-pack, dump of vragen-JSON'.",
+      ],
+      quizTitle: currentSeed.quizTitle,
+      selectedQuestionIds,
+      source: currentSeed.source,
+      exportedAt: new Date().toISOString(),
+      questions: currentSeed.questions.map(cloneQuestion),
+    };
+    const filename = `${currentSeed.quizTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-alle-vragen-chatgpt.json`;
+
+    downloadJson(exportQuestions, filename);
+    setNotice("Alle vragen gedownload als ChatGPT-vriendelijke JSON. Bewerk de JSON en upload hem straks hier terug.");
+    triggerSavedFeedback("Vragen gedownload");
+  }
+
   function downloadPack() {
     if (selectedQuestionIds.length !== QUESTION_TARGET) {
       setNotice(`Kies precies ${QUESTION_TARGET} vragen voordat je downloadt.`);
@@ -505,13 +622,9 @@ export default function QuizStudio({
       seed: normalizedSeed,
       selectedQuestionIds,
     };
-    const blob = new Blob([JSON.stringify(exportPack, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.download = `${normalizedSeed.quizTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-quiz-pack.json`;
-    link.href = url;
-    link.click();
-    URL.revokeObjectURL(url);
+    const filename = `${normalizedSeed.quizTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-quiz-pack.json`;
+
+    downloadJson(exportPack, filename);
   }
 
   return (
@@ -543,7 +656,7 @@ export default function QuizStudio({
           </label>
 
           <label className="upload-box">
-            Upload quiz-pack of dump
+            Upload quiz-pack, dump of vragen-JSON
             <input accept="application/json,.json" onChange={handleUpload} type="file" />
           </label>
         </div>
@@ -591,6 +704,9 @@ export default function QuizStudio({
           </a>
           <button className="secondary-button" onClick={downloadPack} type="button">
             Download quiz-pack
+          </button>
+          <button className="secondary-button" onClick={downloadEditableQuestions} type="button">
+            Download alle vragen voor ChatGPT
           </button>
           <button className="secondary-button" onClick={resetPublicQuiz} type="button">
             Reset naar ingebouwd
