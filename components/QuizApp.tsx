@@ -124,8 +124,9 @@ const TONE_LABELS: Record<string, string> = {
   oplossingsradar: "Beste middenweg",
 };
 
-const FEATURED_QUESTION_IDS = ["Q05", "Q08", "Q02", "Q07", "Q06"];
-const WIN_THRESHOLD = 3;
+const FEATURED_QUESTION_IDS: string[] = [];
+const MIN_QUESTION_COUNT = 10;
+const WIN_THRESHOLD = 6;
 const TOPICS = [
   {
     accent: "lime",
@@ -465,6 +466,10 @@ export default function QuizApp({
       };
 
       if (!parsed.seed?.questions?.length) return;
+      if ((parsed.seed.game?.questionCount ?? 0) < MIN_QUESTION_COUNT) {
+        window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+        return;
+      }
 
       setRuntimeSeed(parsed.seed);
       setRuntimeEvidenceContext(parsed.evidenceContext ?? evidenceContext);
@@ -474,8 +479,13 @@ export default function QuizApp({
     }
   }, [evidenceContext, seed]);
 
-  const questionCount = runtimeSeed.game?.questionCount ?? 5;
-  const winThreshold = runtimeSeed.game?.winThreshold ?? WIN_THRESHOLD;
+  const desiredQuestionCount = Math.max(runtimeSeed.game?.questionCount ?? MIN_QUESTION_COUNT, MIN_QUESTION_COUNT);
+  const questionCount = Math.min(runtimeSeed.questions.length, desiredQuestionCount);
+  const defaultWinThreshold = Math.ceil(questionCount * 0.6);
+  const winThreshold = Math.min(
+    questionCount,
+    Math.max(runtimeSeed.game?.winThreshold ?? defaultWinThreshold, defaultWinThreshold, WIN_THRESHOLD),
+  );
   const featuredQuestionIds = runtimeSeed.game?.featuredQuestionIds ?? FEATURED_QUESTION_IDS;
   const questions = useMemo(
     () => pickFeaturedQuestions(runtimeSeed.questions, featuredQuestionIds, questionCount),
@@ -489,6 +499,7 @@ export default function QuizApp({
   const done = started && current >= questions.length;
   const hasWon = score >= winThreshold;
   const introWords = selectedTopic?.label.split(" ") ?? [];
+  const gameLine = `Speel ${questions.length} vragen · win vanaf ${winThreshold} goed`;
 
   useEffect(() => {
     soundEnabledRef.current = soundEnabled;
@@ -837,7 +848,7 @@ export default function QuizApp({
               <p className="brand-public">PUBLIC</p>
               <h1>INSIGHTS</h1>
               <p className="brand-question">Wat denkt Nederland echt?</p>
-              <p className="brand-tagline">Speel 5 vragen · win vanaf 3 goed</p>
+              <p className="brand-tagline">{gameLine}</p>
               <div className="brand-badge" aria-hidden="true">
                 <span />
               </div>
@@ -873,7 +884,7 @@ export default function QuizApp({
                   </button>
                 ))}
               </div>
-              <p className="prize-line">Speel 5 vragen en maak kans op een prijs.</p>
+              <p className="prize-line">Speel {questions.length} vragen en maak kans op een prijs.</p>
               <p className="studio-hint">{topicNotice}</p>
             </section>
 
@@ -901,7 +912,7 @@ export default function QuizApp({
               <span>Pak het onderwerp dat je nieuwsgierig maakt.</span>
             </div>
             <div>
-              <strong>2. Speel 5 vragen</strong>
+              <strong>2. Speel {questions.length} vragen</strong>
               <span>Meerkeuze, quotes en echte data.</span>
             </div>
             <div>
@@ -909,7 +920,9 @@ export default function QuizApp({
               <span>Je ziet direct de telling en de bronquotes.</span>
             </div>
             <div>
-              <strong>4. Win vanaf 3/5</strong>
+              <strong>
+                4. Win vanaf {winThreshold}/{questions.length}
+              </strong>
               <span>Score goed genoeg? Dan krijg je de happy animatie.</span>
             </div>
           </section>

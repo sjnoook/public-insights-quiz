@@ -1,15 +1,20 @@
 {
   "quizTitle": "Publieke Peiler: Korte Broek Op Kantoor",
-  "subtitle": "Vijf snelle kantoor-valkuilen. Gaat dit over benen, beleid of gewoon airco?",
+  "subtitle": "Tien snelle kantoor-valkuilen. Gaat dit over benen, beleid of gewoon airco?",
   "game": {
-    "questionCount": 5,
-    "winThreshold": 3,
+    "questionCount": 10,
+    "winThreshold": 6,
     "featuredQuestionIds": [
       "S01",
       "S02",
       "S03",
       "S04",
-      "S05"
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S10"
     ]
   },
   "source": {
@@ -34,19 +39,19 @@
       "prompt": "Welke reactie kreeg de meeste likes?",
       "options": [
         "Een strak airco-argument",
-        "Iemand die in een zomerjurkje naar kantoor ging",
+        "Een man die in een zomerjurkje naar kantoor ging",
         "Een pleidooi voor sandalen",
         "Een manager met een dresscodebeleid"
       ],
       "optionDetails": [
         "Klinkt serieus, maar won niet.",
-        "Deze reactie draaide het rok/jurk-argument meteen om.",
+        "Hij draaide het rok/jurk-argument meteen om.",
         "Voeten kwamen veel terug, maar waren niet de top-liked reactie.",
         "Beleid kwam terug, maar niet als publieksfavoriet."
       ],
       "correctIndex": 1,
-      "feedbackCorrect": "Ja. De zomerjurk won. De beste reactie was: als een jurk mag, waarom dan geen korte broek?",
-      "feedbackWrong": "De populairste reactie was de zomerjurk-hack: iemand trok een zomerjurkje aan en niemand zei er iets van.",
+      "feedbackCorrect": "Ja. De man in zomerjurk won. De beste reactie was: als een jurk mag, waarom dan geen korte broek?",
+      "feedbackWrong": "De populairste reactie was de zomerjurk-hack: een man trok een zomerjurkje aan en niemand zei er iets van.",
       "evidence": {
         "claim": "Comment C0884 was de top-liked reactie met 153 likes.",
         "n": 153,
@@ -605,21 +610,21 @@
   "resultBands": [
     {
       "min": 0,
-      "max": 2,
+      "max": 5,
       "title": "Nog geen dresscode-detective",
-      "description": "Je zat nog in de lange-broekenstand. Vanaf 3 goed win je de kantoorvloer."
+      "description": "Je zat nog in de lange-broekenstand. Vanaf 6 goed win je de kantoorvloer."
     },
     {
-      "min": 3,
-      "max": 4,
+      "min": 6,
+      "max": 8,
       "title": "Gewonnen: Kantoor-Kniekenner",
       "description": "Jij voelt de grens tussen zomercomfort, netjes doen en kantoorabsurditeit."
     },
     {
-      "min": 5,
-      "max": 5,
+      "min": 9,
+      "max": 10,
       "title": "Perfecte Peiler",
-      "description": "Vijf uit vijf. Jij kunt de dresscodecommissie leiden zonder te zweten."
+      "description": "Bijna alles goed. Jij kunt de dresscodecommissie leiden zonder te zweten."
     }
   ]
 }

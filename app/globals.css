@@ -1157,6 +1157,11 @@ h2 {
   margin-top: 18px;
 }
 
+.studio-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .studio-section-header {
   align-items: end;
   display: flex;
@@ -1250,6 +1255,95 @@ h2 {
   color: #111827;
   font-weight: 850;
   margin: 0;
+}
+
+.studio-question-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.studio-editor {
+  border-color: rgba(14, 165, 233, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(14, 165, 233, 0.12),
+    0 18px 54px rgba(14, 165, 233, 0.10);
+}
+
+.editor-form {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(180px, 0.6fr) minmax(280px, 1fr);
+}
+
+.editor-feedback {
+  margin-top: 14px;
+}
+
+.editor-form label,
+.editor-option label {
+  color: #334155;
+  display: grid;
+  font-size: 0.82rem;
+  font-weight: 900;
+  gap: 7px;
+  text-transform: uppercase;
+}
+
+.editor-wide {
+  grid-column: 1 / -1;
+}
+
+.studio-editor input,
+.studio-editor textarea {
+  background: #ffffff;
+  border: 1px solid rgba(31, 41, 55, 0.18);
+  border-radius: 14px;
+  color: #111827;
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.35;
+  padding: 11px 12px;
+  text-transform: none;
+}
+
+.studio-editor textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.editor-options {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  margin-top: 14px;
+}
+
+.editor-option {
+  background: #f8fafc;
+  border: 2px solid rgba(31, 41, 55, 0.10);
+  border-radius: 18px;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.editor-option.correct {
+  background: #ecfdf5;
+  border-color: rgba(22, 163, 74, 0.46);
+}
+
+.editor-radio {
+  align-items: center;
+  display: flex !important;
+  flex-direction: row;
+  gap: 8px !important;
+}
+
+.editor-radio input {
+  height: 18px;
+  width: 18px;
 }
 
 .audit-trail {
@@ -1842,7 +1936,10 @@ h2 {
   }
 
   .studio-toolbar,
-  .studio-section-header {
+  .studio-section-header,
+  .editor-form,
+  .editor-options {
     display: grid;
+    grid-template-columns: 1fr;
   }
 }
