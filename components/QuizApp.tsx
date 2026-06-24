@@ -2,6 +2,13 @@
 
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { STUDIO_ACTIVE_PACK_KEY } from "@/lib/studioStorage";
+import {
+  ACTIVE_TOPIC_STATUS,
+  DEFAULT_TOPICS,
+  PUBLIC_INSIGHTS_TOPICS_KEY,
+  mergeStoredTopics,
+  type PublicInsightTopic,
+} from "@/lib/topics";
 
 type Evidence = {
   claim: string;
@@ -129,53 +136,6 @@ const TONE_LABELS: Record<string, string> = {
 const FEATURED_QUESTION_IDS: string[] = [];
 const MIN_QUESTION_COUNT = 10;
 const WIN_THRESHOLD = 6;
-const TOPICS = [
-  {
-    accent: "lime",
-    available: false,
-    icon: "bike",
-    id: "fatbike",
-    label: "FATBIKE",
-    prompt: "Wat vindt Nederland van de fatbike?",
-    status: "Nieuwe dump nodig",
-  },
-  {
-    accent: "purple",
-    available: true,
-    icon: "shorts",
-    id: "korte-broek",
-    label: "KORTE BROEK OP WERK",
-    prompt: "Kantoorhit of dresscode-drama?",
-    status: "Speel nu",
-  },
-  {
-    accent: "cyan",
-    available: false,
-    icon: "phone",
-    id: "social-media",
-    label: "SOCIAL MEDIA VERBOD JONGEREN",
-    prompt: "Ja of nee?",
-    status: "Vorige quiz",
-  },
-  {
-    accent: "orange",
-    available: false,
-    icon: "coach",
-    id: "koeman",
-    label: "WAT DENKT NEDERLAND OVER KOEMAN",
-    prompt: "Bondscoach of bliksemafleider?",
-    status: "Vorige quiz",
-  },
-  {
-    accent: "blue",
-    available: false,
-    icon: "ai",
-    id: "ai-banen",
-    label: "AI GAAT ONZE BANEN OVERNEMEN",
-    prompt: "Paniek of prima kans?",
-    status: "Nieuwe dump nodig",
-  },
-];
 
 function pickFeaturedQuestions(input: Question[], featuredIds: string[], questionCount: number) {
   const byId = new Map(input.map((question) => [question.id, question]));
@@ -432,11 +392,12 @@ export default function QuizApp({
 }) {
   const [runtimeSeed, setRuntimeSeed] = useState(seed);
   const [runtimeEvidenceContext, setRuntimeEvidenceContext] = useState(evidenceContext);
+  const [topics, setTopics] = useState<PublicInsightTopic[]>(DEFAULT_TOPICS);
   const [started, setStarted] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [spotlightTopicId, setSpotlightTopicId] = useState("korte-broek");
   const [isDrawingTopic, setIsDrawingTopic] = useState(false);
-  const [topicNotice, setTopicNotice] = useState("Kies korte broek of laat de opinie-radar spannend bepalen.");
+  const [topicNotice, setTopicNotice] = useState("Kies een onderwerp of laat de radar spannend bepalen.");
   const [runId, setRunId] = useState(0);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -451,6 +412,15 @@ export default function QuizApp({
   const [soundEnabled, setSoundEnabled] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const soundEnabledRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const storedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_TOPICS_KEY);
+      setTopics(storedTopics ? mergeStoredTopics(JSON.parse(storedTopics)) : DEFAULT_TOPICS);
+    } catch {
+      setTopics(DEFAULT_TOPICS);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -504,7 +474,11 @@ export default function QuizApp({
     () => pickFeaturedQuestions(runtimeSeed.questions, featuredQuestionIds, questionCount),
     [featuredQuestionIds, questionCount, runtimeSeed.questions, runId],
   );
-  const selectedTopic = TOPICS.find((topic) => topic.id === selectedTopicId);
+  const activeTopics = useMemo(
+    () => topics.filter((topic) => topic.status === ACTIVE_TOPIC_STATUS),
+    [topics],
+  );
+  const selectedTopic = topics.find((topic) => topic.id === selectedTopicId);
   const question = questions[current];
   const isAnswered = selected !== null;
   const isCorrect = selected === question?.correctIndex;
@@ -745,7 +719,7 @@ export default function QuizApp({
 
   function startQuiz() {
     unlockAudio(true);
-    if (!selectedTopicId) setSelectedTopicId("korte-broek");
+    if (!selectedTopicId) setSelectedTopicId(activeTopics[0]?.id ?? "korte-broek");
     setStarted(true);
     setCurrent(0);
     setSelected(null);
@@ -767,15 +741,15 @@ export default function QuizApp({
   }
 
   function chooseTopic(topicId: string) {
-    const topic = TOPICS.find((candidate) => candidate.id === topicId);
+    const topic = topics.find((candidate) => candidate.id === topicId);
     if (!topic) return;
 
     unlockAudio(false);
     setSpotlightTopicId(topic.id);
 
-    if (!topic.available) {
+    if (topic.status !== ACTIVE_TOPIC_STATUS) {
       playSound("wrong");
-      setTopicNotice(`${topic.label} staat klaar als topic-tegel. Upload straks een quiz-pack in de studio om deze speelbaar te maken.`);
+      setTopicNotice(`${topic.label} staat nog niet actief. Zet dit onderwerp eerst live in de editor.`);
       return;
     }
 
@@ -798,32 +772,31 @@ export default function QuizApp({
 
     let steps = 0;
     const maxSteps = 26;
+    const radarTopics = activeTopics;
+    if (!radarTopics.length) {
+      setIsDrawingTopic(false);
+      setTopicNotice("Er staan nog geen actieve onderwerpen klaar. Zet er eentje actief in de editor.");
+      return;
+    }
+
     const spin = () => {
-      const nextTopic = TOPICS[steps % TOPICS.length];
+      const nextTopic = radarTopics[steps % radarTopics.length];
       setSpotlightTopicId(nextTopic.id);
       playSound("radar");
       steps += 1;
 
       if (steps >= maxSteps) {
-        const pickableTopics = TOPICS.filter((topic) => topic.available);
-        const topicPool = pickableTopics.length ? pickableTopics : TOPICS;
-        const pickedTopic = topicPool[Math.floor(Math.random() * topicPool.length)];
+        const pickedTopic = radarTopics[Math.floor(Math.random() * radarTopics.length)];
         setSpotlightTopicId(pickedTopic.id);
         setIsDrawingTopic(false);
         setLockedTopicId(pickedTopic.id);
         playSound("radar-final");
 
-        if (pickedTopic.available) {
-          setTopicNotice(`De radar kiest: ${pickedTopic.label}. Even locken en dan door naar de intro.`);
-          window.setTimeout(() => {
-            setSelectedTopicId(pickedTopic.id);
-            setLockedTopicId(null);
-          }, 900);
-          return;
-        }
-
-        setTopicNotice(`De radar kiest: ${pickedTopic.label}. Mooi topic, maar hiervoor moet eerst een dump/quiz-pack in de studio.`);
-        window.setTimeout(() => setLockedTopicId(null), 900);
+        setTopicNotice(`De radar kiest: ${pickedTopic.label}. Even locken en dan door naar de intro.`);
+        window.setTimeout(() => {
+          setSelectedTopicId(pickedTopic.id);
+          setLockedTopicId(null);
+        }, 900);
         return;
       }
 
@@ -845,7 +818,7 @@ export default function QuizApp({
     setVisibleIntroWords(0);
     setShowIntroDetails(false);
     setShowStartAction(false);
-    setTopicNotice("Kies korte broek of laat de opinie-radar spannend bepalen.");
+    setTopicNotice("Kies een onderwerp of laat de radar spannend bepalen.");
   }
 
   const resultBand =
@@ -855,92 +828,58 @@ export default function QuizApp({
   if (!started) {
     if (!selectedTopic) {
       return (
-        <main className="page-shell kiosk-shell">
-          <section className="kiosk-stage">
-            <aside className="brand-panel">
-              <p className="brand-public">PUBLIC</p>
-              <h1>INSIGHTS</h1>
-              <p className="brand-question">Wat denkt Nederland echt?</p>
-              <p className="brand-tagline">{gameLine}</p>
-              <div className="brand-badge" aria-hidden="true">
-                <span />
-              </div>
-              <p className="brand-short-copy">
-                Laat de opinie-radar draaien of tik zelf op een onderwerp. De echte uitleg draait op het tweede scherm.
-              </p>
-              <a className="booth-link" href="/slideshow/index.html" rel="noreferrer" target="_blank">
-                Open uitlegshow
-              </a>
-            </aside>
+        <main className="page-shell kiosk-shell quiz-landing-shell">
+          <section className={`public-quiz-stage ${isDrawingTopic ? "spinning" : ""}`}>
+            <div className="public-quiz-orb orb-one" aria-hidden="true" />
+            <div className="public-quiz-orb orb-two" aria-hidden="true" />
 
-            <section className={`topic-arena ${isDrawingTopic ? "spinning" : ""}`}>
-              <p className="kicker">Lokscherm</p>
-              <h2>Kies je onderwerp</h2>
-              <div className="topic-radar">
-                <div>
-                  <strong>Opinie-radar</strong>
-                  <span>Laat het scherm een onderwerp aanwijzen.</span>
-                </div>
-                <button className="primary-button" disabled={isDrawingTopic} onClick={drawTopic} type="button">
-                  {isDrawingTopic ? "Radar draait..." : "Laat radar kiezen"}
-                </button>
+            <header className="public-quiz-header">
+              <div className="public-quiz-brand">
+                <span>PUBLIC</span>
+                <strong>INSIGHTS</strong>
               </div>
-              <div className="topic-grid">
-                {TOPICS.map((topic) => (
+              <p>{gameLine}</p>
+            </header>
+
+            <div className="public-quiz-title-row">
+              <div>
+                <p className="kicker">Publieke Peiler</p>
+                <h1>Kies je onderwerp</h1>
+                <p className="public-quiz-rule">Speel 10 vragen en win vanaf 6 goed</p>
+              </div>
+              <button className="radar-button" disabled={isDrawingTopic || !activeTopics.length} onClick={drawTopic} type="button">
+                <span aria-hidden="true" />
+                {isDrawingTopic ? "Radar draait..." : "Laat radar kiezen"}
+              </button>
+            </div>
+
+            {activeTopics.length ? (
+              <div className="public-topic-grid">
+                {activeTopics.map((topic) => (
                   <button
-                    className={`topic-card ${topic.accent} ${spotlightTopicId === topic.id ? "spotlight" : ""} ${lockedTopicId === topic.id ? "locked" : ""}`}
+                    className={`topic-card public-topic-card ${topic.accent} ${spotlightTopicId === topic.id ? "spotlight" : ""} ${lockedTopicId === topic.id ? "locked" : ""}`}
                     key={topic.id}
                     onClick={() => chooseTopic(topic.id)}
                     type="button"
                   >
-                    <span className="topic-status">{topic.status}</span>
+                    <span className="topic-status">Actief</span>
                     <strong>{topic.label}</strong>
                     <span>{topic.prompt}</span>
                     <span className={`topic-visual ${topic.icon}`} aria-hidden="true" />
                   </button>
                 ))}
               </div>
-              <p className="prize-line">Speel {questions.length} vragen en maak kans op een prijs.</p>
-              <p className="studio-hint">{topicNotice}</p>
-            </section>
-
-            <aside className="insight-screen">
-              <p className="kicker">Live voorbeeld</p>
-              <h2>Wat dacht Nederland echt?</h2>
-              <div className="mini-bars">
-                <span style={{ "--bar": "74%" } as CSSProperties}>Netjes/professioneel</span>
-                <span style={{ "--bar": "69%" } as CSSProperties}>Hitte en comfort</span>
-                <span style={{ "--bar": "63%" } as CSSProperties}>Rok/jurk vs korte broek</span>
-                <span style={{ "--bar": "39%" } as CSSProperties}>Slippers en voeten</span>
+            ) : (
+              <div className="empty-topic-state">
+                <strong>Nog geen actieve onderwerpen</strong>
+                <span>Zet in de editor minstens één onderwerp op actief.</span>
               </div>
-              <p className="quote-teaser">
-                Quote: “Ik heb vanochtend een zomerjurkje van mijn vrouw aangedaan naar kantoor.”
-              </p>
-              <a className="studio-link" href="/studio">
-                Naar quizstudio
-              </a>
-            </aside>
-          </section>
+            )}
 
-          <section className="flow-strip">
-            <div>
-              <strong>1. Kies topic</strong>
-              <span>Pak het onderwerp dat je nieuwsgierig maakt.</span>
-            </div>
-            <div>
-              <strong>2. Speel {questions.length} vragen</strong>
-              <span>Meerkeuze, quotes en echte data.</span>
-            </div>
-            <div>
-              <strong>3. Reveal</strong>
-              <span>Je ziet direct de telling en de bronquotes.</span>
-            </div>
-            <div>
-              <strong>
-                4. Win vanaf {winThreshold}/{questions.length}
-              </strong>
-              <span>Score goed genoeg? Dan krijg je de happy animatie.</span>
-            </div>
+            <footer className="public-quiz-footer">
+              <span>{topicNotice}</span>
+              <span>Na elk antwoord zie je kort waarom, met echte reacties als bewijs.</span>
+            </footer>
           </section>
         </main>
       );
@@ -1065,133 +1004,137 @@ export default function QuizApp({
       .filter(({ comment }) => Boolean(comment)) ?? [];
 
   return (
-    <main className="page-shell">
-      <section className="quiz-card">
+    <main className="page-shell quiz-play-shell">
+      <section className={`quiz-card ${isAnswered ? "answered" : ""}`}>
         <div className="progress" aria-label="Voortgang">
           <div style={{ width: `${progress}%` }} />
         </div>
 
-        <div className="quiz-topline">
-          <span className="tone-pill">{formatTone(question.tone)}</span>
-          <button
-            className={`sound-toggle ${soundEnabled ? "active" : ""}`}
-            onClick={toggleSound}
-            type="button"
-          >
-            {soundEnabled ? "Geluid aan" : "Geluid uit"}
-          </button>
-        </div>
-        <p className="kicker">
-          Vraag {current + 1} van {questions.length}
-        </p>
-        {question.context ? <p className="question-context">{question.context}</p> : null}
-        <h2 aria-label={question.prompt} className="typing-question">
-          {displayedPrompt}
-          {isPromptTyping ? <span className="type-cursor" aria-hidden="true">|</span> : null}
-        </h2>
-
-        <div className="options">
-          {question.options.slice(0, visibleOptionCount).map((option, index) => {
-            const className =
-              selected === null
-                ? "option-button staged-option"
-                : index === question.correctIndex
-                  ? "option-button staged-option correct"
-                  : selected === index
-                    ? "option-button staged-option wrong"
-                    : "option-button staged-option";
-
-            return (
+        <div className="quiz-stage-grid">
+          <div className="quiz-question-panel">
+            <div className="quiz-topline">
+              <span className="tone-pill">{formatTone(question.tone)}</span>
               <button
-                key={option}
-                className={className}
-                onClick={() => answer(index)}
-                style={{ "--option-delay": `${index * 55}ms` } as CSSProperties}
+                className={`sound-toggle ${soundEnabled ? "active" : ""}`}
+                onClick={toggleSound}
+                type="button"
               >
-                <span className="option-label">{option}</span>
-                {isAnswered && question.optionDetails?.[index] ? (
-                  <span className="option-detail">{question.optionDetails[index]}</span>
-                ) : null}
-              </button>
-            );
-          })}
-        </div>
-
-        {isAnswered && (
-          <div className="feedback">
-            <strong>{isCorrect ? "Goed gezien." : "Bijna."}</strong>{" "}
-            {isCorrect ? question.feedbackCorrect : question.feedbackWrong}
-
-            <div className="footer-actions">
-              <button className="primary-button" onClick={nextQuestion}>
-                {current + 1 === questions.length ? "Bekijk uitslag" : "Volgende vraag"}
+                {soundEnabled ? "Geluid aan" : "Geluid uit"}
               </button>
             </div>
+            <p className="kicker">
+              Vraag {current + 1} van {questions.length}
+            </p>
+            {question.context ? <p className="question-context">{question.context}</p> : null}
+            <h2 aria-label={question.prompt} className="typing-question">
+              {displayedPrompt}
+              {isPromptTyping ? <span className="type-cursor" aria-hidden="true">|</span> : null}
+            </h2>
+
+            <div className="options">
+              {question.options.slice(0, visibleOptionCount).map((option, index) => {
+                const className =
+                  selected === null
+                    ? "option-button staged-option"
+                    : index === question.correctIndex
+                      ? "option-button staged-option correct"
+                      : selected === index
+                        ? "option-button staged-option wrong"
+                        : "option-button staged-option";
+
+                return (
+                  <button
+                    key={option}
+                    className={className}
+                    onClick={() => answer(index)}
+                    style={{ "--option-delay": `${index * 55}ms` } as CSSProperties}
+                  >
+                    <span className="option-label">{option}</span>
+                    {isAnswered && question.optionDetails?.[index] ? (
+                      <span className="option-detail">{question.optionDetails[index]}</span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        )}
 
-        {isAnswered && (
-          <aside className="evidence">
-            <p className="evidence-eyebrow">Uitleg</p>
-            <h3>Waarom dit het antwoord is</h3>
-            <p>{summarizeEvidence(question, labels)}</p>
+          {isAnswered && (
+            <aside className="answer-panel">
+              <div className="feedback">
+                <p>
+                  <strong>{isCorrect ? "Goed gezien." : "Bijna."}</strong>{" "}
+                  {isCorrect ? question.feedbackCorrect : question.feedbackWrong}
+                </p>
 
-            <CountUpStat
-              denominator={question.evidence.denominator}
-              pct={question.evidence.pct}
-              resetKey={`${question.id}-${selected}`}
-              value={question.evidence.n}
-            />
-
-            {question.evidence.comparison ? (
-              <dl className="evidence-facts">
-                <div>
-                  <dt>Ter vergelijking</dt>
-                  <dd>
-                    {Object.entries(question.evidence.comparison)
-                      .map(([label, value]) => {
-                        const pct = value.pct !== undefined ? ` (${value.pct}%)` : "";
-                        return `${cleanCodeLabel(label, runtimeEvidenceContext)}: ${value.n}${pct}`;
-                      })
-                      .join(", ")}
-                  </dd>
-                </div>
-              </dl>
-            ) : null}
-
-            {labels.length ? (
-              <div className="theme-list" aria-label="Onderwerpen">
-                {labels.map((label) => (
-                  <span key={label}>{label}</span>
-                ))}
+                <button className="primary-button" onClick={nextQuestion}>
+                  {current + 1 === questions.length ? "Bekijk uitslag" : "Volgende vraag"}
+                </button>
               </div>
-            ) : null}
 
-            <QuoteSlideshow items={exampleComments} />
+              <div className="evidence">
+                <p className="evidence-eyebrow">Uitleg</p>
+                <h3>Waarom dit het antwoord is</h3>
+                <p>{summarizeEvidence(question, labels)}</p>
 
-            {question.evidence.note ? <p className="small-note">{question.evidence.note}</p> : null}
+                <CountUpStat
+                  denominator={question.evidence.denominator}
+                  pct={question.evidence.pct}
+                  resetKey={`${question.id}-${selected}`}
+                  value={question.evidence.n}
+                />
 
-            {(question.evidence.codes?.length || question.evidence.comment_ids?.length) ? (
-              <details className="audit-trail">
-                <summary>Technische check</summary>
-                {question.evidence.codes?.length ? (
-                  <p>
-                    <strong>Interne codes:</strong>{" "}
-                    {question.evidence.codes.map((code) => (
-                      <code key={code}>{code}</code>
+                {question.evidence.comparison ? (
+                  <dl className="evidence-facts">
+                    <div>
+                      <dt>Ter vergelijking</dt>
+                      <dd>
+                        {Object.entries(question.evidence.comparison)
+                          .map(([label, value]) => {
+                            const pct = value.pct !== undefined ? ` (${value.pct}%)` : "";
+                            return `${cleanCodeLabel(label, runtimeEvidenceContext)}: ${value.n}${pct}`;
+                          })
+                          .join(", ")}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : null}
+
+                {labels.length ? (
+                  <div className="theme-list" aria-label="Onderwerpen">
+                    {labels.map((label) => (
+                      <span key={label}>{label}</span>
                     ))}
-                  </p>
+                  </div>
                 ) : null}
-                {question.evidence.comment_ids?.length ? (
-                  <p>
-                    <strong>Comment-ID's:</strong> {question.evidence.comment_ids.join(", ")}
-                  </p>
+
+                <QuoteSlideshow items={exampleComments} />
+
+                {question.evidence.note ? <p className="small-note">{question.evidence.note}</p> : null}
+
+                {(question.evidence.codes?.length || question.evidence.comment_ids?.length) ? (
+                  <details className="audit-trail">
+                    <summary>Technische check</summary>
+                    {question.evidence.codes?.length ? (
+                      <p>
+                        <strong>Interne codes:</strong>{" "}
+                        {question.evidence.codes.map((code) => (
+                          <code key={code}>{code}</code>
+                        ))}
+                      </p>
+                    ) : null}
+                    {question.evidence.comment_ids?.length ? (
+                      <p>
+                        <strong>Comment-ID's:</strong> {question.evidence.comment_ids.join(", ")}
+                      </p>
+                    ) : null}
+                    <p className="small-note">{question.evidence.claim}</p>
+                  </details>
                 ) : null}
-                <p className="small-note">{question.evidence.claim}</p>
-              </details>
-            ) : null}
-          </aside>
-        )}
+              </div>
+            </aside>
+          )}
+        </div>
       </section>
     </main>
   );

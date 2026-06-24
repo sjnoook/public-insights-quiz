@@ -4,6 +4,19 @@ import { type ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { EvidenceContext, QuizSeed } from "@/components/QuizApp";
 import { buildEvidenceContext, type DashboardBundle } from "@/lib/evidence";
 import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY } from "@/lib/studioStorage";
+import {
+  DEFAULT_TOPICS,
+  PUBLIC_INSIGHTS_TOPICS_KEY,
+  TOPIC_ACCENTS,
+  TOPIC_ICONS,
+  TOPIC_STATUSES,
+  mergeStoredTopics,
+  normalizeTopic,
+  type PublicInsightTopic,
+  type TopicAccent,
+  type TopicIcon,
+  type TopicStatus,
+} from "@/lib/topics";
 
 const QUESTION_TARGET = 10;
 const WIN_THRESHOLD = 6;
@@ -215,6 +228,17 @@ function questionStat(seed: QuizSeed, questionId: string) {
   return `${question.evidence.n} van ${question.evidence.denominator}${pct}`;
 }
 
+function createTopicId(label: string) {
+  const slug = label
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return slug || `onderwerp-${Date.now()}`;
+}
+
 export default function QuizStudio({
   defaultDashboard,
   defaultSeed,
@@ -231,6 +255,9 @@ export default function QuizStudio({
   const [currentPackId, setCurrentPackId] = useState("builtin");
   const [currentSeed, setCurrentSeed] = useState(defaultSeed);
   const [customPacks, setCustomPacks] = useState<StudioStoredPack[]>([]);
+  const [topics, setTopics] = useState<PublicInsightTopic[]>(DEFAULT_TOPICS);
+  const [selectedTopicId, setSelectedTopicId] = useState(DEFAULT_TOPICS[1]?.id ?? DEFAULT_TOPICS[0].id);
+  const [topicDraft, setTopicDraft] = useState<PublicInsightTopic>(DEFAULT_TOPICS[1] ?? DEFAULT_TOPICS[0]);
   const [draftQuestion, setDraftQuestion] = useState<QuizQuestion | null>(null);
   const [notice, setNotice] = useState("Kies precies 10 vragen. Daarna gebruikt de publieke quiz precies die selectie.");
   const [savedQuestionId, setSavedQuestionId] = useState<string | null>(null);
@@ -239,6 +266,19 @@ export default function QuizStudio({
   const saveFeedbackTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
+    try {
+      const storedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_TOPICS_KEY);
+      const nextTopics = storedTopics ? mergeStoredTopics(JSON.parse(storedTopics)) : DEFAULT_TOPICS;
+      const preferredTopicId = DEFAULT_TOPICS[1]?.id ?? DEFAULT_TOPICS[0].id;
+      const nextTopic = nextTopics.find((topic) => topic.id === preferredTopicId) ?? nextTopics[0];
+
+      setTopics(nextTopics);
+      setSelectedTopicId(nextTopic.id);
+      setTopicDraft(nextTopic);
+    } catch {
+      setTopics(DEFAULT_TOPICS);
+    }
+
     const storedPacks = readStoredPacks();
     setCustomPacks(storedPacks);
 
@@ -283,6 +323,16 @@ export default function QuizStudio({
   const selectedQuestions = selectedQuestionIds
     .map((id) => currentSeed.questions.find((question) => question.id === id))
     .filter(Boolean);
+  const basePackOptions = [
+    { id: "builtin", name: "Ingebouwde dump: korte broek op kantoor" },
+    ...customPacks.map((pack) => ({ id: pack.id, name: pack.name })),
+  ];
+  const packOptions = basePackOptions.some((pack) => pack.id === currentPackId)
+    ? basePackOptions
+    : [...basePackOptions, { id: currentPackId, name: "Actieve studio-keuze" }];
+  const linkedPackName =
+    packOptions.find((pack) => pack.id === topicDraft.packId)?.name ??
+    (topicDraft.packId ? "Actieve studio-keuze" : "Geen dump gekoppeld");
 
   function playSaveSound() {
     try {
@@ -355,6 +405,67 @@ export default function QuizStudio({
     setSelectedQuestionIds(getInitialSelection(pack.seed, pack.selectedQuestionIds));
     setDraftQuestion(null);
     setNotice(`Dump geladen: ${pack.name}. Kies de 10 vragen die publiek moeten worden.`);
+  }
+
+  function selectTopic(topicId: string) {
+    const topic = topics.find((candidate) => candidate.id === topicId);
+    if (!topic) return;
+
+    setSelectedTopicId(topic.id);
+    setTopicDraft(topic);
+    if (topic.packId) loadStoredPack(topic.packId);
+  }
+
+  function addTopic() {
+    const baseLabel = "Nieuw onderwerp";
+    let id = createTopicId(baseLabel);
+    let suffix = 2;
+
+    while (topics.some((topic) => topic.id === id)) {
+      id = `${createTopicId(baseLabel)}-${suffix}`;
+      suffix += 1;
+    }
+
+    const nextTopic: PublicInsightTopic = {
+      accent: "lime",
+      description: "Korte uitleg voor bezoekers en de redactie.",
+      icon: "phone",
+      id,
+      label: baseLabel,
+      packId: currentPackId,
+      prompt: "Waar gaat Nederland op reageren?",
+      sourcesVisible: true,
+      status: "concept",
+    };
+    const nextTopics = [...topics, nextTopic];
+
+    setTopics(nextTopics);
+    setSelectedTopicId(nextTopic.id);
+    setTopicDraft(nextTopic);
+    setNotice("Nieuw onderwerp aangemaakt als concept. Vul de tekst aan en sla op.");
+  }
+
+  function updateTopicDraft<K extends keyof PublicInsightTopic>(field: K, value: PublicInsightTopic[K]) {
+    setTopicDraft((current) => ({ ...current, [field]: value }));
+  }
+
+  function saveTopic() {
+    const fallback = topics.find((topic) => topic.id === selectedTopicId) ?? DEFAULT_TOPICS[0];
+    const cleanTopic = normalizeTopic({ ...topicDraft, packId: topicDraft.packId ?? currentPackId }, fallback);
+    const nextTopics = topics.map((topic) => (topic.id === selectedTopicId ? cleanTopic : topic));
+    const topicExists = nextTopics.some((topic) => topic.id === cleanTopic.id);
+    const topicsToSave = topicExists ? nextTopics : [cleanTopic, ...nextTopics];
+
+    window.localStorage.setItem(PUBLIC_INSIGHTS_TOPICS_KEY, JSON.stringify(topicsToSave));
+    setTopics(topicsToSave);
+    setSelectedTopicId(cleanTopic.id);
+    setTopicDraft(cleanTopic);
+    setNotice(
+      cleanTopic.status === "actief"
+        ? "Onderwerp opgeslagen. Het verschijnt nu op /quiz."
+        : "Onderwerp opgeslagen. Het blijft uit /quiz zolang de status niet actief is.",
+    );
+    triggerSavedFeedback("Onderwerp opgeslagen");
   }
 
   async function handleUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -640,11 +751,145 @@ export default function QuizStudio({
     <main className="page-shell studio-shell">
       <section className="studio-header">
         <p className="kicker">Achter de schermen</p>
-        <h1>Quizstudio</h1>
+        <h1>Editor</h1>
         <p className="subtitle">
-          Selecteer een dump of upload een quiz-pack met bijvoorbeeld 30 kandidaatvragen. Jij kiest precies 10 leuke
-          vragen, past ze handmatig aan en de publieke quiz gebruikt meteen die selectie.
+          Beheer hier onderwerpen, dumps en vragen. Alleen onderwerpen met status actief verschijnen op het publieke
+          kwisscherm.
         </p>
+      </section>
+
+      <section className="studio-panel topic-manager-panel">
+        <div className="studio-section-header">
+          <div>
+            <p className="kicker">Onderwerpen</p>
+            <h2>Wat mag publiek zichtbaar zijn?</h2>
+          </div>
+          <button className="secondary-button" onClick={addTopic} type="button">
+            Nieuw onderwerp
+          </button>
+        </div>
+
+        <div className="topic-manager-grid">
+          <div className="topic-list" aria-label="Bestaande onderwerpen">
+            {topics.map((topic) => (
+              <button
+                className={topic.id === selectedTopicId ? "active" : ""}
+                key={topic.id}
+                onClick={() => selectTopic(topic.id)}
+                type="button"
+              >
+                <strong>{topic.label}</strong>
+                <span>{topic.status}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="topic-edit-form">
+            <label>
+              Onderwerpnaam
+              <input
+                onChange={(event) => updateTopicDraft("label", event.target.value)}
+                value={topicDraft.label}
+              />
+            </label>
+            <label>
+              Korte omschrijving
+              <textarea
+                onChange={(event) => updateTopicDraft("description", event.target.value)}
+                rows={3}
+                value={topicDraft.description}
+              />
+            </label>
+            <label>
+              Tekst op onderwerpkaart
+              <input
+                onChange={(event) => updateTopicDraft("prompt", event.target.value)}
+                value={topicDraft.prompt}
+              />
+            </label>
+            <div className="topic-inline-fields">
+              <label>
+                Status
+                <select
+                  onChange={(event) => updateTopicDraft("status", event.target.value as TopicStatus)}
+                  value={topicDraft.status}
+                >
+                  {TOPIC_STATUSES.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Kleurthema
+                <select
+                  onChange={(event) => updateTopicDraft("accent", event.target.value as TopicAccent)}
+                  value={topicDraft.accent}
+                >
+                  {TOPIC_ACCENTS.map((accent) => (
+                    <option key={accent} value={accent}>
+                      {accent}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Icoon
+                <select
+                  onChange={(event) => updateTopicDraft("icon", event.target.value as TopicIcon)}
+                  value={topicDraft.icon}
+                >
+                  {TOPIC_ICONS.map((icon) => (
+                    <option key={icon} value={icon}>
+                      {icon}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <label>
+              Gekoppelde dump
+              <select
+                onChange={(event) => updateTopicDraft("packId", event.target.value)}
+                value={topicDraft.packId ?? currentPackId}
+              >
+                {packOptions.map((pack) => (
+                  <option key={pack.id} value={pack.id}>
+                    {pack.name}
+                  </option>
+                ))}
+                {topicDraft.packId && !packOptions.some((pack) => pack.id === topicDraft.packId) ? (
+                  <option value={topicDraft.packId}>Actieve studio-keuze</option>
+                ) : null}
+              </select>
+            </label>
+            <label className="topic-checkbox">
+              <input
+                checked={topicDraft.sourcesVisible ?? true}
+                onChange={(event) => updateTopicDraft("sourcesVisible", event.target.checked)}
+                type="checkbox"
+              />
+              Bronnen en quotes mogen in de reveal zichtbaar zijn
+            </label>
+          </div>
+
+          <aside className="topic-preview-panel">
+            <p className="kicker">Preview op /quiz</p>
+            <button className={`topic-card public-topic-card ${topicDraft.accent} spotlight`} type="button">
+              <span className="topic-status">{topicDraft.status}</span>
+              <strong>{topicDraft.label}</strong>
+              <span>{topicDraft.prompt}</span>
+              <span className={`topic-visual ${topicDraft.icon}`} aria-hidden="true" />
+            </button>
+            <p>
+              Dump: <strong>{linkedPackName}</strong>
+            </p>
+            <button className="primary-button" onClick={saveTopic} type="button">
+              Opslaan onderwerp
+            </button>
+          </aside>
+        </div>
       </section>
 
       <section className="studio-panel">
@@ -708,7 +953,7 @@ export default function QuizStudio({
           >
             Open editor
           </button>
-          <a className="secondary-button" href="/">
+          <a className="secondary-button" href="/quiz">
             Bekijk publieke quiz
           </a>
           <button className="secondary-button" onClick={downloadPack} type="button">
