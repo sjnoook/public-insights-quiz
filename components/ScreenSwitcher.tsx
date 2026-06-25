@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 const SCREENS = [
   { href: "/slideshow", label: "Slideshow" },
+  { href: "/slideshow-editor", label: "Slideshow tekst" },
   { href: "/quiz", label: "Kwis" },
   { href: "/editor", label: "Editor" },
 ];
@@ -84,7 +85,6 @@ export default function ScreenSwitcher() {
           {SCREENS.map((screen) => {
             const active =
               pathname === screen.href ||
-              (screen.href === "/slideshow" && pathname?.startsWith("/slideshow")) ||
               (screen.href === "/quiz" && pathname === "/") ||
               (screen.href === "/editor" && pathname === "/studio");
 

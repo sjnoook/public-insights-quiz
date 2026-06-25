@@ -7,6 +7,72 @@ const currentLabel = document.querySelector(".current");
 const totalLabel = document.querySelector(".total");
 const pauseLabel = document.querySelector(".pause-state");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const copyStorageKey = "public-insights-slideshow-copy-v1";
+
+const visualTextBindings = [
+  {
+    stream1: ".stream-a span",
+    stream1Meta: ".stream-a small",
+    stream2: ".stream-b span",
+    stream2Meta: ".stream-b small",
+    stream3: ".stream-c span",
+    stream3Meta: ".stream-c small",
+    signal1: ".signal-one strong",
+    signal1Meta: ".signal-one small",
+    signal2: ".signal-two strong",
+    signal2Meta: ".signal-two small",
+    signal3: ".signal-three strong",
+    signal3Meta: ".signal-three small",
+  },
+  {
+    source1: ".source-news strong",
+    source2: ".source-forum strong",
+    source3: ".source-reddit strong",
+    source4: ".source-social strong",
+  },
+  {
+    comment1: ".raw-comments article:nth-child(1)",
+    comment2: ".raw-comments article:nth-child(2)",
+    comment3: ".raw-comments article:nth-child(3)",
+    aiLabel: ".ai-coding strong",
+    bucket1: ".bucket:nth-child(1)",
+    bucket2: ".bucket:nth-child(2)",
+    bucket3: ".bucket:nth-child(3)",
+    bucket4: ".bucket:nth-child(4)",
+    bucket5: ".bucket:nth-child(5)",
+    bucket6: ".bucket:nth-child(6)",
+  },
+  {
+    evidenceLabel: ".evidence-card p",
+    insight: ".evidence-card h2",
+    insightDetail: ".evidence-card small",
+    proofLabel: ".evidence-card strong",
+    proof: ".evidence-card span",
+  },
+  {
+    pattern1: ".node-trust strong",
+    pattern2: ".node-price strong",
+    pattern3: ".node-humor strong",
+    pattern4: ".node-irritation strong",
+  },
+  {
+    segmentLabel: ".segment-card:not(.cep-card) p",
+    segmentQuestion: ".segment-card:not(.cep-card) h2",
+    segmentNote: ".segment-card:not(.cep-card) span",
+    cepLabel: ".cep-card p",
+    cepQuestion: ".cep-card h2",
+    cepMoments: ".cep-card small",
+  },
+  {
+    flow1: ".impact-node:nth-of-type(1) strong",
+    flow2: ".impact-node:nth-of-type(2) strong",
+    flow3: ".impact-node:nth-of-type(3) strong",
+    flow4: ".impact-node:nth-of-type(4) strong",
+    flow5: ".impact-node:nth-of-type(5) strong",
+    flow6: ".impact-node:nth-of-type(6) strong",
+    flow7: ".impact-node:nth-of-type(7) strong",
+  },
+];
 
 let currentIndex = 0;
 let isPaused = false;
@@ -18,6 +84,55 @@ if (Number.isInteger(requestedSlide) && requestedSlide >= 1 && requestedSlide <=
   currentIndex = requestedSlide - 1;
 }
 
+function setTextKeepingIcon(element, value) {
+  if (!element || typeof value !== "string") return;
+
+  const svg = element.querySelector?.("svg");
+  if (!svg) {
+    element.textContent = value;
+    return;
+  }
+
+  Array.from(element.childNodes).forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE) node.remove();
+  });
+  element.append(document.createTextNode(value));
+}
+
+function applyStoredCopy() {
+  let stored;
+
+  try {
+    stored = JSON.parse(localStorage.getItem(copyStorageKey) || "null");
+  } catch {
+    stored = null;
+  }
+
+  const storedSlides = Array.isArray(stored?.slides) ? stored.slides : [];
+  storedSlides.forEach((copy, index) => {
+    const slide = slides[index];
+    if (!slide || !copy) return;
+
+    setTextKeepingIcon(slide.querySelector(".kicker"), copy.kicker);
+    setTextKeepingIcon(slide.querySelector("h1"), copy.title);
+    setTextKeepingIcon(slide.querySelector(".subline"), copy.subline);
+    setTextKeepingIcon(slide.querySelector(".supportline"), copy.supportline);
+
+    if (Array.isArray(copy.tags)) {
+      slide.querySelectorAll(".tag-row span").forEach((tag, tagIndex) => {
+        setTextKeepingIcon(tag, copy.tags[tagIndex]);
+      });
+    }
+
+    const visual = copy.visual || {};
+    const bindings = visualTextBindings[index - 1] || {};
+    Object.entries(bindings).forEach(([key, selector]) => {
+      setTextKeepingIcon(slide.querySelector(selector), visual[key]);
+    });
+  });
+}
+
+applyStoredCopy();
 totalLabel.textContent = String(slides.length).padStart(2, "0");
 
 const dots = slides.map((_, index) => {
