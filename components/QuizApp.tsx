@@ -6,6 +6,8 @@ import {
   type NormalizedComment,
   type NormalizedEvidence,
   type NormalizedEvidenceContext,
+  type NormalizedPostQuizSlide,
+  type NormalizedPostQuizSlideItem,
   type NormalizedQuestion,
   type NormalizedQuizSeed,
   type NormalizedQuote,
@@ -37,6 +39,7 @@ type SoundCue =
   | "radar-final"
   | "intro-word"
   | "intro-reveal"
+  | "insight"
   | "start-ready";
 type WindowWithWebAudio = Window &
   typeof globalThis & {
@@ -332,6 +335,215 @@ function QuoteSlideshow({ items }: { items: NormalizedQuote[] }) {
   );
 }
 
+function formatStatValue(value?: number | null) {
+  if (value === undefined || value === null) return "geen telling";
+  return new Intl.NumberFormat("nl-NL").format(value);
+}
+
+function getItemPercent(item: NormalizedPostQuizSlideItem, maxValue: number) {
+  if (item.pct !== null && item.pct !== undefined) return Math.max(4, Math.min(item.pct, 100));
+  if (item.n !== null && item.n !== undefined && maxValue > 0) return Math.max(4, Math.min((item.n / maxValue) * 100, 100));
+  return 18;
+}
+
+function itemStatLine(item: NormalizedPostQuizSlideItem) {
+  const pct = formatPct(item.pct);
+  if (item.n !== null && item.denominator !== null) {
+    return `${formatStatValue(item.n)} van ${formatStatValue(item.denominator)} reacties${pct ? ` · ${pct}` : ""}`;
+  }
+
+  if (item.n !== null) return `${formatStatValue(item.n)} signalen${pct ? ` · ${pct}` : ""}`;
+  if (pct) return pct;
+  return "Publiek signaal";
+}
+
+function buildPieGradient(items: NormalizedPostQuizSlideItem[]) {
+  const palette = ["#b6ff19", "#18d5ff", "#9b5cff", "#ff8f3d", "#37f07b"];
+  const values = items.map((item) => item.pct ?? item.n ?? 1);
+  const total = values.reduce((sum, value) => sum + Math.max(value, 0), 0) || 1;
+  let cursor = 0;
+
+  const parts = values.map((value, index) => {
+    const size = (Math.max(value, 0) / total) * 100;
+    const start = cursor;
+    const end = cursor + size;
+    cursor = end;
+    return `${palette[index % palette.length]} ${start}% ${end}%`;
+  });
+
+  return `conic-gradient(${parts.join(", ")})`;
+}
+
+function InsightQuote({ quote }: { quote: NormalizedQuote | null }) {
+  if (!quote?.text) return null;
+
+  return (
+    <figure className="insight-quote">
+      <blockquote>{cleanQuoteText(quote.text)}</blockquote>
+      <figcaption>{formatQuoteMeta(quote)}</figcaption>
+    </figure>
+  );
+}
+
+function InsightBars({ slide }: { slide: NormalizedPostQuizSlide }) {
+  const maxValue = Math.max(...slide.items.map((item) => item.n ?? item.pct ?? 1), 1);
+
+  return (
+    <div className="insight-bars">
+      {slide.items.map((item, index) => {
+        const width = getItemPercent(item, maxValue);
+
+        return (
+          <article className="insight-bar-card" key={`${slide.id}-${item.title}-${index}`}>
+            <div className="insight-bar-head">
+              <span>{item.rank ?? index + 1}</span>
+              <strong>{item.title}</strong>
+              <em>{formatPct(item.pct) ?? ""}</em>
+            </div>
+            <p>{item.summary}</p>
+            <div className="insight-bar-track" aria-hidden="true">
+              <span style={{ "--bar-width": `${width}%`, "--bar-delay": `${index * 90}ms` } as CSSProperties} />
+            </div>
+            <small>{itemStatLine(item)}</small>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+function InsightPie({ slide }: { slide: NormalizedPostQuizSlide }) {
+  const gradient = buildPieGradient(slide.items);
+
+  return (
+    <div className="insight-pie-layout">
+      <div className="insight-pie-wrap">
+        <div className="insight-pie" style={{ "--pie-gradient": gradient } as CSSProperties}>
+          <span />
+          <strong>{slide.items.length}</strong>
+          <em>signalen</em>
+        </div>
+      </div>
+
+      <div className="insight-pie-list">
+        {slide.items.map((item, index) => (
+          <article className="insight-pie-item" key={`${slide.id}-${item.title}-${index}`}>
+            <span style={{ "--dot-index": index } as CSSProperties} />
+            <div>
+              <strong>{item.title}</strong>
+              <p>{item.summary}</p>
+              <small>{itemStatLine(item)}</small>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function InsightTakeaways({ slide }: { slide: NormalizedPostQuizSlide }) {
+  return (
+    <div className="insight-takeaways">
+      {slide.items.slice(0, 4).map((item, index) => (
+        <article className="insight-takeaway-card" key={`${slide.id}-${item.title}-${index}`}>
+          <span>0{index + 1}</span>
+          <strong>{item.title}</strong>
+          <p>{item.summary}</p>
+          <small>{itemStatLine(item)}</small>
+          <InsightQuote quote={item.quote} />
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function InsightMiniDeck({
+  activeIndex,
+  onBackToScore,
+  onNext,
+  onPrevious,
+  onRestart,
+  onTopics,
+  slides,
+}: {
+  activeIndex: number;
+  onBackToScore: () => void;
+  onNext: () => void;
+  onPrevious: () => void;
+  onRestart: () => void;
+  onTopics: () => void;
+  slides: NormalizedPostQuizSlide[];
+}) {
+  const slide = slides[activeIndex] ?? slides[0];
+  const primaryQuote = slide.items.find((item) => item.quote)?.quote ?? null;
+  const visualType = slide.visual_type || slide.type;
+
+  return (
+    <main className="page-shell insight-deck-shell">
+      <section className="insight-deck-card" key={slide.id}>
+        <div className="insight-grid" aria-hidden="true" />
+        <header className="insight-deck-header">
+          <div>
+            <p className="kicker">Public Insights na de quiz</p>
+            <h1>{slide.title}</h1>
+            <p>{slide.subtitle}</p>
+          </div>
+          <button className="secondary-button compact-button" onClick={onBackToScore} type="button">
+            Terug naar score
+          </button>
+        </header>
+
+        <div className="insight-deck-body">
+          <div className="insight-visual-panel">
+            {visualType.includes("sentiment") || visualType.includes("emotion") ? (
+              <InsightPie slide={slide} />
+            ) : visualType.includes("takeaway") ? (
+              <InsightTakeaways slide={slide} />
+            ) : (
+              <InsightBars slide={slide} />
+            )}
+          </div>
+
+          <aside className="insight-side-panel">
+            <div className="insight-slide-counter">
+              <span>
+                {activeIndex + 1}/{slides.length}
+              </span>
+              <div>
+                {slides.map((candidate, index) => (
+                  <i className={index === activeIndex ? "active" : ""} key={candidate.id} />
+                ))}
+              </div>
+            </div>
+
+            <InsightQuote quote={primaryQuote} />
+
+            {slide.note ? <p className="small-note">{slide.note}</p> : null}
+
+            <div className="insight-actions">
+              <button className="secondary-button" onClick={onPrevious} type="button">
+                Vorige
+              </button>
+              <button className="primary-button" onClick={onNext} type="button">
+                {activeIndex + 1 === slides.length ? "Opnieuw tonen" : "Volgende inzicht"}
+              </button>
+            </div>
+
+            <div className="insight-secondary-actions">
+              <button type="button" onClick={onRestart}>
+                Speel quiz opnieuw
+              </button>
+              <button type="button" onClick={onTopics}>
+                Kies ander topic
+              </button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function PartyParticles() {
   const particles = Array.from({ length: 84 }, (_, index) => index);
   const beams = Array.from({ length: 12 }, (_, index) => index);
@@ -395,6 +607,8 @@ export default function QuizApp({
   const [visibleIntroWords, setVisibleIntroWords] = useState(0);
   const [showIntroDetails, setShowIntroDetails] = useState(false);
   const [showStartAction, setShowStartAction] = useState(false);
+  const [showInsightDeck, setShowInsightDeck] = useState(false);
+  const [activeInsightSlide, setActiveInsightSlide] = useState(0);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const soundEnabledRef = useRef(false);
@@ -755,6 +969,13 @@ export default function QuizApp({
       return;
     }
 
+    if (cue === "insight") {
+      playTone(540, 0.09, "triangle", 0.03);
+      window.setTimeout(() => playTone(760, 0.1, "sine", 0.028), 70);
+      window.setTimeout(() => playTone(1040, 0.12, "sine", 0.022), 145);
+      return;
+    }
+
     if (cue === "start-ready") {
       playTone(620, 0.08, "sine", 0.034);
       window.setTimeout(() => playTone(900, 0.12, "sine", 0.032), 92);
@@ -802,6 +1023,8 @@ export default function QuizApp({
     setCurrent(0);
     setSelected(null);
     setScore(0);
+    setShowInsightDeck(false);
+    setActiveInsightSlide(0);
     setRunId((id) => id + 1);
   }
 
@@ -907,7 +1130,26 @@ export default function QuizApp({
     setVisibleIntroWords(0);
     setShowIntroDetails(false);
     setShowStartAction(false);
+    setShowInsightDeck(false);
+    setActiveInsightSlide(0);
     setTopicNotice("Kies een onderwerp of laat de radar spannend bepalen.");
+  }
+
+  function openInsightDeck() {
+    unlockAudio(false);
+    setActiveInsightSlide(0);
+    setShowInsightDeck(true);
+    playSound("insight");
+  }
+
+  function nextInsightSlide() {
+    setActiveInsightSlide((value) => (value + 1) % runtimeSeed.postQuizSlides.length);
+    playSound("transition");
+  }
+
+  function previousInsightSlide() {
+    setActiveInsightSlide((value) => (value - 1 + runtimeSeed.postQuizSlides.length) % runtimeSeed.postQuizSlides.length);
+    playSound("toggle");
   }
 
   const resultBand =
@@ -1031,6 +1273,20 @@ export default function QuizApp({
   }
 
   if (done) {
+    if (showInsightDeck && runtimeSeed.postQuizSlides.length) {
+      return (
+        <InsightMiniDeck
+          activeIndex={activeInsightSlide}
+          onBackToScore={() => setShowInsightDeck(false)}
+          onNext={nextInsightSlide}
+          onPrevious={previousInsightSlide}
+          onRestart={startQuiz}
+          onTopics={backToTopics}
+          slides={runtimeSeed.postQuizSlides}
+        />
+      );
+    }
+
     return (
       <main className="page-shell">
         <section className={`result-card ${hasWon ? "won" : "not-yet"}`}>
@@ -1074,10 +1330,15 @@ export default function QuizApp({
           </p>
 
           <div className="hero-actions">
+            {runtimeSeed.postQuizSlides.length ? (
+              <button className="primary-button" onClick={openInsightDeck} type="button">
+                Bekijk inzichten
+              </button>
+            ) : null}
             <button className="secondary-button" onClick={startQuiz}>
               Speel opnieuw
             </button>
-            <button className="primary-button" onClick={backToTopics}>
+            <button className="secondary-button" onClick={backToTopics}>
               Speel nog een topic
             </button>
           </div>

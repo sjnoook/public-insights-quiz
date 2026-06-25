@@ -55,6 +55,28 @@ export type NormalizedResultBand = {
   description: string;
 };
 
+export type NormalizedPostQuizSlideItem = {
+  rank: number | null;
+  title: string;
+  summary: string;
+  n: number | null;
+  denominator: number | null;
+  pct: number | null;
+  codes: string[];
+  comment_ids: string[];
+  quote: NormalizedQuote | null;
+};
+
+export type NormalizedPostQuizSlide = {
+  id: string;
+  type: string;
+  title: string;
+  subtitle: string;
+  visual_type: string;
+  items: NormalizedPostQuizSlideItem[];
+  note: string;
+};
+
 export type NormalizedQuizSource = {
   dataset?: string;
   mode?: string;
@@ -74,6 +96,7 @@ export type NormalizedQuizSeed = {
   subtitle: string;
   source: NormalizedQuizSource;
   questions: NormalizedQuestion[];
+  postQuizSlides: NormalizedPostQuizSlide[];
   resultBands: NormalizedResultBand[];
 };
 
@@ -90,6 +113,7 @@ export type NormalizedQuizPack = {
   questions: NormalizedQuestion[];
   selectedQuestionIds: string[];
   seed: NormalizedQuizSeed;
+  postQuizSlides: NormalizedPostQuizSlide[];
   validation: QuizPackValidation;
 };
 
@@ -309,6 +333,181 @@ function normalizeResultBands(rawSeed: RawRecord) {
   return normalized.length ? normalized : DEFAULT_RESULT_BANDS;
 }
 
+function quoteFromComment(commentId: string, comments: Record<string, NormalizedComment>) {
+  const comment = comments[commentId];
+  if (!comment) return null;
+
+  return {
+    id: comment.id,
+    text: comment.text,
+    likes: comment.likes,
+    source: comment.source,
+  } satisfies NormalizedQuote;
+}
+
+function normalizePostQuizSlideItem(
+  rawItem: unknown,
+  index: number,
+  comments: Record<string, NormalizedComment>,
+): NormalizedPostQuizSlideItem {
+  const item = asRecord(rawItem);
+  const rawEvidence = asRecord(item.evidence);
+  const commentIds = [
+    ...asStringArray(item.comment_ids),
+    ...asStringArray(item.commentIds),
+    ...asStringArray(rawEvidence.comment_ids),
+    ...asStringArray(rawEvidence.sample_comment_ids),
+  ].filter((id, idIndex, all) => id && all.indexOf(id) === idIndex);
+  const rawQuotes = Array.isArray(item.quotes)
+    ? item.quotes
+    : Array.isArray(rawEvidence.quotes)
+      ? rawEvidence.quotes
+      : [];
+  const directQuote =
+    normalizeQuote(item.quote ?? rawEvidence.quote, `end-item-${index + 1}`, "eindslide") ??
+    rawQuotes.flatMap((quote, quoteIndex) => {
+      const normalized = normalizeQuote(quote, `end-item-${index + 1}-quote-${quoteIndex + 1}`, "eindslide");
+      return normalized ? [normalized] : [];
+    })[0] ??
+    commentIds.flatMap((commentId) => {
+      const quote = quoteFromComment(commentId, comments);
+      return quote ? [quote] : [];
+    })[0] ??
+    null;
+
+  return {
+    rank: asNullableNumber(item.rank) ?? index + 1,
+    title: firstString(item.title, item.label, item.name) || `Inzicht ${index + 1}`,
+    summary: firstString(item.summary, item.description, item.claim, rawEvidence.claim) || "Publiek signaal uit de reacties.",
+    n: asNullableNumber(item.n ?? item.count ?? rawEvidence.n ?? rawEvidence.count),
+    denominator: asNullableNumber(item.denominator ?? item.total ?? rawEvidence.denominator ?? rawEvidence.total),
+    pct: asNullableNumber(item.pct ?? item.percentage ?? rawEvidence.pct ?? rawEvidence.percentage),
+    codes: [
+      ...asStringArray(item.codes),
+      ...asStringArray(rawEvidence.codes),
+    ].filter((code, codeIndex, all) => code && all.indexOf(code) === codeIndex),
+    comment_ids: commentIds,
+    quote: directQuote,
+  };
+}
+
+function normalizePostQuizSlide(
+  rawSlide: unknown,
+  index: number,
+  comments: Record<string, NormalizedComment>,
+): NormalizedPostQuizSlide {
+  const slide = asRecord(rawSlide);
+  const rawItems = Array.isArray(slide.items) ? slide.items : [];
+  const type = firstString(slide.type) || ["top_insights", "sentiment_summary", "takeaways"][index] || "summary";
+
+  return {
+    id: firstString(slide.id) || `end0${index + 1}`,
+    type,
+    title: firstString(slide.title) || ["Wat viel het meest op?", "Hoe voelde het debat?", "Wat betekent dit?"][index] || "Inzichten",
+    subtitle:
+      firstString(slide.subtitle) ||
+      [
+        "De grootste publieksinzichten uit deze discussie.",
+        "De dominante toon in de reacties.",
+        "Praktische takeaways uit de publieke reacties.",
+      ][index] ||
+      "",
+    visual_type:
+      firstString(slide.visual_type, slide.visualType) ||
+      ["top5_bar_cards", "sentiment_cards", "takeaway_cards"][index] ||
+      "top5_bar_cards",
+    items: rawItems.slice(0, 5).map((item, itemIndex) => normalizePostQuizSlideItem(item, itemIndex, comments)),
+    note: firstString(slide.note),
+  };
+}
+
+function questionToPostQuizItem(question: NormalizedQuestion, index: number): NormalizedPostQuizSlideItem {
+  const firstCode = question.evidence.codes[0] ?? "";
+  const label = firstCode ? cleanFallbackLabel(firstCode) : question.prompt;
+
+  return {
+    rank: index + 1,
+    title: label || `Inzicht ${index + 1}`,
+    summary: question.evidence.claim || question.prompt,
+    n: question.evidence.n,
+    denominator: question.evidence.denominator,
+    pct: question.evidence.pct,
+    codes: question.evidence.codes,
+    comment_ids: question.evidence.comment_ids,
+    quote: question.evidence.quotes[0] ?? null,
+  };
+}
+
+function buildFallbackPostQuizSlides(questions: NormalizedQuestion[]): NormalizedPostQuizSlide[] {
+  const rankedQuestions = [...questions]
+    .sort((a, b) => (b.evidence.n ?? 0) - (a.evidence.n ?? 0))
+    .slice(0, 5);
+  const emotionQuestions = questions
+    .filter((question) => question.evidence.codes.some((code) => code.startsWith("emotion:") || code.startsWith("stance:")))
+    .slice(0, 5);
+  const takeawayQuestions = rankedQuestions.slice(0, 4);
+
+  return [
+    {
+      id: "end01",
+      type: "top_insights",
+      title: "Wat viel het meest op?",
+      subtitle: "De grootste signalen uit deze quizdump.",
+      visual_type: "top5_bar_cards",
+      items: rankedQuestions.map(questionToPostQuizItem),
+      note: "Automatisch gemaakt uit de quizvragen. Voeg postQuizSlides toe voor scherpere eindslides.",
+    },
+    {
+      id: "end02",
+      type: "sentiment_summary",
+      title: "Hoe voelde het debat?",
+      subtitle: "De toon achter de reacties, voor zover die in de dump zit.",
+      visual_type: "sentiment_cards",
+      items: (emotionQuestions.length ? emotionQuestions : rankedQuestions).map(questionToPostQuizItem),
+      note: "Gebruik gecodeerde emoties of sentimenten voor een rijkere slide.",
+    },
+    {
+      id: "end03",
+      type: "takeaways",
+      title: "Wat betekent dit?",
+      subtitle: "Een paar praktische haakjes voor het gesprek.",
+      visual_type: "takeaway_cards",
+      items: takeawayQuestions.map(questionToPostQuizItem),
+      note: "Automatisch afgeleid. Redactioneel aanscherpen kan in de dump.",
+    },
+  ];
+}
+
+function normalizePostQuizSlides(
+  rawPack: RawRecord,
+  rawSeed: RawRecord,
+  questions: NormalizedQuestion[],
+  comments: Record<string, NormalizedComment>,
+) {
+  const rawSlides = Array.isArray(rawSeed.postQuizSlides)
+    ? rawSeed.postQuizSlides
+    : Array.isArray(rawSeed.post_quiz_slides)
+      ? rawSeed.post_quiz_slides
+      : Array.isArray(rawPack.postQuizSlides)
+        ? rawPack.postQuizSlides
+        : Array.isArray(rawPack.post_quiz_slides)
+          ? rawPack.post_quiz_slides
+          : Array.isArray(rawPack.summarySlides)
+            ? rawPack.summarySlides
+            : Array.isArray(rawSeed.endSlides)
+              ? rawSeed.endSlides
+              : [];
+
+  const normalized = rawSlides
+    .slice(0, 3)
+    .map((slide, index) => normalizePostQuizSlide(slide, index, comments))
+    .filter((slide) => slide.items.length);
+
+  if (normalized.length) return normalized;
+
+  return buildFallbackPostQuizSlides(questions).filter((slide) => slide.items.length);
+}
+
 function normalizeOptions(rawQuestion: RawRecord) {
   const rawOptions = Array.isArray(rawQuestion.options)
     ? rawQuestion.options
@@ -474,6 +673,7 @@ export function normalizeQuizPack(rawPack: unknown): NormalizedQuizPack {
   };
   const source = normalizeSource(rawSeed, dashboard);
   const game = asRecord(rawSeed.game);
+  const postQuizSlides = normalizePostQuizSlides(pack, rawSeed, questions, comments);
   const normalizedSeed: NormalizedQuizSeed = {
     game: {
       featuredQuestionIds: selectedQuestionIds.length ? selectedQuestionIds : asStringArray(game.featuredQuestionIds),
@@ -484,6 +684,7 @@ export function normalizeQuizPack(rawPack: unknown): NormalizedQuizPack {
     subtitle,
     source,
     questions,
+    postQuizSlides,
     resultBands: normalizeResultBands(rawSeed),
   };
 
@@ -499,6 +700,7 @@ export function normalizeQuizPack(rawPack: unknown): NormalizedQuizPack {
     questions,
     selectedQuestionIds,
     seed: normalizedSeed,
+    postQuizSlides,
     validation,
   };
 }
