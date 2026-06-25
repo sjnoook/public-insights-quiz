@@ -1,8 +1,13 @@
 "use client";
 
 import { type ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
-import type { EvidenceContext, QuizSeed } from "@/components/QuizApp";
 import { buildEvidenceContext, type DashboardBundle } from "@/lib/evidence";
+import {
+  normalizeQuizPack,
+  type EvidenceContext,
+  type QuizPackValidation,
+  type QuizSeed,
+} from "@/lib/quizNormalizer";
 import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY } from "@/lib/studioStorage";
 import {
   DEFAULT_TOPICS,
@@ -31,6 +36,7 @@ type StudioStoredPack = {
   selectedQuestionIds: string[];
   sourceName?: string;
   updatedAt: string;
+  validation?: QuizPackValidation;
 };
 
 type UploadShape = {
@@ -101,7 +107,7 @@ function extractDashboard(value: unknown) {
   return undefined;
 }
 
-function isQuestionEdit(value: unknown): value is QuizQuestion {
+function isQuestionEdit(value: unknown) {
   const candidate = value as Partial<QuizQuestion> | undefined;
   return Boolean(
     candidate?.id &&
@@ -113,10 +119,12 @@ function isQuestionEdit(value: unknown): value is QuizQuestion {
 }
 
 function extractQuestionEdits(value: unknown) {
-  if (Array.isArray(value) && value.every(isQuestionEdit)) return value;
+  if (Array.isArray(value) && value.every(isQuestionEdit)) return normalizeQuizPack({ questions: value }).questions;
 
   const wrapped = value as UploadShape | undefined;
-  if (Array.isArray(wrapped?.questions) && wrapped.questions.every(isQuestionEdit)) return wrapped.questions;
+  if (Array.isArray(wrapped?.questions) && wrapped.questions.every(isQuestionEdit)) {
+    return normalizeQuizPack({ questions: wrapped.questions }).questions;
+  }
 
   return undefined;
 }
@@ -155,19 +163,20 @@ function cloneQuestion(question: QuizQuestion): QuizQuestion {
     ...question,
     evidence: {
       ...question.evidence,
-      codes: question.evidence.codes ? [...question.evidence.codes] : undefined,
-      comment_ids: question.evidence.comment_ids ? [...question.evidence.comment_ids] : undefined,
+      codes: [...question.evidence.codes],
+      comment_ids: [...question.evidence.comment_ids],
+      quotes: [...question.evidence.quotes],
       comparison: question.evidence.comparison ? { ...question.evidence.comparison } : undefined,
     },
-    optionDetails: question.optionDetails ? [...question.optionDetails] : question.options.map(() => ""),
+    optionDetails: [...question.optionDetails],
     options: [...question.options],
   };
 }
 
 function mergeQuestionEdit(existing: QuizQuestion | undefined, edit: QuizQuestion): QuizQuestion {
   const base = existing ?? edit;
-  const baseEvidence = base.evidence ?? { claim: "Handmatig aangepaste vraag." };
-  const editEvidence = edit.evidence ?? ({} as QuizQuestion["evidence"]);
+  const baseEvidence = base.evidence;
+  const editEvidence = edit.evidence;
   const options = edit.options.length ? [...edit.options] : [...base.options];
   const correctIndex = Math.min(Math.max(edit.correctIndex, 0), options.length - 1);
 
@@ -178,11 +187,12 @@ function mergeQuestionEdit(existing: QuizQuestion | undefined, edit: QuizQuestio
     evidence: {
       ...baseEvidence,
       ...editEvidence,
-      codes: editEvidence.codes ? [...editEvidence.codes] : baseEvidence.codes,
-      comment_ids: editEvidence.comment_ids ? [...editEvidence.comment_ids] : baseEvidence.comment_ids,
+      codes: editEvidence.codes.length ? [...editEvidence.codes] : [...baseEvidence.codes],
+      comment_ids: editEvidence.comment_ids.length ? [...editEvidence.comment_ids] : [...baseEvidence.comment_ids],
+      quotes: editEvidence.quotes.length ? [...editEvidence.quotes] : [...baseEvidence.quotes],
       comparison: editEvidence.comparison ?? baseEvidence.comparison,
     },
-    optionDetails: edit.optionDetails ? [...edit.optionDetails] : base.optionDetails,
+    optionDetails: edit.optionDetails.length ? [...edit.optionDetails] : [...base.optionDetails],
     options,
   };
 }
@@ -209,10 +219,35 @@ function readStoredPacks() {
     const raw = window.localStorage.getItem(STUDIO_CUSTOM_PACKS_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as StudioStoredPack[];
-    return Array.isArray(parsed) ? parsed.filter((pack) => pack.seed?.questions?.length) : [];
+    return Array.isArray(parsed)
+      ? parsed.flatMap((pack) => {
+          const normalizedPack = normalizeStoredPack(pack);
+          return normalizedPack ? [normalizedPack] : [];
+        })
+      : [];
   } catch {
     return [];
   }
+}
+
+function normalizeStoredPack(pack: Partial<StudioStoredPack> | undefined) {
+  if (!pack) return undefined;
+
+  const normalized = normalizeQuizPack(pack);
+  if (!normalized.seed.questions.length) return undefined;
+
+  return {
+    evidenceContext: normalized.evidenceContext,
+    id: pack.id || `custom-${Date.now()}`,
+    name: pack.name || normalized.quizTitle,
+    seed: normalized.seed,
+    selectedQuestionIds: normalized.selectedQuestionIds.length
+      ? normalized.selectedQuestionIds
+      : getInitialSelection(normalized.seed, pack.selectedQuestionIds),
+    sourceName: pack.sourceName,
+    updatedAt: pack.updatedAt || new Date().toISOString(),
+    validation: normalized.validation,
+  } satisfies StudioStoredPack;
 }
 
 function upsertPack(packs: StudioStoredPack[], nextPack: StudioStoredPack) {
@@ -224,7 +259,7 @@ function questionStat(seed: QuizSeed, questionId: string) {
   const question = seed.questions.find((candidate) => candidate.id === questionId);
   if (!question?.evidence.n || !question.evidence.denominator) return "geen telling";
 
-  const pct = question.evidence.pct !== undefined ? ` (${String(question.evidence.pct).replace(".", ",")}%)` : "";
+  const pct = question.evidence.pct !== null ? ` (${String(question.evidence.pct).replace(".", ",")}%)` : "";
   return `${question.evidence.n} van ${question.evidence.denominator}${pct}`;
 }
 
@@ -246,15 +281,22 @@ export default function QuizStudio({
   defaultDashboard: DashboardBundle;
   defaultSeed: QuizSeed;
 }) {
-  const defaultEvidenceContext = useMemo(
+  const builtDefaultEvidenceContext = useMemo(
     () => buildEvidenceContext(defaultSeed, defaultDashboard),
     [defaultDashboard, defaultSeed],
   );
+  const defaultPack = useMemo(
+    () => normalizeQuizPack({ dashboard: defaultDashboard, evidenceContext: builtDefaultEvidenceContext, seed: defaultSeed }),
+    [builtDefaultEvidenceContext, defaultDashboard, defaultSeed],
+  );
+  const defaultEvidenceContext = defaultPack.evidenceContext;
+  const normalizedDefaultSeed = defaultPack.seed;
   const [currentDashboard, setCurrentDashboard] = useState(defaultDashboard);
   const [currentEvidenceContext, setCurrentEvidenceContext] = useState(defaultEvidenceContext);
   const [currentPackId, setCurrentPackId] = useState("builtin");
-  const [currentSeed, setCurrentSeed] = useState(defaultSeed);
+  const [currentSeed, setCurrentSeed] = useState(normalizedDefaultSeed);
   const [customPacks, setCustomPacks] = useState<StudioStoredPack[]>([]);
+  const [currentValidation, setCurrentValidation] = useState(defaultPack.validation);
   const [topics, setTopics] = useState<PublicInsightTopic[]>(DEFAULT_TOPICS);
   const [selectedTopicId, setSelectedTopicId] = useState(DEFAULT_TOPICS[1]?.id ?? DEFAULT_TOPICS[0].id);
   const [topicDraft, setTopicDraft] = useState<PublicInsightTopic>(DEFAULT_TOPICS[1] ?? DEFAULT_TOPICS[0]);
@@ -262,7 +304,7 @@ export default function QuizStudio({
   const [notice, setNotice] = useState("Kies precies 10 vragen. Daarna gebruikt de publieke quiz precies die selectie.");
   const [savedQuestionId, setSavedQuestionId] = useState<string | null>(null);
   const [saveToast, setSaveToast] = useState("");
-  const [selectedQuestionIds, setSelectedQuestionIds] = useState(() => getInitialSelection(defaultSeed));
+  const [selectedQuestionIds, setSelectedQuestionIds] = useState(() => getInitialSelection(normalizedDefaultSeed));
   const saveFeedbackTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
@@ -286,8 +328,8 @@ export default function QuizStudio({
       const activeRaw = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
       if (!activeRaw) return;
 
-      const activePack = JSON.parse(activeRaw) as StudioStoredPack;
-      if (!activePack.seed?.questions?.length) return;
+      const activePack = normalizeStoredPack(JSON.parse(activeRaw) as StudioStoredPack);
+      if (!activePack?.seed.questions.length) return;
       if ((activePack.seed.game?.questionCount ?? 0) < QUESTION_TARGET) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
         setNotice("Oude 5-vragenselectie genegeerd. De studio werkt nu met minimaal 10 vragen.");
@@ -295,8 +337,8 @@ export default function QuizStudio({
       }
       if (
         activePack.id === "active-built-in" &&
-        activePack.seed.source.dataset === defaultSeed.source.dataset &&
-        activePack.seed.questions.length < defaultSeed.questions.length
+        activePack.seed.source.dataset === normalizedDefaultSeed.source.dataset &&
+        activePack.seed.questions.length < normalizedDefaultSeed.questions.length
       ) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
         setNotice("De ingebouwde dump is vernieuwd naar 30 kandidaatvragen. Oude lokale selectie genegeerd.");
@@ -306,12 +348,13 @@ export default function QuizStudio({
       setCurrentEvidenceContext(activePack.evidenceContext ?? defaultEvidenceContext);
       setCurrentPackId(activePack.id);
       setCurrentSeed(activePack.seed);
+      setCurrentValidation(activePack.validation ?? normalizeQuizPack(activePack).validation);
       setSelectedQuestionIds(getInitialSelection(activePack.seed, activePack.selectedQuestionIds));
       setNotice("Actieve quizselectie geladen. Je kunt hem aanpassen en opnieuw opslaan.");
     } catch {
       setNotice("De ingebouwde dump is geladen.");
     }
-  }, [defaultEvidenceContext]);
+  }, [defaultEvidenceContext, normalizedDefaultSeed]);
 
   useEffect(
     () => () => {
@@ -383,9 +426,10 @@ export default function QuizStudio({
   function loadBuiltInPack() {
     setCurrentDashboard(defaultDashboard);
     setCurrentEvidenceContext(defaultEvidenceContext);
+    setCurrentValidation(defaultPack.validation);
     setCurrentPackId("builtin");
-    setCurrentSeed(defaultSeed);
-    setSelectedQuestionIds(getInitialSelection(defaultSeed));
+    setCurrentSeed(normalizedDefaultSeed);
+    setSelectedQuestionIds(getInitialSelection(normalizedDefaultSeed));
     setDraftQuestion(null);
     setNotice("Ingebouwde dump geladen. Selecteer je favoriete 10 vragen.");
   }
@@ -400,6 +444,7 @@ export default function QuizStudio({
     if (!pack) return;
 
     setCurrentEvidenceContext(pack.evidenceContext);
+    setCurrentValidation(pack.validation ?? normalizeQuizPack(pack).validation);
     setCurrentPackId(pack.id);
     setCurrentSeed(pack.seed);
     setSelectedQuestionIds(getInitialSelection(pack.seed, pack.selectedQuestionIds));
@@ -484,11 +529,18 @@ export default function QuizStudio({
       }
 
       if (uploadedQuestionEdits && !uploadedSeed) {
-        const nextSeed = mergeQuestionEdits(currentSeed, uploadedQuestionEdits);
-        const nextEvidenceContext = parsed.evidenceContext ?? currentEvidenceContext;
+        const mergedSeed = mergeQuestionEdits(currentSeed, uploadedQuestionEdits);
+        const normalizedPack = normalizeQuizPack({
+          evidenceContext: parsed.evidenceContext ?? currentEvidenceContext,
+          seed: mergedSeed,
+          selectedQuestionIds,
+        });
+        const nextSeed = normalizedPack.seed;
+        const nextEvidenceContext = normalizedPack.evidenceContext;
         const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds);
 
         setCurrentEvidenceContext(nextEvidenceContext);
+        setCurrentValidation(normalizedPack.validation);
         setDraftQuestion(null);
 
         persistActivePack(
@@ -502,13 +554,25 @@ export default function QuizStudio({
         return;
       }
 
-      const nextSeed = uploadedSeed ?? currentSeed;
+      const rawNextSeed = uploadedSeed ?? currentSeed;
       const nextDashboard = uploadedDashboard ?? currentDashboard;
-      const nextEvidenceContext = parsed.evidenceContext ?? buildEvidenceContext(nextSeed, nextDashboard);
-      const nextSelection = getInitialSelection(nextSeed);
+      const rawEvidenceContext = parsed.evidenceContext ?? buildEvidenceContext(rawNextSeed, nextDashboard);
+      const normalizedPack = normalizeQuizPack({
+        ...parsed,
+        dashboard: nextDashboard,
+        evidenceContext: rawEvidenceContext,
+        seed: rawNextSeed,
+      });
+      const nextSeed = normalizedPack.seed;
+      const nextEvidenceContext = normalizedPack.evidenceContext;
+      const nextSelection = getInitialSelection(
+        nextSeed,
+        normalizedPack.selectedQuestionIds.length ? normalizedPack.selectedQuestionIds : undefined,
+      );
 
       setCurrentDashboard(nextDashboard);
       setCurrentEvidenceContext(nextEvidenceContext);
+      setCurrentValidation(normalizedPack.validation);
       setCurrentSeed(nextSeed);
       setSelectedQuestionIds(nextSelection);
       setDraftQuestion(null);
@@ -522,12 +586,14 @@ export default function QuizStudio({
           selectedQuestionIds: nextSelection,
           sourceName: file.name,
           updatedAt: new Date().toISOString(),
+          validation: normalizedPack.validation,
         };
         const nextPacks = upsertPack(customPacks, nextPack);
 
         window.localStorage.setItem(STUDIO_CUSTOM_PACKS_KEY, JSON.stringify(nextPacks));
         setCustomPacks(nextPacks);
         setCurrentPackId(nextPack.id);
+        setTopicDraft((current) => ({ ...current, packId: nextPack.id }));
         setNotice(
           nextSeed.questions.length >= QUESTION_TARGET
             ? `Quiz-pack geladen uit ${file.name}. Kies nu je favoriete 10 vragen.`
@@ -574,15 +640,22 @@ export default function QuizStudio({
       return false;
     }
 
-    const normalizedSeed = normalizeSeed(seedToSave, selectionToSave);
-    const nextPack: StudioStoredPack = {
+    const normalizedPack = normalizeQuizPack({
       evidenceContext: evidenceContextToSave,
+      seed: normalizeSeed(seedToSave, selectionToSave),
+      selectedQuestionIds: selectionToSave,
+    });
+    const normalizedSeed = normalizedPack.seed;
+    const normalizedEvidenceContext = normalizedPack.evidenceContext;
+    const nextPack: StudioStoredPack = {
+      evidenceContext: normalizedEvidenceContext,
       id: currentPackId === "builtin" ? "active-built-in" : currentPackId,
       name: normalizedSeed.quizTitle,
       seed: normalizedSeed,
       selectedQuestionIds: selectionToSave,
       sourceName: currentPackId === "builtin" ? "ingebouwde dump" : undefined,
       updatedAt: new Date().toISOString(),
+      validation: normalizedPack.validation,
     };
 
     window.localStorage.setItem(STUDIO_ACTIVE_PACK_KEY, JSON.stringify(nextPack));
@@ -594,6 +667,8 @@ export default function QuizStudio({
     }
 
     setCurrentSeed(normalizedSeed);
+    setCurrentEvidenceContext(normalizedEvidenceContext);
+    setCurrentValidation(normalizedPack.validation);
     setCurrentPackId(nextPack.id);
     setSelectedQuestionIds(selectionToSave);
     setNotice(successNotice);
@@ -935,6 +1010,14 @@ export default function QuizStudio({
         </div>
 
         <p className="studio-notice">{notice}</p>
+        {currentValidation.warnings.length ? (
+          <div className="studio-admin-warnings" role="status" aria-live="polite">
+            <strong>Dump-check</strong>
+            {currentValidation.warnings.map((warning) => (
+              <span key={warning}>{warning}</span>
+            ))}
+          </div>
+        ) : null}
         {saveToast ? (
           <p className="studio-save-toast" role="status" aria-live="polite">
             {saveToast}
@@ -1140,7 +1223,7 @@ export default function QuizStudio({
                   </div>
                   <div>
                     <dt>Quotes</dt>
-                    <dd>{question.evidence.comment_ids?.length ?? 0}</dd>
+                    <dd>{question.evidence.quote_count}</dd>
                   </div>
                 </dl>
                 <div className="studio-question-actions">

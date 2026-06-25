@@ -46,8 +46,10 @@ export function buildEvidenceContext(seed: Pick<QuizSeed, "questions">, dashboar
           [
             commentId,
             {
+              id: commentId,
               text,
-              likes: quote?.likes ?? comment?.likes,
+              likes: quote?.likes ?? comment?.likes ?? null,
+              source: "dashboard",
               themeLabels: comment?.theme_label_list ?? [],
               stanceLabel: comment?.stance_label,
               emotion: comment?.emotion,

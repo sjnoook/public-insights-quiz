@@ -1,7 +1,17 @@
 "use client";
 
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
-import { STUDIO_ACTIVE_PACK_KEY } from "@/lib/studioStorage";
+import {
+  normalizeQuizPack,
+  type NormalizedComment,
+  type NormalizedEvidence,
+  type NormalizedEvidenceContext,
+  type NormalizedQuestion,
+  type NormalizedQuizSeed,
+  type NormalizedQuote,
+  type QuizPackValidation,
+} from "@/lib/quizNormalizer";
+import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY } from "@/lib/studioStorage";
 import {
   ACTIVE_TOPIC_STATUS,
   DEFAULT_TOPICS,
@@ -10,37 +20,11 @@ import {
   type PublicInsightTopic,
 } from "@/lib/topics";
 
-type Evidence = {
-  claim: string;
-  n?: number;
-  denominator?: number;
-  pct?: number;
-  codes?: string[];
-  comment_ids?: string[];
-  note?: string;
-  comparison?: Record<string, { n: number; pct?: number }>;
-};
-
-export type EvidenceContext = {
-  codeLabels: Record<string, string>;
-  comments: Record<
-    string,
-    {
-      text: string;
-      likes?: number;
-      themeLabels?: string[];
-      stanceLabel?: string;
-      emotion?: string;
-      slideUse?: string;
-    }
-  >;
-};
-
-type EvidenceComment = EvidenceContext["comments"][string];
-type ExampleComment = {
-  commentId: string;
-  comment: EvidenceComment;
-};
+export type EvidenceContext = NormalizedEvidenceContext;
+export type QuizSeed = NormalizedQuizSeed;
+type Evidence = NormalizedEvidence;
+type EvidenceComment = NormalizedComment;
+type Question = NormalizedQuestion;
 
 type SoundCue =
   | "type"
@@ -59,20 +43,6 @@ type WindowWithWebAudio = Window &
     webkitAudioContext?: typeof AudioContext;
   };
 
-type Question = {
-  id: string;
-  type: "multiple_choice" | "true_false";
-  tone: string;
-  context?: string;
-  prompt: string;
-  options: string[];
-  optionDetails?: string[];
-  correctIndex: number;
-  feedbackCorrect: string;
-  feedbackWrong: string;
-  evidence: Evidence;
-};
-
 type ResultBand = {
   min: number;
   max: number;
@@ -80,24 +50,13 @@ type ResultBand = {
   description: string;
 };
 
-export type QuizSeed = {
-  game?: {
-    featuredQuestionIds?: string[];
-    questionCount?: number;
-    winThreshold?: number;
-  };
-  quizTitle: string;
-  subtitle: string;
-  source: {
-    dataset?: string;
-    mode?: string;
-    analyzed_comments: number;
-    article_title: string;
-    publication_date: string;
-    rules: string[];
-  };
-  questions: Question[];
-  resultBands: ResultBand[];
+type StoredQuizPack = {
+  evidenceContext?: EvidenceContext;
+  id?: string;
+  name?: string;
+  seed?: QuizSeed;
+  selectedQuestionIds?: string[];
+  validation?: QuizPackValidation;
 };
 
 const FALLBACK_CODE_LABELS: Record<string, string> = {
@@ -147,11 +106,16 @@ function pickFeaturedQuestions(input: Question[], featuredIds: string[], questio
   return featured.length === questionCount ? featured : input.slice(0, questionCount);
 }
 
-function formatPct(pct?: number) {
-  return pct === undefined ? undefined : `${String(pct).replace(".", ",")}%`;
+function formatPct(pct?: number | null) {
+  return pct === undefined || pct === null ? undefined : `${String(pct).replace(".", ",")}%`;
 }
 
-function cleanCodeLabel(code: string, evidenceContext: EvidenceContext) {
+function cleanCodeLabel(code: string, evidenceContext?: EvidenceContext | null) {
+  if (!code) return "";
+
+  if (code.startsWith("theme:")) return code.replace("theme:", "");
+  if (code.startsWith("source:")) return code.replace("source:", "");
+
   if (code.startsWith("stance:")) {
     const stance = code.replace("stance:", "");
     if (stance === "Alternatief: ouders/platforms") return "Oplossing via ouders of platforms";
@@ -162,17 +126,28 @@ function cleanCodeLabel(code: string, evidenceContext: EvidenceContext) {
 
   if (code.startsWith("emotion:")) return code.replace("emotion:", "Gevoel: ");
 
-  return evidenceContext.codeLabels[code] ?? FALLBACK_CODE_LABELS[code] ?? code;
+  const codeLabels = evidenceContext?.codeLabels ?? {};
+
+  return (
+    codeLabels[code] ??
+    FALLBACK_CODE_LABELS?.[code] ??
+    code
+      .replace(/^theme_/, "Thema ")
+      .replace(/^stance_/, "Stance ")
+      .replace(/^emotion_/, "Emotie ")
+      .replace(/^source_/, "Bron ")
+      .replaceAll("_", " ")
+  );
 }
 
 function summarizeEvidence(question: Question, labels: string[]) {
   const firstLabel = labels[0]?.toLowerCase();
 
-  if (question.evidence.codes?.includes("strategic_lenses.whize_hypotheses")) {
+  if (question.evidence.codes.includes("strategic_lenses.whize_hypotheses")) {
     return "Dit is alleen een ruwe gok. Je mag er geen harde uitspraak over mensen van maken.";
   }
 
-  if (question.evidence.codes?.includes("gender_signal_summary")) {
+  if (question.evidence.codes.includes("gender_signal_summary")) {
     return "Deze telling gaat over bruikbare hints in gebruikersnamen. Bij de meeste mensen weten we het niet.";
   }
 
@@ -232,15 +207,15 @@ function CountUpStat({
   resetKey,
   value,
 }: {
-  denominator?: number;
-  pct?: number;
+  denominator?: number | null;
+  pct?: number | null;
   resetKey: string;
-  value?: number;
+  value?: number | null;
 }) {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    if (value === undefined) return;
+    if (value === undefined || value === null) return;
 
     const targetValue = value;
     let frameId = 0;
@@ -263,7 +238,7 @@ function CountUpStat({
     return () => cancelAnimationFrame(frameId);
   }, [resetKey, value]);
 
-  if (value === undefined || denominator === undefined) {
+  if (value === undefined || value === null || denominator === undefined || denominator === null) {
     return <p>Geen telling beschikbaar.</p>;
   }
 
@@ -278,9 +253,18 @@ function CountUpStat({
   );
 }
 
-function QuoteSlideshow({ items }: { items: ExampleComment[] }) {
+function formatQuoteMeta(quote: NormalizedQuote) {
+  return [
+    quote.likes !== null ? `${quote.likes} likes` : "reactie uit de bron",
+    quote.source,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function QuoteSlideshow({ items }: { items: NormalizedQuote[] }) {
   const [active, setActive] = useState(0);
-  const itemKey = items.map((item) => item.commentId).join("|");
+  const itemKey = items.map((item) => item.id).join("|");
 
   useEffect(() => {
     setActive(0);
@@ -299,7 +283,7 @@ function QuoteSlideshow({ items }: { items: ExampleComment[] }) {
   if (!items.length) return null;
 
   const current = items[active] ?? items[0];
-  const quote = cleanQuoteText(current.comment.text);
+  const quote = cleanQuoteText(current.text);
 
   function showPrevious() {
     setActive((value) => (value - 1 + items.length) % items.length);
@@ -318,9 +302,9 @@ function QuoteSlideshow({ items }: { items: ExampleComment[] }) {
         </span>
       </div>
 
-      <figure className="quote-slide" key={current.commentId}>
+      <figure className="quote-slide" key={current.id}>
         <blockquote>{quote}</blockquote>
-        <figcaption>{formatCommentMeta(current.comment)}</figcaption>
+        <figcaption>{formatQuoteMeta(current)}</figcaption>
       </figure>
 
       {items.length > 1 ? (
@@ -331,7 +315,7 @@ function QuoteSlideshow({ items }: { items: ExampleComment[] }) {
           <div className="quote-dots" aria-label="Quote voortgang">
             {items.map((item, index) => (
               <button
-                key={item.commentId}
+                key={item.id}
                 aria-label={`Toon quote ${index + 1}`}
                 className={index === active ? "active" : ""}
                 onClick={() => setActive(index)}
@@ -390,8 +374,10 @@ export default function QuizApp({
   seed: QuizSeed;
   evidenceContext: EvidenceContext;
 }) {
-  const [runtimeSeed, setRuntimeSeed] = useState(seed);
-  const [runtimeEvidenceContext, setRuntimeEvidenceContext] = useState(evidenceContext);
+  const defaultPack = useMemo(() => normalizeQuizPack({ seed, evidenceContext }), [evidenceContext, seed]);
+  const [runtimeSeed, setRuntimeSeed] = useState(defaultPack.seed);
+  const [runtimeEvidenceContext, setRuntimeEvidenceContext] = useState(defaultPack.evidenceContext);
+  const [runtimeValidation, setRuntimeValidation] = useState(defaultPack.validation);
   const [topics, setTopics] = useState<PublicInsightTopic[]>(DEFAULT_TOPICS);
   const [started, setStarted] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
@@ -427,40 +413,128 @@ export default function QuizApp({
       const storedPack = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
 
       if (!storedPack) {
-        setRuntimeSeed(seed);
-        setRuntimeEvidenceContext(evidenceContext);
+        setRuntimeSeed(defaultPack.seed);
+        setRuntimeEvidenceContext(defaultPack.evidenceContext);
+        setRuntimeValidation(defaultPack.validation);
         return;
       }
 
-      const parsed = JSON.parse(storedPack) as {
-        evidenceContext?: EvidenceContext;
-        id?: string;
-        seed?: QuizSeed;
-      };
+      const parsed = JSON.parse(storedPack) as StoredQuizPack;
+      const normalizedPack = normalizeStoredPack(parsed);
 
-      if (!parsed.seed?.questions?.length) return;
-      if ((parsed.seed.game?.questionCount ?? 0) < MIN_QUESTION_COUNT) {
+      if (!normalizedPack) return;
+      if ((normalizedPack.seed.game?.questionCount ?? 0) < MIN_QUESTION_COUNT) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
         return;
       }
       if (
         parsed.id === "active-built-in" &&
-        parsed.seed.source.dataset === seed.source.dataset &&
-        parsed.seed.questions.length < seed.questions.length
+        normalizedPack.seed.source.dataset === defaultPack.seed.source.dataset &&
+        normalizedPack.seed.questions.length < defaultPack.seed.questions.length
       ) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
-        setRuntimeSeed(seed);
-        setRuntimeEvidenceContext(evidenceContext);
+        setRuntimeSeed(defaultPack.seed);
+        setRuntimeEvidenceContext(defaultPack.evidenceContext);
+        setRuntimeValidation(defaultPack.validation);
         return;
       }
 
-      setRuntimeSeed(parsed.seed);
-      setRuntimeEvidenceContext(parsed.evidenceContext ?? evidenceContext);
+      setRuntimeSeed(normalizedPack.seed);
+      setRuntimeEvidenceContext(normalizedPack.evidenceContext);
+      setRuntimeValidation(normalizedPack.validation);
     } catch {
-      setRuntimeSeed(seed);
-      setRuntimeEvidenceContext(evidenceContext);
+      setRuntimeSeed(defaultPack.seed);
+      setRuntimeEvidenceContext(defaultPack.evidenceContext);
+      setRuntimeValidation(defaultPack.validation);
     }
-  }, [evidenceContext, seed]);
+  }, [defaultPack]);
+
+  function normalizeStoredPack(pack: StoredQuizPack | null | undefined) {
+    if (!pack) return undefined;
+
+    const normalized = normalizeQuizPack(pack);
+    if (!normalized.seed.questions.length) return undefined;
+    if ((normalized.seed.game?.questionCount ?? MIN_QUESTION_COUNT) < MIN_QUESTION_COUNT) return undefined;
+
+    return {
+      ...pack,
+      evidenceContext: normalized.evidenceContext,
+      seed: normalized.seed,
+      selectedQuestionIds: normalized.selectedQuestionIds,
+      validation: normalized.validation,
+    } satisfies StoredQuizPack & { evidenceContext: EvidenceContext; seed: QuizSeed };
+  }
+
+  function readStoredPacks() {
+    try {
+      const raw = window.localStorage.getItem(STUDIO_CUSTOM_PACKS_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw) as StoredQuizPack[];
+      return Array.isArray(parsed)
+        ? parsed.flatMap((pack) => {
+            const normalizedPack = normalizeStoredPack(pack);
+            return normalizedPack ? [normalizedPack] : [];
+          })
+        : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function readActivePack() {
+    try {
+      const raw = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
+      if (!raw) return undefined;
+      const parsed = JSON.parse(raw) as StoredQuizPack;
+      return normalizeStoredPack(parsed);
+    } catch {
+      return undefined;
+    }
+  }
+
+  function applyRuntimePack(pack: StoredQuizPack & { evidenceContext: EvidenceContext; seed: QuizSeed }) {
+    setRuntimeSeed(pack.seed);
+    setRuntimeEvidenceContext(pack.evidenceContext);
+    setRuntimeValidation(pack.validation ?? normalizeQuizPack(pack).validation);
+  }
+
+  function loadTopicPack(topic: PublicInsightTopic) {
+    if (!topic.packId) {
+      if (topic.id === "korte-broek") {
+        setRuntimeSeed(defaultPack.seed);
+        setRuntimeEvidenceContext(defaultPack.evidenceContext);
+        setRuntimeValidation(defaultPack.validation);
+        return true;
+      }
+
+      setTopicNotice(`${topic.label} is actief, maar mist nog een gekoppelde dump. Koppel hem in de editor.`);
+      return false;
+    }
+
+    if (topic.packId === "builtin") {
+      setRuntimeSeed(defaultPack.seed);
+      setRuntimeEvidenceContext(defaultPack.evidenceContext);
+      setRuntimeValidation(defaultPack.validation);
+      return true;
+    }
+
+    const customPack = readStoredPacks().find((pack) => pack.id === topic.packId);
+    if (customPack) {
+      applyRuntimePack(customPack);
+      return true;
+    }
+
+    const activePack = readActivePack();
+    if (activePack?.id === topic.packId) {
+      applyRuntimePack(activePack);
+      return true;
+    }
+
+    setTopicNotice(
+      `${topic.label} staat actief, maar de gekoppelde dump is niet gevonden. Upload of koppel hem opnieuw in de editor.`,
+    );
+    return false;
+  }
 
   const desiredQuestionCount = Math.max(runtimeSeed.game?.questionCount ?? MIN_QUESTION_COUNT, MIN_QUESTION_COUNT);
   const questionCount = Math.min(runtimeSeed.questions.length, desiredQuestionCount);
@@ -719,7 +793,11 @@ export default function QuizApp({
 
   function startQuiz() {
     unlockAudio(true);
-    if (!selectedTopicId) setSelectedTopicId(activeTopics[0]?.id ?? "korte-broek");
+    if (!selectedTopicId) {
+      const fallbackTopic = activeTopics[0];
+      if (!fallbackTopic || !loadTopicPack(fallbackTopic)) return;
+      setSelectedTopicId(fallbackTopic.id);
+    }
     setStarted(true);
     setCurrent(0);
     setSelected(null);
@@ -750,6 +828,11 @@ export default function QuizApp({
     if (topic.status !== ACTIVE_TOPIC_STATUS) {
       playSound("wrong");
       setTopicNotice(`${topic.label} staat nog niet actief. Zet dit onderwerp eerst live in de editor.`);
+      return;
+    }
+
+    if (!loadTopicPack(topic)) {
+      playSound("wrong");
       return;
     }
 
@@ -789,6 +872,12 @@ export default function QuizApp({
         const pickedTopic = radarTopics[Math.floor(Math.random() * radarTopics.length)];
         setSpotlightTopicId(pickedTopic.id);
         setIsDrawingTopic(false);
+
+        if (!loadTopicPack(pickedTopic)) {
+          playSound("wrong");
+          return;
+        }
+
         setLockedTopicId(pickedTopic.id);
         playSound("radar-final");
 
@@ -997,11 +1086,8 @@ export default function QuizApp({
     );
   }
 
-  const labels = question.evidence.codes?.map((code) => cleanCodeLabel(code, runtimeEvidenceContext)) ?? [];
-  const exampleComments =
-    question.evidence.comment_ids
-      ?.map((commentId) => ({ commentId, comment: runtimeEvidenceContext.comments[commentId] }))
-      .filter(({ comment }) => Boolean(comment)) ?? [];
+  const labels = question.evidence.codes.map((code) => cleanCodeLabel(code, runtimeEvidenceContext));
+  const exampleQuotes = question.evidence.quotes;
 
   return (
     <main className="page-shell quiz-play-shell">
@@ -1050,7 +1136,7 @@ export default function QuizApp({
                     style={{ "--option-delay": `${index * 55}ms` } as CSSProperties}
                   >
                     <span className="option-label">{option}</span>
-                    {isAnswered && question.optionDetails?.[index] ? (
+                    {isAnswered && question.optionDetails[index] ? (
                       <span className="option-detail">{question.optionDetails[index]}</span>
                     ) : null}
                   </button>
@@ -1108,14 +1194,14 @@ export default function QuizApp({
                   </div>
                 ) : null}
 
-                <QuoteSlideshow items={exampleComments} />
+                <QuoteSlideshow items={exampleQuotes} />
 
                 {question.evidence.note ? <p className="small-note">{question.evidence.note}</p> : null}
 
-                {(question.evidence.codes?.length || question.evidence.comment_ids?.length) ? (
+                {(question.evidence.codes.length || question.evidence.comment_ids.length) ? (
                   <details className="audit-trail">
                     <summary>Technische check</summary>
-                    {question.evidence.codes?.length ? (
+                    {question.evidence.codes.length ? (
                       <p>
                         <strong>Interne codes:</strong>{" "}
                         {question.evidence.codes.map((code) => (
@@ -1123,7 +1209,7 @@ export default function QuizApp({
                         ))}
                       </p>
                     ) : null}
-                    {question.evidence.comment_ids?.length ? (
+                    {question.evidence.comment_ids.length ? (
                       <p>
                         <strong>Comment-ID's:</strong> {question.evidence.comment_ids.join(", ")}
                       </p>

@@ -3,7 +3,21 @@ export const ACTIVE_TOPIC_STATUS = "actief";
 
 export const TOPIC_STATUSES = ["actief", "concept", "mist data", "verborgen"] as const;
 export const TOPIC_ACCENTS = ["lime", "purple", "cyan", "orange", "blue"] as const;
-export const TOPIC_ICONS = ["bike", "shorts", "phone", "coach", "ai"] as const;
+export const TOPIC_ICONS = [
+  "bike",
+  "shorts",
+  "phone",
+  "coach",
+  "ai",
+  "vape",
+  "office",
+  "application",
+  "car",
+  "housing",
+  "energy",
+  "climate",
+  "asylum",
+] as const;
 
 export type TopicStatus = (typeof TOPIC_STATUSES)[number];
 export type TopicAccent = (typeof TOPIC_ACCENTS)[number];
