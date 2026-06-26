@@ -8,23 +8,25 @@ import {
   type QuizPackValidation,
   type QuizSeed,
 } from "@/lib/quizNormalizer";
-import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY } from "@/lib/studioStorage";
+import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY, STUDIO_FALLBACK_PACK_KEY } from "@/lib/studioStorage";
 import {
   DEFAULT_TOPICS,
+  PUBLIC_INSIGHTS_DELETED_TOPICS_KEY,
   PUBLIC_INSIGHTS_TOPICS_KEY,
   TOPIC_ACCENTS,
   TOPIC_ICONS,
   TOPIC_STATUSES,
   mergeStoredTopics,
   normalizeTopic,
+  parseTopicStorageValue,
   type PublicInsightTopic,
   type TopicAccent,
   type TopicIcon,
   type TopicStatus,
 } from "@/lib/topics";
 
-const QUESTION_TARGET = 10;
-const WIN_THRESHOLD = 6;
+const MIN_QUESTION_TARGET = 3;
+const MAX_QUESTION_TARGET = 10;
 
 type QuizQuestion = QuizSeed["questions"][number];
 
@@ -54,27 +56,6 @@ type StudioWindowWithWebAudio = Window &
   typeof globalThis & {
     webkitAudioContext?: typeof AudioContext;
   };
-
-const DEFAULT_RESULT_BANDS = [
-  {
-    min: 0,
-    max: 5,
-    title: "Nog niet gewonnen",
-    description: "Je zat in de buurt, maar 6 van de 10 is de winstgrens.",
-  },
-  {
-    min: 6,
-    max: 8,
-    title: "Gewonnen: Publieke Peiler",
-    description: "Je had genoeg verrassingen te pakken. Je leest de onderstroom van de reacties scherp.",
-  },
-  {
-    min: 9,
-    max: 10,
-    title: "Perfecte Peiler",
-    description: "Bijna alles goed. Jij voelde precies aan waar de reacties anders waren dan je misschien verwacht.",
-  },
-];
 
 function isQuizSeed(value: unknown): value is QuizSeed {
   const candidate = value as Partial<QuizSeed> | undefined;
@@ -129,32 +110,73 @@ function extractQuestionEdits(value: unknown) {
   return undefined;
 }
 
-function getInitialSelection(seed: QuizSeed, preferredIds = seed.game?.featuredQuestionIds) {
-  const validIds = new Set(seed.questions.map((question) => question.id));
-  const configuredIds = preferredIds?.filter((id) => validIds.has(id)).slice(0, QUESTION_TARGET) ?? [];
+function getWinThreshold(questionCount: number) {
+  return Math.floor(questionCount / 2) + 1;
+}
 
-  if (configuredIds.length === QUESTION_TARGET) return configuredIds;
+function clampQuestionTarget(seed: QuizSeed, target: number) {
+  const maxAllowed = Math.min(MAX_QUESTION_TARGET, Math.max(MIN_QUESTION_TARGET, seed.questions.length));
+  const numericTarget = Number.isFinite(target) ? Math.trunc(target) : MAX_QUESTION_TARGET;
+
+  return Math.min(Math.max(numericTarget, MIN_QUESTION_TARGET), maxAllowed);
+}
+
+function getQuestionTarget(seed: QuizSeed, fallback = MAX_QUESTION_TARGET) {
+  return clampQuestionTarget(seed, seed.game?.questionCount ?? fallback);
+}
+
+function makeResultBands(questionTarget: number) {
+  const winThreshold = getWinThreshold(questionTarget);
+
+  return [
+    {
+      min: 0,
+      max: winThreshold - 1,
+      title: "Nog niet gewonnen",
+      description: `Je zat in de buurt, maar ${winThreshold} van de ${questionTarget} is de winstgrens.`,
+    },
+    {
+      min: winThreshold,
+      max: Math.max(winThreshold, questionTarget - 1),
+      title: "Gewonnen: Publieke Peiler",
+      description: "Je had genoeg verrassingen te pakken. Je leest de onderstroom van de reacties scherp.",
+    },
+    {
+      min: questionTarget,
+      max: questionTarget,
+      title: "Perfecte Peiler",
+      description: "Alles goed. Jij voelde precies aan waar de reacties anders waren dan je misschien verwacht.",
+    },
+  ];
+}
+
+function getInitialSelection(seed: QuizSeed, preferredIds = seed.game?.featuredQuestionIds, questionTarget = getQuestionTarget(seed)) {
+  const validIds = new Set(seed.questions.map((question) => question.id));
+  const configuredIds = preferredIds?.filter((id) => validIds.has(id)).slice(0, questionTarget) ?? [];
+
+  if (configuredIds.length === questionTarget) return configuredIds;
 
   const fallbackIds = seed.questions
     .map((question) => question.id)
     .filter((id) => !configuredIds.includes(id))
-    .slice(0, QUESTION_TARGET - configuredIds.length);
+    .slice(0, questionTarget - configuredIds.length);
 
   return [...configuredIds, ...fallbackIds];
 }
 
-function normalizeSeed(seed: QuizSeed, selectedQuestionIds: string[]): QuizSeed {
-  const hasTargetBands = seed.resultBands.some((band) => band.max >= QUESTION_TARGET);
+function normalizeSeed(seed: QuizSeed, selectedQuestionIds: string[], questionTarget = selectedQuestionIds.length): QuizSeed {
+  const target = clampQuestionTarget(seed, questionTarget);
+  const selectedIds = selectedQuestionIds.slice(0, target);
 
   return {
     ...seed,
     game: {
       ...seed.game,
-      featuredQuestionIds: selectedQuestionIds,
-      questionCount: QUESTION_TARGET,
-      winThreshold: WIN_THRESHOLD,
+      featuredQuestionIds: selectedIds,
+      questionCount: target,
+      winThreshold: getWinThreshold(target),
     },
-    resultBands: hasTargetBands ? seed.resultBands : DEFAULT_RESULT_BANDS,
+    resultBands: makeResultBands(target),
   };
 }
 
@@ -230,20 +252,40 @@ function readStoredPacks() {
   }
 }
 
+function readFallbackPack() {
+  try {
+    const raw = window.localStorage.getItem(STUDIO_FALLBACK_PACK_KEY);
+    if (!raw) return undefined;
+
+    return normalizeStoredPack(JSON.parse(raw) as StudioStoredPack);
+  } catch {
+    return undefined;
+  }
+}
+
 function normalizeStoredPack(pack: Partial<StudioStoredPack> | undefined) {
   if (!pack) return undefined;
 
   const normalized = normalizeQuizPack(pack);
   if (!normalized.seed.questions.length) return undefined;
+  const explicitSelection = normalized.selectedQuestionIds.length
+    ? normalized.selectedQuestionIds
+    : Array.isArray(pack.selectedQuestionIds)
+      ? pack.selectedQuestionIds
+      : [];
+  const repairedTarget =
+    explicitSelection.length >= MIN_QUESTION_TARGET && explicitSelection.length <= MAX_QUESTION_TARGET
+      ? explicitSelection.length
+      : getQuestionTarget(normalized.seed);
+  const selectedQuestionIds = getInitialSelection(normalized.seed, explicitSelection, repairedTarget);
+  const seed = normalizeSeed(normalized.seed, selectedQuestionIds, repairedTarget);
 
   return {
     evidenceContext: normalized.evidenceContext,
     id: pack.id || `custom-${Date.now()}`,
     name: pack.name || normalized.quizTitle,
-    seed: normalized.seed,
-    selectedQuestionIds: normalized.selectedQuestionIds.length
-      ? normalized.selectedQuestionIds
-      : getInitialSelection(normalized.seed, pack.selectedQuestionIds),
+    seed,
+    selectedQuestionIds,
     sourceName: pack.sourceName,
     updatedAt: pack.updatedAt || new Date().toISOString(),
     validation: normalized.validation,
@@ -296,43 +338,61 @@ export default function QuizStudio({
   const [currentPackId, setCurrentPackId] = useState("builtin");
   const [currentSeed, setCurrentSeed] = useState(normalizedDefaultSeed);
   const [customPacks, setCustomPacks] = useState<StudioStoredPack[]>([]);
+  const [fallbackPack, setFallbackPack] = useState<StudioStoredPack | undefined>(undefined);
   const [currentValidation, setCurrentValidation] = useState(defaultPack.validation);
-  const [topics, setTopics] = useState<PublicInsightTopic[]>(DEFAULT_TOPICS);
-  const [selectedTopicId, setSelectedTopicId] = useState(DEFAULT_TOPICS[1]?.id ?? DEFAULT_TOPICS[0].id);
-  const [topicDraft, setTopicDraft] = useState<PublicInsightTopic>(DEFAULT_TOPICS[1] ?? DEFAULT_TOPICS[0]);
+  const [topics, setTopics] = useState<PublicInsightTopic[]>([]);
+  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
+  const [topicDraft, setTopicDraft] = useState<PublicInsightTopic | null>(null);
   const [draftQuestion, setDraftQuestion] = useState<QuizQuestion | null>(null);
-  const [notice, setNotice] = useState("Kies precies 10 vragen. Daarna gebruikt de publieke quiz precies die selectie.");
+  const [notice, setNotice] = useState("Kies hoeveel vragen je wilt spelen. Daarna gebruikt de publieke quiz precies die selectie.");
   const [savedQuestionId, setSavedQuestionId] = useState<string | null>(null);
   const [saveToast, setSaveToast] = useState("");
-  const [selectedQuestionIds, setSelectedQuestionIds] = useState(() => getInitialSelection(normalizedDefaultSeed));
+  const [questionTarget, setQuestionTarget] = useState(() => getQuestionTarget(normalizedDefaultSeed));
+  const [selectedQuestionIds, setSelectedQuestionIds] = useState(() =>
+    getInitialSelection(normalizedDefaultSeed, undefined, getQuestionTarget(normalizedDefaultSeed)),
+  );
   const saveFeedbackTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     try {
       const storedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_TOPICS_KEY);
-      const nextTopics = storedTopics ? mergeStoredTopics(JSON.parse(storedTopics)) : DEFAULT_TOPICS;
+      const deletedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY);
+      const storedTopicInput = parseTopicStorageValue(storedTopics, DEFAULT_TOPICS);
+      const deletedTopicInput = parseTopicStorageValue(deletedTopics, []);
+      const nextTopics = mergeStoredTopics(storedTopicInput, deletedTopicInput);
       const preferredTopicId = DEFAULT_TOPICS[1]?.id ?? DEFAULT_TOPICS[0].id;
       const nextTopic = nextTopics.find((topic) => topic.id === preferredTopicId) ?? nextTopics[0];
 
       setTopics(nextTopics);
-      setSelectedTopicId(nextTopic.id);
-      setTopicDraft(nextTopic);
+      setSelectedTopicId(nextTopic?.id ?? null);
+      setTopicDraft(nextTopic ?? null);
     } catch {
-      setTopics(DEFAULT_TOPICS);
+      setTopics([]);
+      setSelectedTopicId(null);
+      setTopicDraft(null);
     }
 
     const storedPacks = readStoredPacks();
     setCustomPacks(storedPacks);
 
+    const storedFallbackPack = readFallbackPack();
+    setFallbackPack(storedFallbackPack);
+
     try {
       const activeRaw = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
-      if (!activeRaw) return;
+      if (!activeRaw) {
+        if (storedFallbackPack) {
+          applyPackToEditor(storedFallbackPack, "builtin");
+          setNotice(`Fallback dump geladen: ${storedFallbackPack.name}.`);
+        }
+        return;
+      }
 
       const activePack = normalizeStoredPack(JSON.parse(activeRaw) as StudioStoredPack);
       if (!activePack?.seed.questions.length) return;
-      if ((activePack.seed.game?.questionCount ?? 0) < QUESTION_TARGET) {
+      if ((activePack.seed.game?.questionCount ?? 0) < MIN_QUESTION_TARGET) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
-        setNotice("Oude 5-vragenselectie genegeerd. De studio werkt nu met minimaal 10 vragen.");
+        setNotice(`Oude selectie genegeerd. De studio werkt nu met minimaal ${MIN_QUESTION_TARGET} vragen.`);
         return;
       }
       if (
@@ -349,7 +409,9 @@ export default function QuizStudio({
       setCurrentPackId(activePack.id);
       setCurrentSeed(activePack.seed);
       setCurrentValidation(activePack.validation ?? normalizeQuizPack(activePack).validation);
-      setSelectedQuestionIds(getInitialSelection(activePack.seed, activePack.selectedQuestionIds));
+      const activeQuestionTarget = getQuestionTarget(activePack.seed);
+      setQuestionTarget(activeQuestionTarget);
+      setSelectedQuestionIds(getInitialSelection(activePack.seed, activePack.selectedQuestionIds, activeQuestionTarget));
       setNotice("Actieve quizselectie geladen. Je kunt hem aanpassen en opnieuw opslaan.");
     } catch {
       setNotice("De ingebouwde dump is geladen.");
@@ -366,16 +428,26 @@ export default function QuizStudio({
   const selectedQuestions = selectedQuestionIds
     .map((id) => currentSeed.questions.find((question) => question.id === id))
     .filter(Boolean);
+  const maxQuestionTargetForSeed = Math.min(MAX_QUESTION_TARGET, Math.max(MIN_QUESTION_TARGET, currentSeed.questions.length));
+  const questionTargetOptions = Array.from(
+    { length: maxQuestionTargetForSeed - MIN_QUESTION_TARGET + 1 },
+    (_, index) => MIN_QUESTION_TARGET + index,
+  );
+  const winThreshold = getWinThreshold(questionTarget);
+  const fallbackPackName = fallbackPack?.name ?? "korte broek op kantoor";
+  const fallbackOptionLabel = fallbackPack
+    ? `Fallback dump: ${fallbackPackName}`
+    : "Ingebouwde fallback: korte broek op kantoor";
   const basePackOptions = [
-    { id: "builtin", name: "Ingebouwde dump: korte broek op kantoor" },
+    { id: "builtin", name: fallbackOptionLabel },
     ...customPacks.map((pack) => ({ id: pack.id, name: pack.name })),
   ];
   const packOptions = basePackOptions.some((pack) => pack.id === currentPackId)
     ? basePackOptions
     : [...basePackOptions, { id: currentPackId, name: "Actieve studio-keuze" }];
   const linkedPackName =
-    packOptions.find((pack) => pack.id === topicDraft.packId)?.name ??
-    (topicDraft.packId ? "Actieve studio-keuze" : "Geen dump gekoppeld");
+    packOptions.find((pack) => pack.id === topicDraft?.packId)?.name ??
+    (topicDraft?.packId ? "Actieve studio-keuze" : "Geen dump gekoppeld");
 
   function playSaveSound() {
     try {
@@ -423,15 +495,41 @@ export default function QuizStudio({
     }, 1900);
   }
 
-  function loadBuiltInPack() {
-    setCurrentDashboard(defaultDashboard);
-    setCurrentEvidenceContext(defaultEvidenceContext);
-    setCurrentValidation(defaultPack.validation);
-    setCurrentPackId("builtin");
-    setCurrentSeed(normalizedDefaultSeed);
-    setSelectedQuestionIds(getInitialSelection(normalizedDefaultSeed));
+  function applyPackToEditor(
+    pack: Pick<StudioStoredPack, "evidenceContext" | "seed" | "selectedQuestionIds"> &
+      Partial<Pick<StudioStoredPack, "validation">>,
+    packId: string,
+  ) {
+    const normalizedPack = normalizeQuizPack(pack);
+    const target = getQuestionTarget(pack.seed, pack.selectedQuestionIds.length || questionTarget);
+
+    setCurrentEvidenceContext(pack.evidenceContext);
+    setCurrentValidation(pack.validation ?? normalizedPack.validation);
+    setCurrentPackId(packId);
+    setCurrentSeed(pack.seed);
+    setQuestionTarget(target);
+    setSelectedQuestionIds(getInitialSelection(pack.seed, pack.selectedQuestionIds, target));
     setDraftQuestion(null);
-    setNotice("Ingebouwde dump geladen. Selecteer je favoriete 10 vragen.");
+  }
+
+  function loadBuiltInPack() {
+    if (fallbackPack) {
+      applyPackToEditor(fallbackPack, "builtin");
+      setNotice(`Fallback dump geladen: ${fallbackPack.name}. Kies hoeveel vragen je wilt spelen.`);
+      return;
+    }
+
+    setCurrentDashboard(defaultDashboard);
+    applyPackToEditor(
+      {
+        evidenceContext: defaultEvidenceContext,
+        seed: normalizedDefaultSeed,
+        selectedQuestionIds: getInitialSelection(normalizedDefaultSeed, undefined, getQuestionTarget(normalizedDefaultSeed)),
+        validation: defaultPack.validation,
+      },
+      "builtin",
+    );
+    setNotice("Ingebouwde dump geladen. Kies hoeveel vragen je wilt spelen.");
   }
 
   function loadStoredPack(packId: string) {
@@ -443,13 +541,61 @@ export default function QuizStudio({
     const pack = customPacks.find((candidate) => candidate.id === packId);
     if (!pack) return;
 
-    setCurrentEvidenceContext(pack.evidenceContext);
-    setCurrentValidation(pack.validation ?? normalizeQuizPack(pack).validation);
-    setCurrentPackId(pack.id);
-    setCurrentSeed(pack.seed);
-    setSelectedQuestionIds(getInitialSelection(pack.seed, pack.selectedQuestionIds));
-    setDraftQuestion(null);
-    setNotice(`Dump geladen: ${pack.name}. Kies de 10 vragen die publiek moeten worden.`);
+    applyPackToEditor(pack, pack.id);
+    setNotice(`Dump geladen: ${pack.name}. Kies hoeveel vragen je wilt spelen.`);
+  }
+
+  function deleteCurrentDump() {
+    if (currentPackId === "builtin") {
+      setNotice("De ingebouwde dump kun je niet verwijderen. Je kunt wel resetten naar ingebouwd.");
+      return;
+    }
+
+    const packToDelete = customPacks.find((pack) => pack.id === currentPackId);
+    const packName = packToDelete?.name ?? "deze dump";
+    const confirmed = window.confirm(
+      `Weet je zeker dat je "${packName}" permanent uit deze browser wilt verwijderen? Gekoppelde onderwerpen gaan terug naar 'mist data'.`,
+    );
+
+    if (!confirmed) return;
+
+    const nextPacks = customPacks.filter((pack) => pack.id !== currentPackId);
+    window.localStorage.setItem(STUDIO_CUSTOM_PACKS_KEY, JSON.stringify(nextPacks));
+    setCustomPacks(nextPacks);
+
+    try {
+      const activeRaw = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
+      const activePack = activeRaw ? (JSON.parse(activeRaw) as StudioStoredPack) : null;
+      if (activePack?.id === currentPackId) window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+    } catch {
+      window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+    }
+
+    const nextTopics = topics.map((topic) =>
+      topic.packId === currentPackId
+        ? {
+            ...topic,
+            packId: undefined,
+            status: "mist data" as const,
+          }
+        : topic,
+    );
+    window.localStorage.setItem(PUBLIC_INSIGHTS_TOPICS_KEY, JSON.stringify(nextTopics));
+    setTopics(nextTopics);
+
+    const nextTopic = nextTopics.find((topic) => topic.id === selectedTopicId) ?? nextTopics[0];
+    if (nextTopic) {
+      setSelectedTopicId(nextTopic.id);
+      setTopicDraft(nextTopic);
+    }
+    if (!nextTopic) {
+      setSelectedTopicId(null);
+      setTopicDraft(null);
+    }
+
+    loadBuiltInPack();
+    setNotice(`"${packName}" is verwijderd. Onderwerpen die eraan gekoppeld waren staan nu op mist data.`);
+    triggerSavedFeedback("Dump verwijderd");
   }
 
   function selectTopic(topicId: string) {
@@ -491,15 +637,31 @@ export default function QuizStudio({
   }
 
   function updateTopicDraft<K extends keyof PublicInsightTopic>(field: K, value: PublicInsightTopic[K]) {
-    setTopicDraft((current) => ({ ...current, [field]: value }));
+    setTopicDraft((current) => (current ? { ...current, [field]: value } : current));
   }
 
   function saveTopic() {
+    if (!topicDraft) {
+      setNotice("Er is geen onderwerp geselecteerd. Maak eerst een nieuw onderwerp aan.");
+      return;
+    }
+
     const fallback = topics.find((topic) => topic.id === selectedTopicId) ?? DEFAULT_TOPICS[0];
-    const cleanTopic = normalizeTopic({ ...topicDraft, packId: topicDraft.packId ?? currentPackId }, fallback);
+    const cleanTopic = normalizeTopic({ ...topicDraft, packId: topicDraft.packId || undefined }, fallback);
     const nextTopics = topics.map((topic) => (topic.id === selectedTopicId ? cleanTopic : topic));
     const topicExists = nextTopics.some((topic) => topic.id === cleanTopic.id);
     const topicsToSave = topicExists ? nextTopics : [cleanTopic, ...nextTopics];
+
+    try {
+      const rawDeletedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY);
+      const parsedDeletedTopics = rawDeletedTopics ? JSON.parse(rawDeletedTopics) : [];
+      const nextDeletedTopics = Array.isArray(parsedDeletedTopics)
+        ? parsedDeletedTopics.filter((id) => id !== cleanTopic.id)
+        : [];
+      window.localStorage.setItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY, JSON.stringify(nextDeletedTopics));
+    } catch {
+      window.localStorage.setItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY, JSON.stringify([]));
+    }
 
     window.localStorage.setItem(PUBLIC_INSIGHTS_TOPICS_KEY, JSON.stringify(topicsToSave));
     setTopics(topicsToSave);
@@ -511,6 +673,51 @@ export default function QuizStudio({
         : "Onderwerp opgeslagen. Het blijft uit /quiz zolang de status niet actief is.",
     );
     triggerSavedFeedback("Onderwerp opgeslagen");
+  }
+
+  function deleteCurrentTopic() {
+    const topicToDelete = topics.find((topic) => topic.id === selectedTopicId);
+    if (!topicToDelete) {
+      setNotice("Geen onderwerp geselecteerd om te verwijderen.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Weet je zeker dat je "${topicToDelete.label}" permanent wilt verwijderen uit de onderwerpenlijst?`,
+    );
+
+    if (!confirmed) return;
+
+    let deletedTopicIds: string[] = [];
+    try {
+      const raw = window.localStorage.getItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      deletedTopicIds = Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === "string") : [];
+    } catch {
+      deletedTopicIds = [];
+    }
+
+    const nextDeletedTopicIds = Array.from(new Set([...deletedTopicIds, topicToDelete.id]));
+    const nextTopics = topics.filter((topic) => topic.id !== topicToDelete.id);
+    const nextTopic = nextTopics[0];
+
+    window.localStorage.setItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY, JSON.stringify(nextDeletedTopicIds));
+    window.localStorage.setItem(PUBLIC_INSIGHTS_TOPICS_KEY, JSON.stringify(nextTopics));
+    setTopics(nextTopics);
+
+    if (nextTopic) {
+      setSelectedTopicId(nextTopic.id);
+      setTopicDraft(nextTopic);
+      if (nextTopic.packId) loadStoredPack(nextTopic.packId);
+    }
+    if (!nextTopic) {
+      setSelectedTopicId(null);
+      setTopicDraft(null);
+      loadBuiltInPack();
+    }
+
+    setNotice(`"${topicToDelete.label}" is verwijderd uit de onderwerpenlijst.`);
+    triggerSavedFeedback("Onderwerp verwijderd");
   }
 
   async function handleUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -537,10 +744,12 @@ export default function QuizStudio({
         });
         const nextSeed = normalizedPack.seed;
         const nextEvidenceContext = normalizedPack.evidenceContext;
-        const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds);
+        const nextQuestionTarget = getQuestionTarget(nextSeed, questionTarget);
+        const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds, nextQuestionTarget);
 
         setCurrentEvidenceContext(nextEvidenceContext);
         setCurrentValidation(normalizedPack.validation);
+        setQuestionTarget(nextQuestionTarget);
         setDraftQuestion(null);
 
         persistActivePack(
@@ -550,6 +759,7 @@ export default function QuizStudio({
           undefined,
           nextEvidenceContext,
           "Vragen geüpload",
+          nextQuestionTarget,
         );
         return;
       }
@@ -568,12 +778,15 @@ export default function QuizStudio({
       const nextSelection = getInitialSelection(
         nextSeed,
         normalizedPack.selectedQuestionIds.length ? normalizedPack.selectedQuestionIds : undefined,
+        getQuestionTarget(nextSeed, questionTarget),
       );
+      const nextQuestionTarget = getQuestionTarget(nextSeed, nextSelection.length || questionTarget);
 
       setCurrentDashboard(nextDashboard);
       setCurrentEvidenceContext(nextEvidenceContext);
       setCurrentValidation(normalizedPack.validation);
       setCurrentSeed(nextSeed);
+      setQuestionTarget(nextQuestionTarget);
       setSelectedQuestionIds(nextSelection);
       setDraftQuestion(null);
 
@@ -582,7 +795,7 @@ export default function QuizStudio({
           evidenceContext: nextEvidenceContext,
           id: `custom-${Date.now()}`,
           name: nextSeed.quizTitle,
-          seed: normalizeSeed(nextSeed, nextSelection),
+          seed: normalizeSeed(nextSeed, nextSelection, nextQuestionTarget),
           selectedQuestionIds: nextSelection,
           sourceName: file.name,
           updatedAt: new Date().toISOString(),
@@ -593,11 +806,11 @@ export default function QuizStudio({
         window.localStorage.setItem(STUDIO_CUSTOM_PACKS_KEY, JSON.stringify(nextPacks));
         setCustomPacks(nextPacks);
         setCurrentPackId(nextPack.id);
-        setTopicDraft((current) => ({ ...current, packId: nextPack.id }));
+        setTopicDraft((current) => (current ? { ...current, packId: nextPack.id } : current));
         setNotice(
-          nextSeed.questions.length >= QUESTION_TARGET
-            ? `Quiz-pack geladen uit ${file.name}. Kies nu je favoriete 10 vragen.`
-            : `Quiz-pack geladen, maar bevat maar ${nextSeed.questions.length} vragen. Maak of upload minimaal 10 vragen voordat je publiceert.`,
+          nextSeed.questions.length >= MIN_QUESTION_TARGET
+            ? `Quiz-pack geladen uit ${file.name}. Kies ${nextQuestionTarget} vragen of pas het aantal aan.`
+            : `Quiz-pack geladen, maar bevat maar ${nextSeed.questions.length} vragen. Maak of upload minimaal ${MIN_QUESTION_TARGET} vragen voordat je publiceert.`,
         );
       } else {
         setNotice(`Dashboard-bundle geladen uit ${file.name}. De huidige quizvragen gebruiken nu deze dump als bron.`);
@@ -612,14 +825,22 @@ export default function QuizStudio({
   function toggleQuestion(questionId: string) {
     setSelectedQuestionIds((current) => {
       if (current.includes(questionId)) return current.filter((id) => id !== questionId);
-      if (current.length >= QUESTION_TARGET) {
-        setNotice("Je hebt al 10 vragen gekozen. Haal er eerst eentje uit.");
+      if (current.length >= questionTarget) {
+        setNotice(`Je hebt al ${questionTarget} vragen gekozen. Haal er eerst eentje uit.`);
         return current;
       }
 
-      setNotice("Selectie bijgewerkt. Sla op zodra je 10 vragen hebt.");
+      setNotice(`Selectie bijgewerkt. Sla op zodra je ${questionTarget} vragen hebt.`);
       return [...current, questionId];
     });
+  }
+
+  function changeQuestionTarget(nextTarget: number) {
+    const safeTarget = clampQuestionTarget(currentSeed, nextTarget);
+
+    setQuestionTarget(safeTarget);
+    setSelectedQuestionIds((current) => getInitialSelection(currentSeed, current, safeTarget));
+    setNotice(`Deze quiz speelt nu ${safeTarget} vragen. Winnen is vanaf ${getWinThreshold(safeTarget)} goed.`);
   }
 
   function persistActivePack(
@@ -629,20 +850,21 @@ export default function QuizStudio({
     savedQuestion?: QuizQuestion,
     evidenceContextToSave = currentEvidenceContext,
     feedbackMessage = "Opgeslagen",
+    targetToSave = questionTarget,
   ) {
-    if (seedToSave.questions.length < QUESTION_TARGET) {
-      setNotice(`Deze quiz heeft maar ${seedToSave.questions.length} vragen. Maak of upload minimaal 10 vragen.`);
+    if (seedToSave.questions.length < MIN_QUESTION_TARGET) {
+      setNotice(`Deze quiz heeft maar ${seedToSave.questions.length} vragen. Maak of upload minimaal ${MIN_QUESTION_TARGET} vragen.`);
       return false;
     }
 
-    if (selectionToSave.length !== QUESTION_TARGET) {
-      setNotice(`Kies precies ${QUESTION_TARGET} vragen voordat je opslaat.`);
+    if (selectionToSave.length !== targetToSave) {
+      setNotice(`Kies precies ${targetToSave} vragen voordat je opslaat.`);
       return false;
     }
 
     const normalizedPack = normalizeQuizPack({
       evidenceContext: evidenceContextToSave,
-      seed: normalizeSeed(seedToSave, selectionToSave),
+      seed: normalizeSeed(seedToSave, selectionToSave, targetToSave),
       selectedQuestionIds: selectionToSave,
     });
     const normalizedSeed = normalizedPack.seed;
@@ -670,6 +892,7 @@ export default function QuizStudio({
     setCurrentEvidenceContext(normalizedEvidenceContext);
     setCurrentValidation(normalizedPack.validation);
     setCurrentPackId(nextPack.id);
+    setQuestionTarget(normalizedSeed.game?.questionCount ?? questionTarget);
     setSelectedQuestionIds(selectionToSave);
     setNotice(successNotice);
     triggerSavedFeedback(feedbackMessage, savedQuestion?.id);
@@ -677,12 +900,66 @@ export default function QuizStudio({
   }
 
   function saveSelection() {
-    if (selectedQuestionIds.length !== QUESTION_TARGET) {
-      setNotice(`Kies precies ${QUESTION_TARGET} vragen voordat je opslaat.`);
+    if (selectedQuestionIds.length !== questionTarget) {
+      setNotice(`Kies precies ${questionTarget} vragen voordat je opslaat.`);
       return;
     }
 
-    persistActivePack(currentSeed, selectedQuestionIds, "Opgeslagen. De publieke quiz gebruikt nu deze 10 vragen.");
+    persistActivePack(currentSeed, selectedQuestionIds, `Opgeslagen. De publieke quiz gebruikt nu deze ${questionTarget} vragen.`);
+  }
+
+  function saveCurrentAsFallback() {
+    if (currentSeed.questions.length < MIN_QUESTION_TARGET) {
+      setNotice(`Deze dump heeft maar ${currentSeed.questions.length} vragen. Een fallback heeft minimaal ${MIN_QUESTION_TARGET} vragen nodig.`);
+      return;
+    }
+
+    if (selectedQuestionIds.length !== questionTarget) {
+      setNotice(`Kies precies ${questionTarget} vragen voordat je deze dump fallback maakt.`);
+      return;
+    }
+
+    const normalizedPack = normalizeQuizPack({
+      evidenceContext: currentEvidenceContext,
+      seed: normalizeSeed(currentSeed, selectedQuestionIds, questionTarget),
+      selectedQuestionIds,
+    });
+    const nextPack: StudioStoredPack = {
+      evidenceContext: normalizedPack.evidenceContext,
+      id: "fallback",
+      name: normalizedPack.seed.quizTitle,
+      seed: normalizedPack.seed,
+      selectedQuestionIds,
+      sourceName: currentPackId === "builtin" ? "ingebouwde dump" : undefined,
+      updatedAt: new Date().toISOString(),
+      validation: normalizedPack.validation,
+    };
+
+    window.localStorage.setItem(STUDIO_FALLBACK_PACK_KEY, JSON.stringify(nextPack));
+    setFallbackPack(nextPack);
+    setNotice(`Fallback ingesteld op "${nextPack.name}". Onderwerpen met de ingebouwde dump gebruiken nu deze set.`);
+    triggerSavedFeedback("Fallback opgeslagen");
+  }
+
+  function resetFallbackPack() {
+    window.localStorage.removeItem(STUDIO_FALLBACK_PACK_KEY);
+    setFallbackPack(undefined);
+
+    if (currentPackId === "builtin") {
+      setCurrentDashboard(defaultDashboard);
+      applyPackToEditor(
+        {
+          evidenceContext: defaultEvidenceContext,
+          seed: normalizedDefaultSeed,
+          selectedQuestionIds: getInitialSelection(normalizedDefaultSeed, undefined, getQuestionTarget(normalizedDefaultSeed)),
+          validation: defaultPack.validation,
+        },
+        "builtin",
+      );
+    }
+
+    setNotice("Fallback teruggezet naar de ingebouwde korte-broek-dump.");
+    triggerSavedFeedback("Fallback gereset");
   }
 
   function startEditing(questionId: string) {
@@ -751,7 +1028,7 @@ export default function QuizStudio({
       ...currentSeed,
       questions: currentSeed.questions.map((question) => (question.id === cleanQuestion.id ? cleanQuestion : question)),
     };
-    const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds);
+    const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds, questionTarget);
 
     if (
       persistActivePack(
@@ -759,6 +1036,9 @@ export default function QuizStudio({
         nextSelection,
         `Vraag ${cleanQuestion.id} opgeslagen. De publieke quiz gebruikt je aangepaste tekst.`,
         cleanQuestion,
+        currentEvidenceContext,
+        "Opgeslagen",
+        questionTarget,
       )
     ) {
       setDraftQuestion(cloneQuestion(cleanQuestion));
@@ -805,12 +1085,12 @@ export default function QuizStudio({
   }
 
   function downloadPack() {
-    if (selectedQuestionIds.length !== QUESTION_TARGET) {
-      setNotice(`Kies precies ${QUESTION_TARGET} vragen voordat je downloadt.`);
+    if (selectedQuestionIds.length !== questionTarget) {
+      setNotice(`Kies precies ${questionTarget} vragen voordat je downloadt.`);
       return;
     }
 
-    const normalizedSeed = normalizeSeed(currentSeed, selectedQuestionIds);
+    const normalizedSeed = normalizeSeed(currentSeed, selectedQuestionIds, questionTarget);
     const exportPack = {
       dashboardNote: "Bewaar de dashboard-bundle naast dit quiz-pack als je volledige quote-context wilt houden.",
       evidenceContext: currentEvidenceContext,
@@ -846,19 +1126,28 @@ export default function QuizStudio({
 
         <div className="topic-manager-grid">
           <div className="topic-list" aria-label="Bestaande onderwerpen">
-            {topics.map((topic) => (
-              <button
-                className={topic.id === selectedTopicId ? "active" : ""}
-                key={topic.id}
-                onClick={() => selectTopic(topic.id)}
-                type="button"
-              >
-                <strong>{topic.label}</strong>
-                <span>{topic.status}</span>
-              </button>
-            ))}
+            {topics.length ? (
+              topics.map((topic) => (
+                <button
+                  className={topic.id === selectedTopicId ? "active" : ""}
+                  key={topic.id}
+                  onClick={() => selectTopic(topic.id)}
+                  type="button"
+                >
+                  <strong>{topic.label}</strong>
+                  <span>{topic.status}</span>
+                </button>
+              ))
+            ) : (
+              <div className="topic-empty-state">
+                <strong>Geen onderwerpen</strong>
+                <span>Alles is verwijderd. Maak een nieuw onderwerp aan om opnieuw te beginnen.</span>
+              </div>
+            )}
           </div>
 
+          {topicDraft ? (
+            <>
           <div className="topic-edit-form">
             <label>
               Onderwerpnaam
@@ -926,9 +1215,10 @@ export default function QuizStudio({
             <label>
               Gekoppelde dump
               <select
-                onChange={(event) => updateTopicDraft("packId", event.target.value)}
-                value={topicDraft.packId ?? currentPackId}
+                onChange={(event) => updateTopicDraft("packId", event.target.value || undefined)}
+                value={topicDraft.packId ?? ""}
               >
+                <option value="">Geen dump gekoppeld</option>
                 {packOptions.map((pack) => (
                   <option key={pack.id} value={pack.id}>
                     {pack.name}
@@ -963,7 +1253,21 @@ export default function QuizStudio({
             <button className="primary-button" onClick={saveTopic} type="button">
               Opslaan onderwerp
             </button>
+            <button className="danger-button topic-delete-button" onClick={deleteCurrentTopic} type="button">
+              Verwijder onderwerp
+            </button>
           </aside>
+            </>
+          ) : (
+            <div className="topic-empty-editor">
+              <p className="kicker">Opnieuw beginnen</p>
+              <h3>Geen onderwerp geselecteerd</h3>
+              <p>Maak een nieuw onderwerp aan. Verwijderde standaardonderwerpen blijven weg, ook na refresh.</p>
+              <button className="primary-button" onClick={addTopic} type="button">
+                Nieuw onderwerp maken
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -972,7 +1276,7 @@ export default function QuizStudio({
           <label>
             Dump kiezen
             <select value={currentPackId} onChange={(event) => loadStoredPack(event.target.value)}>
-              <option value="builtin">Ingebouwde dump: korte broek op kantoor</option>
+              <option value="builtin">{fallbackOptionLabel}</option>
               {customPacks.map((pack) => (
                 <option key={pack.id} value={pack.id}>
                   {pack.name}
@@ -984,10 +1288,48 @@ export default function QuizStudio({
             </select>
           </label>
 
+          <label>
+            Aantal vragen
+            <select value={questionTarget} onChange={(event) => changeQuestionTarget(Number(event.target.value))}>
+              {questionTargetOptions.map((count) => (
+                <option key={count} value={count}>
+                  {count} vragen · win vanaf {getWinThreshold(count)}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <label className="upload-box">
             Upload quiz-pack, dump of vragen-JSON
             <input accept="application/json,.json" onChange={handleUpload} type="file" />
           </label>
+
+          <button
+            className="secondary-button"
+            disabled={selectedQuestionIds.length !== questionTarget}
+            onClick={saveCurrentAsFallback}
+            type="button"
+          >
+            Maak huidige dump fallback
+          </button>
+
+          <button
+            className="secondary-button"
+            disabled={!fallbackPack}
+            onClick={resetFallbackPack}
+            type="button"
+          >
+            Reset fallback
+          </button>
+
+          <button
+            className="danger-button"
+            disabled={currentPackId === "builtin" || !customPacks.some((pack) => pack.id === currentPackId)}
+            onClick={deleteCurrentDump}
+            type="button"
+          >
+            Verwijder dump permanent
+          </button>
         </div>
 
         <div className="studio-summary">
@@ -998,13 +1340,13 @@ export default function QuizStudio({
           <div>
             <span>Gekozen</span>
             <strong>
-              {selectedQuestionIds.length}/{QUESTION_TARGET}
+              {selectedQuestionIds.length}/{questionTarget}
             </strong>
           </div>
           <div>
             <span>Winnen</span>
             <strong>
-              {WIN_THRESHOLD}/{QUESTION_TARGET}
+              {winThreshold}/{questionTarget}
             </strong>
           </div>
         </div>
@@ -1025,8 +1367,8 @@ export default function QuizStudio({
         ) : null}
 
         <div className="studio-actions">
-          <button className="primary-button" disabled={selectedQuestionIds.length !== QUESTION_TARGET} onClick={saveSelection}>
-            Gebruik deze 10 in de publieke quiz
+          <button className="primary-button" disabled={selectedQuestionIds.length !== questionTarget} onClick={saveSelection}>
+            Gebruik deze {questionTarget} in de publieke quiz
           </button>
           <button
             className="secondary-button"
@@ -1193,7 +1535,7 @@ export default function QuizStudio({
         <div className="studio-section-header">
           <div>
             <p className="kicker">Kandidaten</p>
-            <h2>Kies de 10 leukste vragen</h2>
+            <h2>Kies de {questionTarget} leukste vragen</h2>
           </div>
           <p>
             Geselecteerd:{" "}

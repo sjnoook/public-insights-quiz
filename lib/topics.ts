@@ -1,4 +1,5 @@
 export const PUBLIC_INSIGHTS_TOPICS_KEY = "public-insights-topics-v1";
+export const PUBLIC_INSIGHTS_DELETED_TOPICS_KEY = "public-insights-deleted-topics-v1";
 export const ACTIVE_TOPIC_STATUS = "actief";
 
 export const TOPIC_STATUSES = ["actief", "concept", "mist data", "verborgen"] as const;
@@ -94,15 +95,32 @@ export function normalizeTopic(input: Partial<PublicInsightTopic>, fallback: Pub
     icon,
     id: input.id?.trim() || fallback.id,
     label: input.label?.trim() || fallback.label,
-    packId: input.packId || fallback.packId,
+    packId: "packId" in input ? input.packId || undefined : fallback.packId,
     prompt: input.prompt?.trim() || fallback.prompt,
     sourcesVisible: input.sourcesVisible ?? fallback.sourcesVisible ?? true,
     status,
   };
 }
 
-export function mergeStoredTopics(stored: unknown): PublicInsightTopic[] {
-  if (!Array.isArray(stored)) return DEFAULT_TOPICS;
+function normalizeDeletedTopicIds(deletedTopicIds: unknown) {
+  return Array.isArray(deletedTopicIds)
+    ? deletedTopicIds.filter((id): id is string => typeof id === "string" && Boolean(id.trim()))
+    : [];
+}
+
+export function parseTopicStorageValue(raw: string | null, fallback: unknown): unknown {
+  if (!raw) return fallback;
+
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    return fallback;
+  }
+}
+
+export function mergeStoredTopics(stored: unknown, deletedTopicIds: unknown = []): PublicInsightTopic[] {
+  const deletedIds = new Set(normalizeDeletedTopicIds(deletedTopicIds));
+  if (!Array.isArray(stored)) return DEFAULT_TOPICS.filter((topic) => !deletedIds.has(topic.id));
 
   const defaultsById = new Map(DEFAULT_TOPICS.map((topic) => [topic.id, topic]));
   const normalizedStored = stored
@@ -122,10 +140,10 @@ export function mergeStoredTopics(stored: unknown): PublicInsightTopic[] {
 
       return normalizeTopic(candidate, fallback);
     })
-    .filter((topic) => topic.id && topic.label);
+    .filter((topic) => topic.id && topic.label && !deletedIds.has(topic.id));
 
   const storedIds = new Set(normalizedStored.map((topic) => topic.id));
-  const missingDefaults = DEFAULT_TOPICS.filter((topic) => !storedIds.has(topic.id));
+  const missingDefaults = DEFAULT_TOPICS.filter((topic) => !storedIds.has(topic.id) && !deletedIds.has(topic.id));
 
   return [...normalizedStored, ...missingDefaults];
 }

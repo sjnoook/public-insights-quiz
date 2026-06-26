@@ -13,12 +13,14 @@ import {
   type NormalizedQuote,
   type QuizPackValidation,
 } from "@/lib/quizNormalizer";
-import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY } from "@/lib/studioStorage";
+import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY, STUDIO_FALLBACK_PACK_KEY } from "@/lib/studioStorage";
 import {
   ACTIVE_TOPIC_STATUS,
   DEFAULT_TOPICS,
+  PUBLIC_INSIGHTS_DELETED_TOPICS_KEY,
   PUBLIC_INSIGHTS_TOPICS_KEY,
   mergeStoredTopics,
+  parseTopicStorageValue,
   type PublicInsightTopic,
 } from "@/lib/topics";
 
@@ -96,8 +98,78 @@ const TONE_LABELS: Record<string, string> = {
 };
 
 const FEATURED_QUESTION_IDS: string[] = [];
-const MIN_QUESTION_COUNT = 10;
-const WIN_THRESHOLD = 6;
+const MIN_QUESTION_COUNT = 3;
+const MAX_QUESTION_COUNT = 10;
+
+function getWinThreshold(questionCount: number) {
+  return Math.floor(questionCount / 2) + 1;
+}
+
+function clampQuestionCount(seed: QuizSeed, questionCount: number) {
+  const maxAllowed = Math.min(MAX_QUESTION_COUNT, Math.max(MIN_QUESTION_COUNT, seed.questions.length));
+  const numericCount = Number.isFinite(questionCount) ? Math.trunc(questionCount) : MAX_QUESTION_COUNT;
+
+  return Math.min(Math.max(numericCount, MIN_QUESTION_COUNT), maxAllowed);
+}
+
+function getQuestionCount(seed: QuizSeed) {
+  return clampQuestionCount(seed, seed.game?.questionCount ?? MAX_QUESTION_COUNT);
+}
+
+function makeResultBands(questionCount: number) {
+  const winThreshold = getWinThreshold(questionCount);
+
+  return [
+    {
+      min: 0,
+      max: winThreshold - 1,
+      title: "Nog niet gewonnen",
+      description: `Je zat in de buurt, maar ${winThreshold} van de ${questionCount} is de winstgrens.`,
+    },
+    {
+      min: winThreshold,
+      max: Math.max(winThreshold, questionCount - 1),
+      title: "Gewonnen: Publieke Peiler",
+      description: "Je had genoeg verrassingen te pakken. Je leest de onderstroom van de reacties scherp.",
+    },
+    {
+      min: questionCount,
+      max: questionCount,
+      title: "Perfecte Peiler",
+      description: "Alles goed. Jij voelde precies aan waar de reacties anders waren dan je misschien verwacht.",
+    },
+  ];
+}
+
+function getInitialQuestionIds(seed: QuizSeed, preferredIds: string[] | undefined, questionCount: number) {
+  const validIds = new Set(seed.questions.map((question) => question.id));
+  const configuredIds = preferredIds?.filter((id) => validIds.has(id)).slice(0, questionCount) ?? [];
+
+  if (configuredIds.length === questionCount) return configuredIds;
+
+  const fallbackIds = seed.questions
+    .map((question) => question.id)
+    .filter((id) => !configuredIds.includes(id))
+    .slice(0, questionCount - configuredIds.length);
+
+  return [...configuredIds, ...fallbackIds];
+}
+
+function normalizeSeedQuestionConfig(seed: QuizSeed, preferredIds: string[], questionCount: number): QuizSeed {
+  const target = clampQuestionCount(seed, questionCount);
+  const featuredQuestionIds = getInitialQuestionIds(seed, preferredIds, target);
+
+  return {
+    ...seed,
+    game: {
+      ...seed.game,
+      featuredQuestionIds,
+      questionCount: target,
+      winThreshold: getWinThreshold(target),
+    },
+    resultBands: makeResultBands(target),
+  };
+}
 
 function pickFeaturedQuestions(input: Question[], featuredIds: string[], questionCount: number) {
   const byId = new Map(input.map((question) => [question.id, question]));
@@ -420,8 +492,10 @@ function InsightPie({ slide }: { slide: NormalizedPostQuizSlide }) {
       <div className="insight-pie-wrap">
         <div className="insight-pie" style={{ "--pie-gradient": gradient } as CSSProperties}>
           <span />
-          <strong>{slide.items.length}</strong>
-          <em>signalen</em>
+          <div className="insight-pie-core">
+            <strong>{slide.items.length}</strong>
+            <em>signalen</em>
+          </div>
         </div>
       </div>
 
@@ -590,7 +664,7 @@ export default function QuizApp({
   const [runtimeSeed, setRuntimeSeed] = useState(defaultPack.seed);
   const [runtimeEvidenceContext, setRuntimeEvidenceContext] = useState(defaultPack.evidenceContext);
   const [runtimeValidation, setRuntimeValidation] = useState(defaultPack.validation);
-  const [topics, setTopics] = useState<PublicInsightTopic[]>(DEFAULT_TOPICS);
+  const [topics, setTopics] = useState<PublicInsightTopic[]>([]);
   const [started, setStarted] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [spotlightTopicId, setSpotlightTopicId] = useState("korte-broek");
@@ -616,9 +690,13 @@ export default function QuizApp({
   useEffect(() => {
     try {
       const storedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_TOPICS_KEY);
-      setTopics(storedTopics ? mergeStoredTopics(JSON.parse(storedTopics)) : DEFAULT_TOPICS);
+      const deletedTopics = window.localStorage.getItem(PUBLIC_INSIGHTS_DELETED_TOPICS_KEY);
+      const storedTopicInput = parseTopicStorageValue(storedTopics, DEFAULT_TOPICS);
+      const deletedTopicInput = parseTopicStorageValue(deletedTopics, []);
+
+      setTopics(mergeStoredTopics(storedTopicInput, deletedTopicInput));
     } catch {
-      setTopics(DEFAULT_TOPICS);
+      setTopics([]);
     }
   }, []);
 
@@ -627,9 +705,7 @@ export default function QuizApp({
       const storedPack = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
 
       if (!storedPack) {
-        setRuntimeSeed(defaultPack.seed);
-        setRuntimeEvidenceContext(defaultPack.evidenceContext);
-        setRuntimeValidation(defaultPack.validation);
+        applyFallbackOrDefaultPack();
         return;
       }
 
@@ -639,6 +715,7 @@ export default function QuizApp({
       if (!normalizedPack) return;
       if ((normalizedPack.seed.game?.questionCount ?? 0) < MIN_QUESTION_COUNT) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
+        applyFallbackOrDefaultPack();
         return;
       }
       if (
@@ -647,9 +724,7 @@ export default function QuizApp({
         normalizedPack.seed.questions.length < defaultPack.seed.questions.length
       ) {
         window.localStorage.removeItem(STUDIO_ACTIVE_PACK_KEY);
-        setRuntimeSeed(defaultPack.seed);
-        setRuntimeEvidenceContext(defaultPack.evidenceContext);
-        setRuntimeValidation(defaultPack.validation);
+        applyFallbackOrDefaultPack();
         return;
       }
 
@@ -657,11 +732,38 @@ export default function QuizApp({
       setRuntimeEvidenceContext(normalizedPack.evidenceContext);
       setRuntimeValidation(normalizedPack.validation);
     } catch {
-      setRuntimeSeed(defaultPack.seed);
-      setRuntimeEvidenceContext(defaultPack.evidenceContext);
-      setRuntimeValidation(defaultPack.validation);
+      applyFallbackOrDefaultPack();
     }
   }, [defaultPack]);
+
+  function applyDefaultPack() {
+    setRuntimeSeed(defaultPack.seed);
+    setRuntimeEvidenceContext(defaultPack.evidenceContext);
+    setRuntimeValidation(defaultPack.validation);
+  }
+
+  function readFallbackPack() {
+    try {
+      const raw = window.localStorage.getItem(STUDIO_FALLBACK_PACK_KEY);
+      if (!raw) return undefined;
+
+      const parsed = JSON.parse(raw) as StoredQuizPack;
+      return normalizeStoredPack(parsed);
+    } catch {
+      return undefined;
+    }
+  }
+
+  function applyFallbackOrDefaultPack() {
+    const fallbackPack = readFallbackPack();
+
+    if (fallbackPack) {
+      applyRuntimePack(fallbackPack);
+      return;
+    }
+
+    applyDefaultPack();
+  }
 
   function normalizeStoredPack(pack: StoredQuizPack | null | undefined) {
     if (!pack) return undefined;
@@ -669,12 +771,23 @@ export default function QuizApp({
     const normalized = normalizeQuizPack(pack);
     if (!normalized.seed.questions.length) return undefined;
     if ((normalized.seed.game?.questionCount ?? MIN_QUESTION_COUNT) < MIN_QUESTION_COUNT) return undefined;
+    const explicitSelection = normalized.selectedQuestionIds.length
+      ? normalized.selectedQuestionIds
+      : Array.isArray(pack.selectedQuestionIds)
+        ? pack.selectedQuestionIds
+        : [];
+    const repairedQuestionCount =
+      explicitSelection.length >= MIN_QUESTION_COUNT && explicitSelection.length <= MAX_QUESTION_COUNT
+        ? explicitSelection.length
+        : getQuestionCount(normalized.seed);
+    const selectedQuestionIds = getInitialQuestionIds(normalized.seed, explicitSelection, repairedQuestionCount);
+    const seed = normalizeSeedQuestionConfig(normalized.seed, selectedQuestionIds, repairedQuestionCount);
 
     return {
       ...pack,
       evidenceContext: normalized.evidenceContext,
-      seed: normalized.seed,
-      selectedQuestionIds: normalized.selectedQuestionIds,
+      seed,
+      selectedQuestionIds,
       validation: normalized.validation,
     } satisfies StoredQuizPack & { evidenceContext: EvidenceContext; seed: QuizSeed };
   }
@@ -715,9 +828,7 @@ export default function QuizApp({
   function loadTopicPack(topic: PublicInsightTopic) {
     if (!topic.packId) {
       if (topic.id === "korte-broek") {
-        setRuntimeSeed(defaultPack.seed);
-        setRuntimeEvidenceContext(defaultPack.evidenceContext);
-        setRuntimeValidation(defaultPack.validation);
+        applyFallbackOrDefaultPack();
         return true;
       }
 
@@ -726,9 +837,7 @@ export default function QuizApp({
     }
 
     if (topic.packId === "builtin") {
-      setRuntimeSeed(defaultPack.seed);
-      setRuntimeEvidenceContext(defaultPack.evidenceContext);
-      setRuntimeValidation(defaultPack.validation);
+      applyFallbackOrDefaultPack();
       return true;
     }
 
@@ -750,13 +859,9 @@ export default function QuizApp({
     return false;
   }
 
-  const desiredQuestionCount = Math.max(runtimeSeed.game?.questionCount ?? MIN_QUESTION_COUNT, MIN_QUESTION_COUNT);
-  const questionCount = Math.min(runtimeSeed.questions.length, desiredQuestionCount);
-  const defaultWinThreshold = Math.ceil(questionCount * 0.6);
-  const winThreshold = Math.min(
-    questionCount,
-    Math.max(runtimeSeed.game?.winThreshold ?? defaultWinThreshold, defaultWinThreshold, WIN_THRESHOLD),
-  );
+  const questionCount = getQuestionCount(runtimeSeed);
+  const winThreshold = getWinThreshold(questionCount);
+  const resultBands = makeResultBands(questionCount);
   const featuredQuestionIds = runtimeSeed.game?.featuredQuestionIds ?? FEATURED_QUESTION_IDS;
   const questions = useMemo(
     () => pickFeaturedQuestions(runtimeSeed.questions, featuredQuestionIds, questionCount),
@@ -1152,9 +1257,7 @@ export default function QuizApp({
     playSound("toggle");
   }
 
-  const resultBand =
-    runtimeSeed.resultBands.find((band) => score >= band.min && score <= band.max) ??
-    runtimeSeed.resultBands[runtimeSeed.resultBands.length - 1];
+  const resultBand = resultBands.find((band) => score >= band.min && score <= band.max) ?? resultBands[resultBands.length - 1];
 
   if (!started) {
     if (!selectedTopic) {
@@ -1176,7 +1279,9 @@ export default function QuizApp({
               <div>
                 <p className="kicker">Publieke Peiler</p>
                 <h1>Kies je onderwerp</h1>
-                <p className="public-quiz-rule">Speel 10 vragen en win vanaf 6 goed</p>
+                <p className="public-quiz-rule">
+                  Speel {questionCount} vragen en win vanaf {winThreshold} goed
+                </p>
               </div>
               <button className="radar-button" disabled={isDrawingTopic || !activeTopics.length} onClick={drawTopic} type="button">
                 <span aria-hidden="true" />

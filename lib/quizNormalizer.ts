@@ -127,7 +127,7 @@ const DEFAULT_RESULT_BANDS: NormalizedResultBand[] = [
     min: 0,
     max: 5,
     title: "Nog niet gewonnen",
-    description: "Je zat in de buurt, maar 6 van de 10 is de winstgrens.",
+    description: "Je zat in de buurt, maar meer dan de helft goed is de winstgrens.",
   },
   {
     min: 6,
