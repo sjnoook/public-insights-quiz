@@ -1,0 +1,2630 @@
+{
+  "quizTitle": "Publieke Peiler: Alcoholadvies en vrijheid",
+  "subtitle": "Wat denken NU.nl-reageerders over het nieuwe alcoholadvies?",
+  "selectedQuestionIds": [
+    "q01",
+    "q02",
+    "q03",
+    "q05",
+    "q07",
+    "q10",
+    "q12",
+    "q18",
+    "q28",
+    "q30"
+  ],
+  "postQuizSlideIds": [
+    "end01",
+    "end02",
+    "end03"
+  ],
+  "evidenceContext": {
+    "codeLabels": {
+      "theme:persoonlijk_gedrag": "Eigen drinkgedrag of persoonlijke ervaring",
+      "theme:genieten": "Genieten en levenskwaliteit",
+      "theme:risico_relativeren": "Risico’s naast andere dagelijkse risico’s zetten",
+      "theme:glijdende_schaal": "Vrees dat steeds meer wordt ontmoedigd",
+      "theme:zelfbeschikking": "Zelf kiezen en weerstand tegen bemoeienis",
+      "theme:twijfel_onderzoek": "Twijfel aan onderzoek of afzender",
+      "theme:gezondheidsschade_erkennen": "Gezondheidsschade erkennen of advies steunen",
+      "theme:matig_vs_misbruik": "Met mate versus misbruik",
+      "theme:advies_geen_verbod": "Advies of informatie is geen verbod",
+      "theme:accijns_belasting": "Accijns, belasting en duurder maken",
+      "theme:verkeer": "Alcohol en verkeersveiligheid",
+      "theme:normalisering_media_jeugd": "Media, reclame, supermarkt en jongeren",
+      "theme:andere_risicos": "Andere gezondheidsrisico’s zoals PFAS of voedsel",
+      "theme:zorgkosten": "Zorgkosten en maatschappelijke rekening",
+      "theme:mentale_gezondheid": "Stress, ontspanning en mentale gezondheid",
+      "theme:sociale_rituelen": "Café, vrienden, feestjes en sociale rituelen",
+      "theme:reclame_beperken": "Alcoholreclame of zichtbaarheid beperken",
+      "theme:grensshoppen": "Uitwijken naar buurlanden",
+      "theme:sterfelijkheid": "Sterfelijkheid en niet maximaal oud willen worden",
+      "theme:alcoholvrij": "Alcoholvrij of 0.0 als alternatief",
+      "theme:industrie_lobby": "Alcoholindustrie en lobby",
+      "theme:plezier_zonder_alcohol": "Plezier zonder alcohol",
+      "theme:eigen_verantwoordelijkheid": "Eigen verantwoordelijkheid en gevolgen",
+      "theme:blue_zones": "Blue Zones en leefstijlcontext",
+      "theme:minderen_stoppen": "Minderen, stoppen of minder drinken",
+      "theme:roken_tabak": "Vergelijking met roken of tabak",
+      "theme:kinderen_jongeren": "Kinderen en jongeren als normcontext",
+      "theme:humor_spot": "Humor, spot en sarcasme",
+      "theme:weer_terras": "Warm weer, terras en drinkmoment",
+      "theme:advies_voelt_bemoeienis": "Advies komt binnen als bemoeienis",
+      "emotion:irritatie": "Irritatie over betutteling",
+      "emotion:wantrouwen": "Wantrouwen richting motieven",
+      "emotion:zorg": "Zorg en waarschuwing",
+      "emotion:berusting": "Berusting en fatalisme",
+      "emotion:humor": "Humor en sarcasme"
+    },
+    "comments": {}
+  },
+  "seed": {
+    "quizTitle": "Publieke Peiler: Alcoholadvies en vrijheid",
+    "subtitle": "Wat denken NU.nl-reageerders over het nieuwe alcoholadvies?",
+    "game": {
+      "questionCount": 10,
+      "winThreshold": 6,
+      "featuredQuestionIds": [
+        "q01",
+        "q02",
+        "q03",
+        "q05",
+        "q07",
+        "q10",
+        "q12",
+        "q18",
+        "q28",
+        "q30"
+      ]
+    },
+    "source": {
+      "dataset": "Gezondheidsraad lk glas alcohol heeft risicos voor-2026-06-25-Nu_NL-2496-reacties-PublicInsights.json",
+      "analyzed_comments": 2496,
+      "top_level_comments": 1073,
+      "flattened_replies_included": 1423,
+      "article_title": "Gezondheidsraad: Élk glas alcohol heeft risico's voor je gezondheid",
+      "source_url": "https://www.nu.nl/binnenland/6400702/gezondheidsraad-elk-glas-alcohol-heeft-risicos-voor-je-gezondheid.html#nujij",
+      "publication_date": "2026-06-25",
+      "scrape_date": "2026-06-26T11:24:48.449Z",
+      "rules": [
+        "Public Insights Quiz Dump Contract v1.2",
+        "exact 30 questions",
+        "exact 10 selected questions",
+        "exact 3 post-quiz slides",
+        "minimum 3 evidence-fit quotes per question",
+        "technical codes only in evidence and evidenceContext"
+      ]
+    },
+    "analysisCounts": {
+      "themeCounts": {
+        "theme:persoonlijk_gedrag": 1161,
+        "theme:genieten": 414,
+        "theme:risico_relativeren": 271,
+        "theme:glijdende_schaal": 471,
+        "theme:zelfbeschikking": 253,
+        "theme:twijfel_onderzoek": 412,
+        "theme:gezondheidsschade_erkennen": 448,
+        "theme:matig_vs_misbruik": 355,
+        "theme:advies_geen_verbod": 313,
+        "theme:accijns_belasting": 273,
+        "theme:verkeer": 263,
+        "theme:normalisering_media_jeugd": 278,
+        "theme:andere_risicos": 236,
+        "theme:zorgkosten": 326,
+        "theme:mentale_gezondheid": 145,
+        "theme:sociale_rituelen": 194,
+        "theme:reclame_beperken": 139,
+        "theme:grensshoppen": 117,
+        "theme:sterfelijkheid": 61,
+        "theme:alcoholvrij": 71,
+        "theme:industrie_lobby": 66,
+        "theme:plezier_zonder_alcohol": 79,
+        "theme:eigen_verantwoordelijkheid": 25,
+        "theme:blue_zones": 7,
+        "theme:minderen_stoppen": 180,
+        "theme:roken_tabak": 396,
+        "theme:kinderen_jongeren": 74,
+        "theme:humor_spot": 116,
+        "theme:weer_terras": 252,
+        "theme:advies_voelt_bemoeienis": 468
+      },
+      "emotionCounts": {
+        "emotion:irritatie": 222,
+        "emotion:wantrouwen": 213,
+        "emotion:zorg": 506,
+        "emotion:berusting": 42,
+        "emotion:humor": 115
+      }
+    },
+    "strategicLenses": {
+      "cepHypotheses": [
+        {
+          "label": "Weekend of sociale borrel",
+          "hypothesis": "Alcohol wordt geactiveerd rond weekend, vrienden, borrels en gezelligheid; communicatie die dit moment negeert voelt snel moralistisch.",
+          "evidence_basis": {
+            "claim": "Reacties verbinden alcohol aan sociale momenten en rituelen.",
+            "n": 194,
+            "denominator": 2496,
+            "pct": 7.8,
+            "codes": [
+              "theme:sociale_rituelen"
+            ],
+            "comment_ids": [
+              "c2406",
+              "c1512",
+              "c2238"
+            ],
+            "quotes": [
+              {
+                "id": "c2406",
+                "text": "Gaan we weer, het volgende onderwerp waar ze zich op kunnen uitleven. Uiteindelijk heeft alles nadelen en bepaal ik zelf wel of ik in het weekend met vrienden een koud biertje wil drinken of niet.",
+                "likes": 288,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c1512",
+                "text": "Ach man, hou toch op. Ja alcohol is ongezond, iedereen weet dat. Ik ben het er volledig mee eens dat we nog veel strenger moeten worden over alcohol in het verkeer. Maar gin iedereen gewoon z’n biertje. Er is momenteel al zo weinig leuks gaande in de wereld, laat dan in ieder geval de borrels en cafébezoeken gezellig houden. Ik zou, overigens, ook niet weten hoe ik zonder alcohol de klassieke kringverjaardagen vol moet houden.",
+                "likes": 13,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c2238",
+                "text": "En waar je ook prima je koffie, thee en frisdrank kunt bestellen en kunt genieten van sociale cohesie en het welzijn van de maatschappij…en alcohol met mate…maar daar schort t nogal eens aan",
+                "likes": 5,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        },
+        {
+          "label": "Gezondheid versus gewoonte",
+          "hypothesis": "Mensen erkennen soms risico, maar willen hun gewoonte of plezier niet automatisch opgeven.",
+          "evidence_basis": {
+            "claim": "Reacties wegen gezondheid af tegen genieten en levenskwaliteit.",
+            "n": 414,
+            "denominator": 2496,
+            "pct": 16.6,
+            "codes": [
+              "theme:genieten"
+            ],
+            "comment_ids": [
+              "c2356",
+              "c0015",
+              "c1799"
+            ],
+            "quotes": [
+              {
+                "id": "c2356",
+                "text": "Ik word doodmoe van al die overheidsbemoeienis. Een leven met alleen gezonde dingen is geen leven. Het leven moet gevierd worden en hoe gezond je ook leeft, garanties bestaan er niet. Laat iedereen z'n eigen afwegingen maken en het leven leiden dat hem of haar gelukkig maakt. Proost.",
+                "likes": 214,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0015",
+                "text": "Leef je eigen leven. Je leeft maar één keer. En het leven is er niet om zo oud mogelijk te worden. Maar om een plezierig leven te hebben.",
+                "likes": 93,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c1799",
+                "text": "Ach ja. Bewerkt eten is niet goed, suiker is niet goed, zitten is niet goed en zo kan je doorgaan. Ik wil ook nog wel enigzins een leuk leven leiden. En ik kan wel genieten van een lekkere wijn in het weekend of op vakanties. Of een biertje met vrienden tijdens het voetbal kijken. Is het goed? Blijkbaar niet. Maar je leeft maar 1 keer en je moet ergens dood aan gaan",
+                "likes": 11,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        },
+        {
+          "label": "Prijsprikkel bij aankoopmoment",
+          "hypothesis": "Prijsbeleid kan gedragsdoel en wantrouwen tegelijk oproepen.",
+          "evidence_basis": {
+            "claim": "Accijns en belasting worden direct aan het advies gekoppeld.",
+            "n": 273,
+            "denominator": 2496,
+            "pct": 10.9,
+            "codes": [
+              "theme:accijns_belasting"
+            ],
+            "comment_ids": [
+              "c2149",
+              "c0237",
+              "c0022"
+            ],
+            "quotes": [
+              {
+                "id": "c2149",
+                "text": "Juist we zijn er weer, wat dacht de raad we zullen met dit extreem warme weer maar eens over alcohol drinken beginnen. En ja hoor we moeten het weer duurder maken accijnzen omhoog of moeilijker te verkrijgen, ik wed dat het accijnzen verhogen wordt weer een mooie smoes geld binnen te harken.",
+                "likes": 38,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0237",
+                "text": "Dat is voor de regering weer een kans om de belasting te verhogen net als bij suiker, benzine, gas etc.",
+                "likes": 20,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0022",
+                "text": "Goh worden er mensen wakker, ok zien ze mogelijkheden om het begrotingstekort snel op te lossen.Net als bij tabak beginnen met 100% accijnsen op de verkoop prijs",
+                "likes": 19,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        }
+      ],
+      "whizeBestGuessHypotheses": [
+        {
+          "segmentLens": "F Gewoon Gemiddeld / G Gezellige Emptynesters",
+          "hypothesis": "Mogelijk relevant bij huishoudens waar weekendbiertje, borrelmoment en sociale gezelligheid normaal zijn.",
+          "caution": "Whize is hier alleen een hypotheselens; er is geen postcode- of huishouddata gebruikt.",
+          "evidence_basis": {
+            "claim": "Reacties verbinden alcohol aan sociale momenten.",
+            "n": 194,
+            "denominator": 2496,
+            "pct": 7.8,
+            "codes": [
+              "theme:sociale_rituelen"
+            ],
+            "comment_ids": [
+              "c2406",
+              "c1512",
+              "c2238"
+            ],
+            "quotes": [
+              {
+                "id": "c2406",
+                "text": "Gaan we weer, het volgende onderwerp waar ze zich op kunnen uitleven. Uiteindelijk heeft alles nadelen en bepaal ik zelf wel of ik in het weekend met vrienden een koud biertje wil drinken of niet.",
+                "likes": 288,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c1512",
+                "text": "Ach man, hou toch op. Ja alcohol is ongezond, iedereen weet dat. Ik ben het er volledig mee eens dat we nog veel strenger moeten worden over alcohol in het verkeer. Maar gin iedereen gewoon z’n biertje. Er is momenteel al zo weinig leuks gaande in de wereld, laat dan in ieder geval de borrels en cafébezoeken gezellig houden. Ik zou, overigens, ook niet weten hoe ik zonder alcohol de klassieke kringverjaardagen vol moet houden.",
+                "likes": 13,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c2238",
+                "text": "En waar je ook prima je koffie, thee en frisdrank kunt bestellen en kunt genieten van sociale cohesie en het welzijn van de maatschappij…en alcohol met mate…maar daar schort t nogal eens aan",
+                "likes": 5,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        },
+        {
+          "segmentLens": "A Dromen en Rondkomen / C Volks en Uitgesproken",
+          "hypothesis": "Prijs- en betuttelingsfrictie kan extra gevoelig zijn bij groepen die beleid als lastenverzwaring ervaren.",
+          "caution": "Best-guess op basis van taal en context; geen feitelijke segmentclassificatie.",
+          "evidence_basis": {
+            "claim": "Reacties koppelen beleid aan accijns en uitwijken.",
+            "n": 273,
+            "denominator": 2496,
+            "pct": 10.9,
+            "codes": [
+              "theme:accijns_belasting"
+            ],
+            "comment_ids": [
+              "c2149",
+              "c0464",
+              "c1557"
+            ],
+            "quotes": [
+              {
+                "id": "c2149",
+                "text": "Juist we zijn er weer, wat dacht de raad we zullen met dit extreem warme weer maar eens over alcohol drinken beginnen. En ja hoor we moeten het weer duurder maken accijnzen omhoog of moeilijker te verkrijgen, ik wed dat het accijnzen verhogen wordt weer een mooie smoes geld binnen te harken.",
+                "likes": 38,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0464",
+                "text": "Oplossing Den Haag accijns omhoog....... oplossing van de burger : naar 1 van de buurlanden om daar alles te kopen waar de accijnzen van zijn verhoogd.",
+                "likes": 21,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c1557",
+                "text": "\"Om het drinken van alcohol te ontmoedigen zou alcohol bijvoorbeeld duurder gemaakt kunnen worden, of lastiger verkrijgbaar kunnen worden\"Hallo Duitsland en Belgie! Gelukkig is de grens voor mij slechts een half uurtje. Iemand nog sigaretten nodig trouwens? Ook prima te betalen daar.",
+                "likes": 13,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        }
+      ],
+      "demographicLifeStageFrames": [
+        {
+          "frame": "Werkenden met ontspanningsrituelen",
+          "hypothesis": "Reacties plaatsen alcohol in weekend, stress, vrienden en borrels.",
+          "evidence_basis": {
+            "claim": "Reacties plaatsen alcohol in concrete momenten.",
+            "n": 252,
+            "denominator": 2496,
+            "pct": 10.1,
+            "codes": [
+              "theme:weer_terras"
+            ],
+            "comment_ids": [
+              "c2406",
+              "c0006",
+              "c0357"
+            ],
+            "quotes": [
+              {
+                "id": "c2406",
+                "text": "Gaan we weer, het volgende onderwerp waar ze zich op kunnen uitleven. Uiteindelijk heeft alles nadelen en bepaal ik zelf wel of ik in het weekend met vrienden een koud biertje wil drinken of niet.",
+                "likes": 288,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0006",
+                "text": "Er is geen veilige ondergrens voor alcohol: zelfs af en toe een glaasje brengt al risico's met zich mee.Op het moment is het dorstig weer. Ik neem een lekker wijntje..Cheers!",
+                "likes": 86,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0357",
+                "text": "Op Gran Canaria ontbijten we met 2 glaasjes Cava erbij.....het staat er toch. Omdat we dan al de smaak van alcohol te pakken hebben zetten we meestal door en beginnen om 10:30 met bier en rose bij het zwembad. De lunch uiteraard halve liters van de tap. Middags nog een paar en dan slapen op het strandbedje. Daarna opfrissen klaar maken voor het diner met lekkere rode wijn en dan lekker een terrasje pakken. Dan kunnen we heerlijk slapen en verheugen we ons alweer op het ontbijt. Gelukkig hebben ze daar geen gezondheidsraad met betuttelende rapportage...",
+                "likes": 26,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        },
+        {
+          "frame": "Ouders en jongerencontext",
+          "hypothesis": "Een deel verschuift van individuele keuze naar wat kinderen en jongeren normaal leren vinden.",
+          "evidence_basis": {
+            "claim": "Kinderen en jongeren worden als normcontext genoemd.",
+            "n": 74,
+            "denominator": 2496,
+            "pct": 3.0,
+            "codes": [
+              "theme:kinderen_jongeren"
+            ],
+            "comment_ids": [
+              "c1937",
+              "c0038",
+              "c0361"
+            ],
+            "quotes": [
+              {
+                "id": "c1937",
+                "text": "Ik blijf me nog steeds verbazen over het feit dat we alcohol zo normaal vinden. Alcohol is een soort hard drug en we lopen er met onze kinderen dagelijks in de supermarkt langs. Sigaretten zijn de supermarkt uit (en terecht), maar alcohol? Die blijft gewoon in de supermarkt te koop. Bijzonder",
+                "likes": 35,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0038",
+                "text": "Een belangrijk aspect dat vaak onderbelicht blijft, is de rol van films en tv-series. Alcoholgebruik wordt daarin nog steeds veelvuldig neergezet als een vanzelfsprekend en normaal onderdeel van het dagelijks leven. Onderzoek laat zien dat deze normalisering invloed heeft op hoe mensen, en vooral jongeren, tegen alcohol aankijken. Daarnaast speelt de alcoholindustrie via marketing en product placement nog altijd een rol in de zichtbaarheid van alcohol in media. Als we alcohol echt willen denormaliseren, zou er ook meer aandacht moeten zijn voor de manier waarop alcohol in entertainment wordt gepresenteerd",
+                "likes": 9,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0361",
+                "text": "Het Heineken Holland Paviljoen, spaaracties bij kratjes bier tijdens het WK. Sport en alcohol. Het hoort zogenaamd bij elkaar. De groepsdruk bij met name jongeren. De gezondheidsschade, de medische kosten en alcoholdoden, de agressie zoals beschreven. Kapotte huwelijken. De vele daklozen. Het is puur vergif. Het KAN meer kapot maken dan je lief is.",
+                "likes": 1,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        }
+      ],
+      "gender_signal_summary": {
+        "method": "Probabilistische inschatting op basis van zichtbare username-signalen; geen feitelijke genderregistratie.",
+        "unit": "user-level",
+        "n_unique_users": 1515,
+        "n_known_signal": 203,
+        "n_unknown_signal": 1312,
+        "broad_split_confidence_gte_0_55": {
+          "richting_man": 182,
+          "richting_vrouw": 21,
+          "denominator": 203,
+          "pct_richting_man": 89.7,
+          "pct_richting_vrouw": 10.3
+        },
+        "strong_split_confidence_gte_0_80": {
+          "richting_man": 182,
+          "richting_vrouw": 21,
+          "denominator": 203
+        },
+        "weak_signal_0_55_to_0_64": {
+          "n": 0,
+          "pct_of_known": 0.0
+        },
+        "caution": "Onbekend is groot en wordt niet weggepoetst; signalen mogen niet als feitelijke genderverdeling worden gelezen."
+      },
+      "brandCodes": [
+        {
+          "label": "Respecteer keuzevrijheid",
+          "brand_implication": "Begin niet met verbieden of beschamen; erken autonomie voordat je risico uitlegt.",
+          "evidence_basis": {
+            "claim": "Zelf kiezen en weerstand tegen bemoeienis zijn zichtbaar.",
+            "n": 253,
+            "denominator": 2496,
+            "pct": 10.1,
+            "codes": [
+              "theme:zelfbeschikking"
+            ],
+            "comment_ids": [
+              "c0644",
+              "c1046",
+              "c1729"
+            ],
+            "quotes": [
+              {
+                "id": "c0644",
+                "text": "Mogen we ook zelf beslissen of we alcohol drinken en kunnen we dit land een beetje leefbaar houden alstublieft? Waarom moet alles hier toch gereguleerd worden, is toch niet normaal?",
+                "likes": 37,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c1046",
+                "text": "Mogen we nog iets zelf bepalen in dit land? Hard werken is stressvol en daarmee ook slecht. Moeten we daar ook maar nee stoppen dan? Iedereen 200 jaar oud laten worden? De bemoeienis ergerd mij ontzettend.",
+                "likes": 39,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c1729",
+                "text": "En wie is dan de juiste persoon om daar wat van te vinden: de persoon zelf of de overheid/ambtenarij? De persoon zelf natuurlijk.",
+                "likes": 36,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        },
+        {
+          "label": "Maak risico concreet zonder moralisme",
+          "brand_implication": "Gezondheidsclaims moeten helder zijn, maar niet klinken als moreel oordeel.",
+          "evidence_basis": {
+            "claim": "Reacties erkennen ook schade en onderbouwing.",
+            "n": 448,
+            "denominator": 2496,
+            "pct": 17.9,
+            "codes": [
+              "theme:gezondheidsschade_erkennen"
+            ],
+            "comment_ids": [
+              "c2449",
+              "c2451",
+              "c2425"
+            ],
+            "quotes": [
+              {
+                "id": "c2449",
+                "text": "Ja maar drank en roken is ook gewoon schadelijk voor je, en een volume boven een bepaald aantal decibel ook. Je kan hoog of laag springen wat je wilt, en waarschuwingen hierover betutteling noemen, maar dat verandert er niets aan.",
+                "likes": 101,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c2451",
+                "text": "Er is bewijs genoeg dat het slecht voor je is. Daar is geen enkele twijfel over, dus waar heb je het nu over?",
+                "likes": 53,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c2425",
+                "text": "Op uitleven? Ze geven gewoon advies op basis van wetenschap. Het is bizar dat alcohol zo normaal gevonden wordt als je ziet hoeveel schade het veroorzaakt. Ze zeggen niet dat je niet mag drinken alleen dat het niet zo aangemoedigd moet worden. Eigenlijk zouden we met alcohol net zo om moeten gaan als met roken.",
+                "likes": 23,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        },
+        {
+          "label": "Wees eerlijk over prijsbeleid",
+          "brand_implication": "Leg bestemming en effect van accijns helder uit; anders wordt het als melkkoe gelezen.",
+          "evidence_basis": {
+            "claim": "Accijns en belasting roepen direct wantrouwen op.",
+            "n": 273,
+            "denominator": 2496,
+            "pct": 10.9,
+            "codes": [
+              "theme:accijns_belasting"
+            ],
+            "comment_ids": [
+              "c2149",
+              "c0237",
+              "c0022"
+            ],
+            "quotes": [
+              {
+                "id": "c2149",
+                "text": "Juist we zijn er weer, wat dacht de raad we zullen met dit extreem warme weer maar eens over alcohol drinken beginnen. En ja hoor we moeten het weer duurder maken accijnzen omhoog of moeilijker te verkrijgen, ik wed dat het accijnzen verhogen wordt weer een mooie smoes geld binnen te harken.",
+                "likes": 38,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0237",
+                "text": "Dat is voor de regering weer een kans om de belasting te verhogen net als bij suiker, benzine, gas etc.",
+                "likes": 20,
+                "source": "NU.nl comments"
+              },
+              {
+                "id": "c0022",
+                "text": "Goh worden er mensen wakker, ok zien ze mogelijkheden om het begrotingstekort snel op te lossen.Net als bij tabak beginnen met 100% accijnsen op de verkoop prijs",
+                "likes": 19,
+                "source": "NU.nl comments"
+              }
+            ],
+            "quote_count": 3,
+            "note": "Strategische lens op basis van publieke comments; geen representatief bevolkingsonderzoek."
+          }
+        }
+      ]
+    },
+    "questions": [
+      {
+        "id": "q01",
+        "type": "multiple_choice",
+        "tone": "raad-de-reactie",
+        "context": "Veel reacties gingen verder dan alleen een oordeel over het rapport.",
+        "prompt": "Hoe maakten veel mensen de discussie persoonlijk?",
+        "options": [
+          "Door eigen drinkgedrag of ervaringen te noemen",
+          "Door recepten uit te wisselen",
+          "Door vooral cafés te beoordelen",
+          "Door etiketten te ontwerpen"
+        ],
+        "optionDetails": [
+          "Ja. Veel reacties vertelden wat iemand zelf drinkt, laat staan of belangrijk vindt.",
+          "Nee. Recepten waren geen zichtbaar patroon.",
+          "Nee. Cafés kwamen voor, maar niet als belangrijkste persoonlijke vorm.",
+          "Nee. Etiketten waren geen brede persoonlijke lijn."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Veel reacties werden in de ik-vorm gevoerd.",
+        "feedbackWrong": "Niet helemaal. Het persoonlijke zat vooral in eigen drinkgedrag en eigen keuzes.",
+        "evidence": {
+          "claim": "Veel reacties maken het onderwerp persoonlijk via eigen drinkgedrag, keuzes of ervaringen.",
+          "n": 1161,
+          "denominator": 2496,
+          "pct": 46.5,
+          "codes": [
+            "theme:persoonlijk_gedrag"
+          ],
+          "comment_ids": [
+            "c2406",
+            "c2078",
+            "c0602"
+          ],
+          "quotes": [
+            {
+              "id": "c2406",
+              "text": "Gaan we weer, het volgende onderwerp waar ze zich op kunnen uitleven. Uiteindelijk heeft alles nadelen en bepaal ik zelf wel of ik in het weekend met vrienden een koud biertje wil drinken of niet.",
+              "likes": 288,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2078",
+              "text": "Natuurlijk is alcohol drinken ongezond. Dat weten we allemaal. Maar ik begin toch ook wel mijn vraagtekens te zetten bij al die goedbedoelde adviezen. Alles wat leuk en lekker is, wordt afgeraden. Ik rook niet, ik gebruik geen drugs, ik snoep amper, ik snack eigenlijk nooit, ik eet matig vlees. Wel drink ik af en toe een wijntje, gewoon omdat ik dat lekker vind (en nee, ik stap daarna niet in de auto). Ik heb persoonlijk echter niet de ambitie om 120 te worden. Laat me met rust.",
+              "likes": 11,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0602",
+              "text": "Het zal best waar zijn maar ik drink af en toe een koud biertje, een goed glas Islay-whiskey of een heerlijk glas wijn en zal dat altijd blijven doen. Ik maak me veel drukker om pfas, microplastic en alle gewasbeschermingsmiddelen die minimaal 1 x per week op de akkers rond mijn woning worden gespoten (zelf eet ik alleen al daarom vrijwel uitsluitend biologisch geteelde groente en fruit). Nu even bier koud leggen!",
+              "likes": 25,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q02",
+        "type": "multiple_choice",
+        "tone": "publieksgevoel",
+        "context": "De discussie draaide niet alleen om gezondheid, maar ook om wat mensen een goed leven vinden.",
+        "prompt": "Welke waarde verdedigden veel reageerders?",
+        "options": [
+          "Genieten en levenskwaliteit",
+          "Strenger tellen van glazen",
+          "Meer sportadvies",
+          "Minder verjaardagen"
+        ],
+        "optionDetails": [
+          "Ja. Veel reacties zetten plezier, gezelligheid en eigen afweging centraal.",
+          "Nee. Tellen van glazen was niet de kern van deze reacties.",
+          "Nee. Sportadvies was geen groot antwoordpatroon.",
+          "Nee. Verjaardagen kwamen als voorbeeld terug, niet als hoofdwaarde."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed gezien. Genieten werd vaak als tegenwicht tegen gezondheidsregels gebruikt.",
+        "feedbackWrong": "Bijna. De veelgenoemde waarde was niet techniek of beleid, maar levenskwaliteit.",
+        "evidence": {
+          "claim": "Veel reacties koppelen alcohol aan genieten, gezelligheid en de vraag wat een goed leven is.",
+          "n": 414,
+          "denominator": 2496,
+          "pct": 16.6,
+          "codes": [
+            "theme:genieten"
+          ],
+          "comment_ids": [
+            "c2356",
+            "c0015",
+            "c1799"
+          ],
+          "quotes": [
+            {
+              "id": "c2356",
+              "text": "Ik word doodmoe van al die overheidsbemoeienis. Een leven met alleen gezonde dingen is geen leven. Het leven moet gevierd worden en hoe gezond je ook leeft, garanties bestaan er niet. Laat iedereen z'n eigen afwegingen maken en het leven leiden dat hem of haar gelukkig maakt. Proost.",
+              "likes": 214,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0015",
+              "text": "Leef je eigen leven. Je leeft maar één keer. En het leven is er niet om zo oud mogelijk te worden. Maar om een plezierig leven te hebben.",
+              "likes": 93,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1799",
+              "text": "Ach ja. Bewerkt eten is niet goed, suiker is niet goed, zitten is niet goed en zo kan je doorgaan. Ik wil ook nog wel enigzins een leuk leven leiden. En ik kan wel genieten van een lekkere wijn in het weekend of op vakanties. Of een biertje met vrienden tijdens het voetbal kijken. Is het goed? Blijkbaar niet. Maar je leeft maar 1 keer en je moet ergens dood aan gaan",
+              "likes": 11,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q03",
+        "type": "multiple_choice",
+        "tone": "raad-de-vergelijking",
+        "context": "Een opvallende stijl in de reacties was om het onderwerp naast alledaagse situaties te zetten.",
+        "prompt": "Welke vergelijking kwam vaak terug?",
+        "options": [
+          "Ook oversteken, zwemmen of buiten zijn heeft risico",
+          "Alcohol is vooral een verpakkingsprobleem",
+          "Het debat gaat vooral over smaak",
+          "Iedereen wil exact hetzelfde drinken"
+        ],
+        "optionDetails": [
+          "Ja. Veel mensen relativeerden het advies met alledaagse risico’s.",
+          "Nee. Verpakking was geen breed gedragen vergelijking.",
+          "Nee. Smaak stond niet centraal in dit patroon.",
+          "Nee. De reacties waren juist sterk verdeeld."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Het risico werd vaak naast gewone dagelijkse risico’s gezet.",
+        "feedbackWrong": "Niet helemaal. Veel reageerders zeiden juist: het hele leven bevat risico’s.",
+        "evidence": {
+          "claim": "Reageerders relativeerden alcoholrisico’s vaak door te wijzen op andere dagelijkse risico’s.",
+          "n": 271,
+          "denominator": 2496,
+          "pct": 10.9,
+          "codes": [
+            "theme:risico_relativeren"
+          ],
+          "comment_ids": [
+            "c0005",
+            "c0025",
+            "c1813"
+          ],
+          "quotes": [
+            {
+              "id": "c0005",
+              "text": "De straat oversteken brengt ook risico’s met zich mee dus dat kunnen we beter ook niet meer doen denk ik.",
+              "likes": 132,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0025",
+              "text": "Iedere keer dat je de straat oversteekt is een risico.Iedere keer dat je chips eet is een risico.Iedere keer dat je gaat zwemmen in natuurwater is een risico.Voorlopig wordt de gemiddelde leeftijd steeds hoger.Dus het zal wel meevallen.",
+              "likes": 56,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1813",
+              "text": "Hetzelfde kun je zeggen over naar buiten gaan. Wolven, verkeer, smog, vliegtuigen die omlaag vallen, bliksem, bomen die omwaaien, overstromingen, gekke mensen, ... Er is altijd wel een kans op iets.\"Er is geen veilige ondergrens voor [naar buiten gaan]: zelfs af en toe een [blokje om] brengt al risico's met zich mee.\"",
+              "likes": 8,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q04",
+        "type": "multiple_choice",
+        "tone": "publieksradar",
+        "context": "Sommige reacties zagen het alcoholadvies als onderdeel van een bredere trend.",
+        "prompt": "Waar waren deze reacties bang voor?",
+        "options": [
+          "Dat na alcohol ook roken, vlees, suiker of andere dingen aan de beurt zijn",
+          "Dat cafés te groot worden",
+          "Dat er te weinig keuze in glazen is",
+          "Dat niemand nog nieuws leest"
+        ],
+        "optionDetails": [
+          "Ja. Veel mensen zagen een glijdende schaal van leefstijlmaatregelen.",
+          "Nee. Grootte van cafés was geen duidelijk terugkerend punt.",
+          "Nee. Glazen waren hooguit humoristisch detail.",
+          "Nee. Nieuwsconsumptie was niet de kern."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Alcohol werd vaak geplaatst in een rijtje met tabak, suiker, vlees en andere leefstijlthema’s.",
+        "feedbackWrong": "Niet helemaal. De zorg ging vooral over een steeds langer lijstje van ontmoedigde of belaste dingen.",
+        "evidence": {
+          "claim": "Veel reacties plaatsen alcohol in een breder rijtje van producten of gewoontes die volgens hen steeds meer worden ontmoedigd.",
+          "n": 471,
+          "denominator": 2496,
+          "pct": 18.9,
+          "codes": [
+            "theme:glijdende_schaal"
+          ],
+          "comment_ids": [
+            "c0628",
+            "c1090",
+            "c0557"
+          ],
+          "quotes": [
+            {
+              "id": "c0628",
+              "text": "Geen sigaretten, geen alcohol, geen vuurwerk, geen kachel, niet in de zon, niet teveel vlees, geen wintersport, niet te ver op vakantie, geen benzine auto rijden, niet te harde muziek.Is er nog iets gezelligs te ondernemen zonder dat er dood en verderf geroepen wordt?",
+              "likes": 41,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1090",
+              "text": "Geen sigaretten of tegen hoge accijns Geen vlees meer Limonade suiker taxNiet te veel melk meer Nu ook alcohol slecht verklaren Auto luwe woonwijken Water en brood dat moet genoeg zijn. Des te meer kan de burger overhouden voor belastingen, slim toch",
+              "likes": 29,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0557",
+              "text": "Ik lig lekker op het strand met een biertje en waarschijnlijk morgen ook. Hou toch eens op met die betutteling!Straks mogen we in de zomer alleen nog maar binnen blijven met alleen een glaasje water en een gezonde salade want o wee, alcohol is niet goed, de zon is schadelijk, roken is is slecht, vet eten vermijden en niet teveel inademen want al die fijnstof in de lucht is ook niet best.",
+              "likes": 23,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q05",
+        "type": "multiple_choice",
+        "tone": "gevoelstemperatuur",
+        "context": "Bij veel mensen raakte het advies aan een normatief punt.",
+        "prompt": "Welke reactiehouding kwam duidelijk terug?",
+        "options": [
+          "Laat mensen zelf kiezen",
+          "Maak van elk glas een formulier",
+          "Laat alleen artsen reageren",
+          "Verplaats de discussie naar sportclubs"
+        ],
+        "optionDetails": [
+          "Ja. Zelfbeschikking en weerstand tegen bemoeienis kwamen sterk terug.",
+          "Nee. Formulieren waren geen publieksthema.",
+          "Nee. Er werd niet gevraagd om alleen experts.",
+          "Nee. Sportclubs waren niet de hoofdplek van het debat."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Veel reacties gingen over autonomie en eigen afweging.",
+        "feedbackWrong": "Niet helemaal. De centrale houding was: laat de keuze bij de persoon zelf.",
+        "evidence": {
+          "claim": "Een belangrijk deel van de reacties draait om zelfbeschikking en weerstand tegen bemoeienis.",
+          "n": 253,
+          "denominator": 2496,
+          "pct": 10.1,
+          "codes": [
+            "theme:zelfbeschikking"
+          ],
+          "comment_ids": [
+            "c0644",
+            "c1046",
+            "c1729"
+          ],
+          "quotes": [
+            {
+              "id": "c0644",
+              "text": "Mogen we ook zelf beslissen of we alcohol drinken en kunnen we dit land een beetje leefbaar houden alstublieft? Waarom moet alles hier toch gereguleerd worden, is toch niet normaal?",
+              "likes": 37,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1046",
+              "text": "Mogen we nog iets zelf bepalen in dit land? Hard werken is stressvol en daarmee ook slecht. Moeten we daar ook maar nee stoppen dan? Iedereen 200 jaar oud laten worden? De bemoeienis ergerd mij ontzettend.",
+              "likes": 39,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1729",
+              "text": "En wie is dan de juiste persoon om daar wat van te vinden: de persoon zelf of de overheid/ambtenarij? De persoon zelf natuurlijk.",
+              "likes": 36,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q06",
+        "type": "multiple_choice",
+        "tone": "vertrouwensvraag",
+        "context": "Niet iedereen reageerde op de inhoud van het advies; een deel reageerde op de afzender of het onderzoek zelf.",
+        "prompt": "Welke twijfel kwam terug?",
+        "options": [
+          "Of het onderzoek en de raad wel neutraal of nuttig zijn",
+          "Of bierglazen groot genoeg zijn",
+          "Of wijn goed past bij kaas",
+          "Of reacties lang genoeg zijn"
+        ],
+        "optionDetails": [
+          "Ja. Twijfel aan onderzoek, raad of motieven kwam veel voor.",
+          "Nee. Glasgrootte was geen hoofdlijn.",
+          "Nee. Wijn-spijscombinaties waren geen patroon.",
+          "Nee. Lengte van reacties was geen thema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed. Er zat zichtbaar wantrouwen richting onderzoek en instituties in het debat.",
+        "feedbackWrong": "Niet helemaal. De twijfel richtte zich vooral op onderzoek, raad en achterliggende motieven.",
+        "evidence": {
+          "claim": "Veel reacties uiten twijfel aan het onderzoek, de Gezondheidsraad of de motieven achter het advies.",
+          "n": 412,
+          "denominator": 2496,
+          "pct": 16.5,
+          "codes": [
+            "theme:twijfel_onderzoek"
+          ],
+          "comment_ids": [
+            "c0017",
+            "c1768",
+            "c1158"
+          ],
+          "quotes": [
+            {
+              "id": "c0017",
+              "text": "Dit onderzoek stond al in de Volkskrant. Links zet de aanval in op alcohol. Onderzoeken kan je nl. zo uitvoeren dat de opdrachtgever krijgt wat hij wil zien.",
+              "likes": 50,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1768",
+              "text": "Bijna alles wat je eet of drinkt is niet goed, daarom.moet je zo gevarieerd mogelijk eten!Maar ze moeten eens gaan stoppen met dit soort onderzoeken kost alleen maar geld en niemand word hier gelukkig van!Ik rook en drink niet maar ben onder tussen met dit geneuzel wel klaar!",
+              "likes": 93,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1158",
+              "text": "Weer een volslagen nutteloos onderzoek. Kijk eens even rond in een supermarkt. Het staat er vol met ongezonde dingen. Met name te zoet (eventueel met suikervervangers om het nog zoeter te krijgen) en te zout. Hele rekken vol, en dan ga je je druk maken over een glaasje alcohol.",
+              "likes": 27,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q07",
+        "type": "multiple_choice",
+        "tone": "tegenstem",
+        "context": "Naast weerstand waren er ook reacties die het gezondheidsadvies juist verdedigden.",
+        "prompt": "Wat was de kern van die steun?",
+        "options": [
+          "Alcohol is schadelijk en waarschuwingen zijn terecht",
+          "Alcohol is vooral een hobbykwestie",
+          "Het gaat alleen om dure flessen",
+          "Niemand leest gezondheidsnieuws"
+        ],
+        "optionDetails": [
+          "Ja. Deze reacties benadrukken schade, bewijs en normalisering.",
+          "Nee. Hobby was niet de kern van de steun.",
+          "Nee. Prijs was hier niet het hoofdargument.",
+          "Nee. Nieuwslezen was geen punt."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Een duidelijke groep vond het logisch om alcohol als schadelijk te benoemen.",
+        "feedbackWrong": "Bijna. De steun ging vooral over gezondheidsschade en het recht om daarvoor te waarschuwen.",
+        "evidence": {
+          "claim": "Een zichtbare groep reacties erkent alcohol als schadelijk en steunt waarschuwingen of denormalisering.",
+          "n": 448,
+          "denominator": 2496,
+          "pct": 17.9,
+          "codes": [
+            "theme:gezondheidsschade_erkennen"
+          ],
+          "comment_ids": [
+            "c2449",
+            "c2451",
+            "c2425"
+          ],
+          "quotes": [
+            {
+              "id": "c2449",
+              "text": "Ja maar drank en roken is ook gewoon schadelijk voor je, en een volume boven een bepaald aantal decibel ook. Je kan hoog of laag springen wat je wilt, en waarschuwingen hierover betutteling noemen, maar dat verandert er niets aan.",
+              "likes": 101,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2451",
+              "text": "Er is bewijs genoeg dat het slecht voor je is. Daar is geen enkele twijfel over, dus waar heb je het nu over?",
+              "likes": 53,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2425",
+              "text": "Op uitleven? Ze geven gewoon advies op basis van wetenschap. Het is bizar dat alcohol zo normaal gevonden wordt als je ziet hoeveel schade het veroorzaakt. Ze zeggen niet dat je niet mag drinken alleen dat het niet zo aangemoedigd moet worden. Eigenlijk zouden we met alcohol net zo om moeten gaan als met roken.",
+              "likes": 23,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q08",
+        "type": "multiple_choice",
+        "tone": "nuancezoeker",
+        "context": "Een deel van de discussie ging niet over wel of niet drinken, maar over hoeveel en hoe vaak.",
+        "prompt": "Welke nuance kwam vaak terug?",
+        "options": [
+          "Af en toe of met mate is iets anders dan misbruik",
+          "Alle alcohol smaakt hetzelfde",
+          "Verkeer is onbelangrijk",
+          "Reclame lost alles op"
+        ],
+        "optionDetails": [
+          "Ja. Veel reacties maakten onderscheid tussen matig gebruik en misbruik.",
+          "Nee. Smaakvergelijkingen waren geen hoofdpunt.",
+          "Nee. Verkeer kwam juist wel terug als aparte zorg.",
+          "Nee. Reclame was een apart normaliseringspunt."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed gezien. Veel mensen vonden dat misbruik en een incidenteel glas niet op één hoop horen.",
+        "feedbackWrong": "Niet helemaal. De nuance zat vooral in het verschil tussen met mate drinken en overmatig drinken.",
+        "evidence": {
+          "claim": "Veel reacties maken onderscheid tussen matig drinken, af en toe drinken en alcoholmisbruik.",
+          "n": 355,
+          "denominator": 2496,
+          "pct": 14.2,
+          "codes": [
+            "theme:matig_vs_misbruik"
+          ],
+          "comment_ids": [
+            "c0007",
+            "c1733",
+            "c2357"
+          ],
+          "quotes": [
+            {
+              "id": "c0007",
+              "text": "\"Ook kan alcoholgebruik leiden tot levercirrose, alvleesklierontsteking en verslaving.\" Dit gaat over alcoholMISbruik. Om nu schrikbeelden van ernstige ziekten in één adem te noemen met zo nu en dan één glaasje, dat gaat echt echt veel te ver.",
+              "likes": 102,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1733",
+              "text": "Dat vroeg of laat Magere Hein aanklopt is duidelijk en geldt voor iedereen, het hele leven bestaat uit keuzes. Alles met maten, dan kom je het verst. Gelukkig weet niemand wanneer zijn/haar laatste dag is en dat is maar goed ook!",
+              "likes": 27,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2357",
+              "text": "Als iemand dan ook zelf de consequenties draagt als hij/zij levercirose, COPD of longfibrose krijgt. Maar dat gaat natuurlijk niet gebeuren. Dan mag de samenleving de portemonnee trekken. M.a.w. een gezonde samenleving, waarin dit soort middelen met mate genomen worden, is het beste voor iedereen.",
+              "likes": 25,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q09",
+        "type": "multiple_choice",
+        "tone": "misverstand-of-niet",
+        "context": "Sommige reacties corrigeerden hoe anderen het advies lazen.",
+        "prompt": "Welke uitleg gaven zij?",
+        "options": [
+          "Een advies of waarschuwing is nog geen verbod",
+          "Een advies is hetzelfde als een boete",
+          "Een waarschuwing gaat alleen over jongeren",
+          "Een rapport is een campagneposter"
+        ],
+        "optionDetails": [
+          "Ja. Deze reacties benadrukken dat informeren niet hetzelfde is als verbieden.",
+          "Nee. Dat is juist het misverstand dat zij corrigeren.",
+          "Nee. De waarschuwing werd breder gezien dan jongeren.",
+          "Nee. Het rapport werd niet zo omschreven in deze lijn."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Deze groep probeerde het verschil tussen advies en verbod scherp te houden.",
+        "feedbackWrong": "Niet helemaal. De juiste lijn was: je wordt geïnformeerd, niet per se verboden.",
+        "evidence": {
+          "claim": "Meerdere reacties benadrukken dat waarschuwen of adviseren niet hetzelfde is als verbieden.",
+          "n": 313,
+          "denominator": 2496,
+          "pct": 12.5,
+          "codes": [
+            "theme:advies_geen_verbod"
+          ],
+          "comment_ids": [
+            "c2469",
+            "c2422",
+            "c2417"
+          ],
+          "quotes": [
+            {
+              "id": "c2469",
+              "text": "Ik lees nergens een verbod. Net zoals bij tabak; je bent vrij om het te gebruiken, maar niet klagen als je daardoor ernstig ziek wordt.",
+              "likes": 69,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2422",
+              "text": "En dus mag je niet niet geïnformeerd worden over de nadelen van je keuzes? Lijkt me alleen maar goed dat hier onderzoek naar gedaan wordt. Dan kun je zelf de geïnformeerde afweging maken.",
+              "likes": 26,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2417",
+              "text": "Dat bepaalt u toch ook zelf? Of is het al verboden dan? Net zo min als roken en vet eten nog steeds niet volgens mij.",
+              "likes": 24,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q10",
+        "type": "multiple_choice",
+        "tone": "geldvraag",
+        "context": "Het artikel noemde ook maatregelen om alcohol te ontmoedigen. Dat maakte één onderwerp extra gevoelig.",
+        "prompt": "Welke zorg kwam daardoor sterk naar voren?",
+        "options": [
+          "Hogere accijns, belasting of prijs",
+          "Minder glazen in de kast",
+          "Meer keuze aan snacks",
+          "Langere wachtrijen bij de huisarts"
+        ],
+        "optionDetails": [
+          "Ja. Veel reacties koppelden het advies aan accijns, belasting en duurder maken.",
+          "Nee. Glazen waren vooral humoristisch.",
+          "Nee. Snacks waren niet de kern.",
+          "Nee. Wachtrijen waren geen breed geldthema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Prijsbeleid werd gelezen als mogelijke belastingverhoging.",
+        "feedbackWrong": "Niet helemaal. Het financiële haakje zat vooral bij accijns, belasting en duurder maken.",
+        "evidence": {
+          "claim": "Veel reacties koppelen het alcoholadvies aan accijns, belasting of het duurder maken van alcohol.",
+          "n": 273,
+          "denominator": 2496,
+          "pct": 10.9,
+          "codes": [
+            "theme:accijns_belasting"
+          ],
+          "comment_ids": [
+            "c2149",
+            "c0237",
+            "c0022"
+          ],
+          "quotes": [
+            {
+              "id": "c2149",
+              "text": "Juist we zijn er weer, wat dacht de raad we zullen met dit extreem warme weer maar eens over alcohol drinken beginnen. En ja hoor we moeten het weer duurder maken accijnzen omhoog of moeilijker te verkrijgen, ik wed dat het accijnzen verhogen wordt weer een mooie smoes geld binnen te harken.",
+              "likes": 38,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0237",
+              "text": "Dat is voor de regering weer een kans om de belasting te verhogen net als bij suiker, benzine, gas etc.",
+              "likes": 20,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0022",
+              "text": "Goh worden er mensen wakker, ok zien ze mogelijkheden om het begrotingstekort snel op te lossen.Net als bij tabak beginnen met 100% accijnsen op de verkoop prijs",
+              "likes": 19,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q11",
+        "type": "multiple_choice",
+        "tone": "veiligheidsvraag",
+        "context": "Een apart deel van de discussie ging over wat drinken betekent buiten de privésfeer.",
+        "prompt": "Waar ging dat vooral over?",
+        "options": [
+          "Alcohol en verkeer",
+          "Alcohol en kleur van etiketten",
+          "Alcohol en openingstijden van sportscholen",
+          "Alcohol en kookrecepten"
+        ],
+        "optionDetails": [
+          "Ja. Verkeer en rijden na alcohol kwamen duidelijk terug.",
+          "Nee. Etiketten waren geen brede lijn.",
+          "Nee. Sportschooltijden kwamen niet terug als hoofdpunt.",
+          "Nee. Recepten waren geen quizwaardig patroon."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Verkeer werd vaak genoemd als grens waar alcohol anderen kan raken.",
+        "feedbackWrong": "Niet helemaal. De veiligheidslijn draaide vooral om verkeer en rijden.",
+        "evidence": {
+          "claim": "Alcohol in het verkeer kwam terug als duidelijke publieke grens of zorg.",
+          "n": 263,
+          "denominator": 2496,
+          "pct": 10.5,
+          "codes": [
+            "theme:verkeer"
+          ],
+          "comment_ids": [
+            "c2486",
+            "c1512",
+            "c1087"
+          ],
+          "quotes": [
+            {
+              "id": "c2486",
+              "text": "Alsof je alcohol nodig hebt om het leuk te hebben. Niemand houdt je tegen als je wil drinken, zolang je niet gaat rijden of gekke dingen gaat doen, maar het idee dat het geen kwaad mag voorgoed naar het fabeltjesrijk worden verwezen.",
+              "likes": 26,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1512",
+              "text": "Ach man, hou toch op. Ja alcohol is ongezond, iedereen weet dat. Ik ben het er volledig mee eens dat we nog veel strenger moeten worden over alcohol in het verkeer. Maar gin iedereen gewoon z’n biertje. Er is momenteel al zo weinig leuks gaande in de wereld, laat dan in ieder geval de borrels en cafébezoeken gezellig houden. Ik zou, overigens, ook niet weten hoe ik zonder alcohol de klassieke kringverjaardagen vol moet houden.",
+              "likes": 13,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1087",
+              "text": "Mijn mening: meer stress om alles wat 'niet mag' brengt meer risico dan dat ene glaasje. Ik leef liever enkele jaren korter met plezier - waarvoor overigens alcohol daarbij voor mij niet belangrijk is - dan enkele jaren langer met chagrijn.Uiteraard is al ohol in het verkeer uit den boze.",
+              "likes": 20,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q12",
+        "type": "multiple_choice",
+        "tone": "normaliseringsvraag",
+        "context": "Sommige reacties keken niet naar de individuele drinker, maar naar de omgeving waarin alcohol normaal lijkt.",
+        "prompt": "Welke omgeving werd vaak genoemd?",
+        "options": [
+          "Reclame, tv, supermarkt en kinderen",
+          "Alleen wijnproeverijen",
+          "Alleen belastingkantoren",
+          "Alleen sportuitslagen"
+        ],
+        "optionDetails": [
+          "Ja. Media, reclame, supermarkt en jongeren kwamen samen terug.",
+          "Nee. Wijnproeverijen waren geen breed patroon.",
+          "Nee. Belastingkantoren niet; belasting wel als apart thema.",
+          "Nee. Sportuitslagen waren geen hoofdthema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed. Normalisering ging vaak over zichtbaarheid in media, winkels en bij kinderen.",
+        "feedbackWrong": "Niet helemaal. De omgeving die terugkwam was reclame, media, supermarkt en jeugd.",
+        "evidence": {
+          "claim": "Reacties noemen jongeren, kinderen, media, supermarkt of reclame als plekken waar alcohol normaal wordt gemaakt.",
+          "n": 278,
+          "denominator": 2496,
+          "pct": 11.1,
+          "codes": [
+            "theme:normalisering_media_jeugd"
+          ],
+          "comment_ids": [
+            "c2434",
+            "c1937",
+            "c2404"
+          ],
+          "quotes": [
+            {
+              "id": "c2434",
+              "text": "Laten we beginnen met geen reclames meer voor alcohol op de tv. Blijf het bizar vinden dat bijv roken nergens getoond mag worden als reclame en zelfs de winkels van de buitenkant. Maar alcohol? Ho maar, reclames op tv, acties en noem maar op.",
+              "likes": 43,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1937",
+              "text": "Ik blijf me nog steeds verbazen over het feit dat we alcohol zo normaal vinden. Alcohol is een soort hard drug en we lopen er met onze kinderen dagelijks in de supermarkt langs. Sigaretten zijn de supermarkt uit (en terecht), maar alcohol? Die blijft gewoon in de supermarkt te koop. Bijzonder",
+              "likes": 35,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2404",
+              "text": "Dan wordt het tijd dat er reclame er voor wordt verboden. Op tv en bij de streamers. Vooral bij Netflix zie je overdreven veel alcohol in beeld.",
+              "likes": 21,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q13",
+        "type": "multiple_choice",
+        "tone": "wat-ook-speelt",
+        "context": "Veel mensen zetten alcohol naast andere gezondheidszorgen in de leefomgeving.",
+        "prompt": "Welke andere zorgen werden vaak naast alcohol gezet?",
+        "options": [
+          "PFAS, bewerkt voedsel, pesticiden of vervuiling",
+          "Modekleuren en interieur",
+          "Vakantieroosters",
+          "Nieuwe telefoons"
+        ],
+        "optionDetails": [
+          "Ja. Andere gezondheidsrisico’s werden vaak als vergelijking of tegenprioriteit genoemd.",
+          "Nee. Mode en interieur waren geen terugkerende zorg.",
+          "Nee. Vakantieroosters waren geen patroon.",
+          "Nee. Telefoons waren niet zichtbaar als thema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Alcohol werd vaak vergeleken met voedsel, PFAS, pesticiden en vervuiling.",
+        "feedbackWrong": "Niet helemaal. De brede vergelijking ging vooral over andere gezondheidsrisico’s.",
+        "evidence": {
+          "claim": "Veel reacties vragen waarom alcohol centraal staat terwijl ook voedsel, PFAS, pesticiden of vervuiling gezondheidsrisico’s geven.",
+          "n": 236,
+          "denominator": 2496,
+          "pct": 9.5,
+          "codes": [
+            "theme:andere_risicos"
+          ],
+          "comment_ids": [
+            "c0013",
+            "c2339",
+            "c2373"
+          ],
+          "quotes": [
+            {
+              "id": "c0013",
+              "text": "Het is altijd weer wat, dan zijn aardappels slecht, dan zit er overal pfas in, fruit is bespoten met bestrijdingsmiddelen, smog, etc etc. En toch zijn er mensen die met het nuttigen van een borrel per dag al rokend de 80 zijn gepasseerd.",
+              "likes": 82,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2339",
+              "text": "Hebben ze al keer nagekeken wat de schade is door al dat vlieg verkeer en autos wat we allemaal inademen? Tata steel ? etc Laat mij lekker mijn biertje doen zonder oordeel en waarde oordeel.Leef en laat leven! doe er lekker een suikertax bij en op gezond voedsel de prijs verhogen! Helden allemaal.",
+              "likes": 65,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2373",
+              "text": "Mee eens. En dit zijn nog de eigen keuzes van mensen. Gek genoeg hoor je dit soort berichten niet over PFAS, Q-Koorts, bestrijdingsmiddelen, CO2, etc. etc. Allemaal bewezen slecht voor de gezondheid, niet met eigen keuzes te beinvloeden, maar daar wordt dan juist weer (bijna) niets tegen gedaan.",
+              "likes": 14,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q14",
+        "type": "multiple_choice",
+        "tone": "maatschappelijke-rekening",
+        "context": "Sommige reacties gingen over de gevolgen voor de samenleving, niet alleen voor de drinker.",
+        "prompt": "Welk maatschappelijk thema kwam terug?",
+        "options": [
+          "Zorgkosten en druk op de zorg",
+          "Meer muziekfestivals",
+          "De kleur van supermarktschappen",
+          "Het aantal wijnlanden"
+        ],
+        "optionDetails": [
+          "Ja. Zorg, kosten en maatschappelijke rekening kwamen terug.",
+          "Nee. Festivals waren geen centrale maatschappelijke lijn.",
+          "Nee. Schapkleuren waren geen patroon.",
+          "Nee. Wijnlanden niet als hoofdthema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Alcohol werd ook gekoppeld aan zorgdruk en wie de rekening betaalt.",
+        "feedbackWrong": "Niet helemaal. Het maatschappelijk thema was zorg en kosten.",
+        "evidence": {
+          "claim": "Een deel van de reacties koppelt alcoholgebruik aan zorgkosten, zorgdruk of maatschappelijke gevolgen.",
+          "n": 326,
+          "denominator": 2496,
+          "pct": 13.1,
+          "codes": [
+            "theme:zorgkosten"
+          ],
+          "comment_ids": [
+            "c0063",
+            "c2357",
+            "c1594"
+          ],
+          "quotes": [
+            {
+              "id": "c0063",
+              "text": "Gewoon doen waar je zin in hebt, of wat je lust. Wat proberen ze te bereiken?Dat we allemaal 110 jaar oud worden, is geen geld voor, is geen zorg voor. Gewoon een jaartje of 80 / 85 worden, en dat ze dan zeggen. Die heeft een mooi leven gehad.",
+              "likes": 27,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2357",
+              "text": "Als iemand dan ook zelf de consequenties draagt als hij/zij levercirose, COPD of longfibrose krijgt. Maar dat gaat natuurlijk niet gebeuren. Dan mag de samenleving de portemonnee trekken. M.a.w. een gezonde samenleving, waarin dit soort middelen met mate genomen worden, is het beste voor iedereen.",
+              "likes": 25,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1594",
+              "text": "' Ongelooflijk dat er (belasting)geld aan zo'n onderzoek uit gegeven wordt.' Ik vind het eigenlijk ongeloofelijk dat er zoveel geld naar gezondheidszorg gaar voor mensen die (te) veel alcohol drinken.Hup uit de ziektenkosten verzekeringen dit.",
+              "likes": 1,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q15",
+        "type": "multiple_choice",
+        "tone": "mentale-kant",
+        "context": "De discussie over gezondheid ging niet alleen over organen of kanker.",
+        "prompt": "Welke mentale kant kwam terug?",
+        "options": [
+          "Stress, ontspanning en mentale gezondheid",
+          "Alleen de smaak van bier",
+          "Alleen de prijs van frisdrank",
+          "Alleen parkeerkosten"
+        ],
+        "optionDetails": [
+          "Ja. Reacties gebruikten mentale gezondheid zowel voor als tegen alcohol.",
+          "Nee. Smaak was niet het mentale thema.",
+          "Nee. Frisdrankprijs was geen brede mentale lijn.",
+          "Nee. Parkeren kwam niet als patroon terug."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Stress en mentale gezondheid werden door verschillende kanten aangehaald.",
+        "feedbackWrong": "Niet helemaal. De mentale lijn draaide om stress, ontspanning en psychisch welzijn.",
+        "evidence": {
+          "claim": "Reacties koppelen alcohol aan mentale gezondheid, stress of ontspanning; soms als risico, soms als tegenargument.",
+          "n": 145,
+          "denominator": 2496,
+          "pct": 5.8,
+          "codes": [
+            "theme:mentale_gezondheid"
+          ],
+          "comment_ids": [
+            "c0010",
+            "c0011",
+            "c1087"
+          ],
+          "quotes": [
+            {
+              "id": "c0010",
+              "text": "Alcohol heeft op de lange termijn geen enkel positieve invloed op mentale gezondheid. Het is juist een gevaarlijke combinatie en verergert mentale problemen juist.",
+              "likes": 37,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0011",
+              "text": "De mentale gezondheid van mensen gaat juist achteruit door veelvuldig alcohol drinken. Alcohol verhoogt namelijk het stresshormoon in je lichaam, ook wanneer je niet drinkt. Wellicht je zelf eerst eens even inlezen?",
+              "likes": 36,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1087",
+              "text": "Mijn mening: meer stress om alles wat 'niet mag' brengt meer risico dan dat ene glaasje. Ik leef liever enkele jaren korter met plezier - waarvoor overigens alcohol daarbij voor mij niet belangrijk is - dan enkele jaren langer met chagrijn.Uiteraard is al ohol in het verkeer uit den boze.",
+              "likes": 20,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q16",
+        "type": "multiple_choice",
+        "tone": "sociale-plek",
+        "context": "Alcohol werd in veel reacties niet alleen als product gezien, maar ook als sociaal ritueel.",
+        "prompt": "Welke sociale functie werd genoemd?",
+        "options": [
+          "Café, vrienden, feestjes en samen zijn",
+          "Alleen boodschappenlijstjes",
+          "Alleen huisdieren",
+          "Alleen verkeersborden"
+        ],
+        "optionDetails": [
+          "Ja. Alcohol werd vaak verbonden aan sociale momenten en plekken.",
+          "Nee. Boodschappenlijstjes waren geen sociale functie.",
+          "Nee. Huisdieren kwamen niet als thema terug.",
+          "Nee. Verkeersborden waren geen sociale functie."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed. Voor veel mensen zit het punt in het sociale moment rond alcohol.",
+        "feedbackWrong": "Niet helemaal. De sociale functie ging over cafés, vrienden, feestjes en samen zijn.",
+        "evidence": {
+          "claim": "Sommige reacties koppelen alcohol aan cafés, vrienden, feestjes en sociale cohesie.",
+          "n": 194,
+          "denominator": 2496,
+          "pct": 7.8,
+          "codes": [
+            "theme:sociale_rituelen"
+          ],
+          "comment_ids": [
+            "c2238",
+            "c2209",
+            "c1512"
+          ],
+          "quotes": [
+            {
+              "id": "c2238",
+              "text": "En waar je ook prima je koffie, thee en frisdrank kunt bestellen en kunt genieten van sociale cohesie en het welzijn van de maatschappij…en alcohol met mate…maar daar schort t nogal eens aan",
+              "likes": 5,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2209",
+              "text": "Eindelijk wordt alcohol meer gezien als een drug. Een die geheel geaccepteerd wordt in sociale situaties, na het werk of bij ieder feestje. Heel goed als het beeld van alcohol aangepakt wordt. Ik ben helemaal niet tegen het drinken van een wijntje of biertje, maar op dit moment wordt het nog steeds gezien als een normaal iets, wat niet gevaarlijk is. Als het normaal wordt om maar 1x in de maand te drinken, dan zijn we een stuk gezonder met z'n allen.",
+              "likes": 6,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1512",
+              "text": "Ach man, hou toch op. Ja alcohol is ongezond, iedereen weet dat. Ik ben het er volledig mee eens dat we nog veel strenger moeten worden over alcohol in het verkeer. Maar gin iedereen gewoon z’n biertje. Er is momenteel al zo weinig leuks gaande in de wereld, laat dan in ieder geval de borrels en cafébezoeken gezellig houden. Ik zou, overigens, ook niet weten hoe ik zonder alcohol de klassieke kringverjaardagen vol moet houden.",
+              "likes": 13,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q17",
+        "type": "multiple_choice",
+        "tone": "zichtbaarheid",
+        "context": "Als mensen het advies praktisch vertaalden, ging dat soms over wat je in beeld ziet.",
+        "prompt": "Welke maatregel werd relatief vaak logisch gevonden?",
+        "options": [
+          "Reclame en marketing beperken",
+          "Meer slogans op bierglazen",
+          "Meer proeverijen op tv",
+          "Alcohol naast speelgoed zetten"
+        ],
+        "optionDetails": [
+          "Ja. Reclame, tv en zichtbaarheid werden vaak genoemd.",
+          "Nee. Slogans op glazen waren geen hoofdlijn.",
+          "Nee. Proeverijen waren geen voorgestelde oplossing.",
+          "Nee. Dat past juist niet bij deze zorg."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Reclame en zichtbaarheid waren een concreet aangrijpingspunt.",
+        "feedbackWrong": "Niet helemaal. De maatregel die terugkwam was vooral minder reclame en marketing.",
+        "evidence": {
+          "claim": "Reacties noemen het beperken van alcoholreclame of zichtbaarheid in media als logische stap.",
+          "n": 139,
+          "denominator": 2496,
+          "pct": 5.6,
+          "codes": [
+            "theme:reclame_beperken"
+          ],
+          "comment_ids": [
+            "c2434",
+            "c2404",
+            "c0334"
+          ],
+          "quotes": [
+            {
+              "id": "c2434",
+              "text": "Laten we beginnen met geen reclames meer voor alcohol op de tv. Blijf het bizar vinden dat bijv roken nergens getoond mag worden als reclame en zelfs de winkels van de buitenkant. Maar alcohol? Ho maar, reclames op tv, acties en noem maar op.",
+              "likes": 43,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2404",
+              "text": "Dan wordt het tijd dat er reclame er voor wordt verboden. Op tv en bij de streamers. Vooral bij Netflix zie je overdreven veel alcohol in beeld.",
+              "likes": 21,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0334",
+              "text": "Accijnsverhoging gaat niet echt good werken in een land die niet veel groter is dan een australische boerderij. Dat zie je nu al met sigaretten.Reclame weg , lobby van de alcohol industrie beperken. Nieuwe, alcoholvrije drankjes zijn ook een goed idee. En uiteraard de normaliseren.alcohol is een harddrug en moet eindelijk hetzelfde imago krijgen.",
+              "likes": 3,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q18",
+        "type": "multiple_choice",
+        "tone": "grenseffect",
+        "context": "Prijsmaatregelen riepen niet alleen principiële reacties op, maar ook praktisch gedrag.",
+        "prompt": "Wat verwachten sommige mensen bij hogere prijzen?",
+        "options": [
+          "Mensen gaan naar buurlanden voor drank of boodschappen",
+          "Iedereen gaat wijn maken van appels",
+          "Cafés worden bibliotheken",
+          "Niemand koopt ooit nog iets"
+        ],
+        "optionDetails": [
+          "Ja. Uitwijken naar Duitsland, België of buurlanden kwam terug.",
+          "Nee. Zelf wijn maken was geen breed patroon.",
+          "Nee. Cafés als bibliotheken kwamen niet terug.",
+          "Nee. Dat is te absoluut."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Grensshoppen werd genoemd als voorspelbare reactie.",
+        "feedbackWrong": "Niet helemaal. Het praktische effect was vooral uitwijken naar buurlanden.",
+        "evidence": {
+          "claim": "Bij duurdere alcohol verwachten sommige reacties dat mensen naar buurlanden uitwijken.",
+          "n": 117,
+          "denominator": 2496,
+          "pct": 4.7,
+          "codes": [
+            "theme:grensshoppen"
+          ],
+          "comment_ids": [
+            "c0464",
+            "c1557",
+            "c0845"
+          ],
+          "quotes": [
+            {
+              "id": "c0464",
+              "text": "Oplossing Den Haag accijns omhoog....... oplossing van de burger : naar 1 van de buurlanden om daar alles te kopen waar de accijnzen van zijn verhoogd.",
+              "likes": 21,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1557",
+              "text": "\"Om het drinken van alcohol te ontmoedigen zou alcohol bijvoorbeeld duurder gemaakt kunnen worden, of lastiger verkrijgbaar kunnen worden\"Hallo Duitsland en Belgie! Gelukkig is de grens voor mij slechts een half uurtje. Iemand nog sigaretten nodig trouwens? Ook prima te betalen daar.",
+              "likes": 13,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0845",
+              "text": "En wat is de oplossing, gewoon accijns verdubbelen, tuurlijk. Want dat werkt ook zo goed bij de tabak. In plaats dat ze meer geld binnenharken, verliest de staat heel veel geld doordat heel veel mensen gewoon de grens oversteken.Wel handig, de georganiseerde busreizen naar Duitsland rijden toch al. Vooral dit advies opvolgen...",
+              "likes": 12,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q19",
+        "type": "multiple_choice",
+        "tone": "levenshouding",
+        "context": "Een kleiner maar duidelijk patroon draaide om sterfelijkheid en ouder worden.",
+        "prompt": "Welke levenshouding zat daarin?",
+        "options": [
+          "Je moet toch ergens aan dood; liever een mooi leven",
+          "Iedereen wil precies 120 worden",
+          "Alcohol maakt niemand gezellig",
+          "Oud worden is alleen een rekensom"
+        ],
+        "optionDetails": [
+          "Ja. Deze reacties zetten eindigheid en plezier tegenover maximale levensduur.",
+          "Nee. Juist niet iedereen wil zo oud mogelijk worden.",
+          "Nee. Dat is een ander tegenargument.",
+          "Nee. Het ging om levenshouding, niet alleen rekenen."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Dit patroon gaat over leven accepteren en niet alles op levensduur sturen.",
+        "feedbackWrong": "Niet helemaal. De houding was: een plezierig leven telt ook, zelfs als risico blijft.",
+        "evidence": {
+          "claim": "Een deel van de reacties gebruikt sterfelijkheid en ouder worden als argument om niet alles op risicoreductie te richten.",
+          "n": 61,
+          "denominator": 2496,
+          "pct": 2.4,
+          "codes": [
+            "theme:sterfelijkheid"
+          ],
+          "comment_ids": [
+            "c2483",
+            "c1730",
+            "c0063"
+          ],
+          "quotes": [
+            {
+              "id": "c2483",
+              "text": "Nog meer betutteling we worden al zo oud moeten al langer door werken etc. Je moet toch ergens aan dood gaan dan maar met gezellig af en toe een glaasje wijn of bier.",
+              "likes": 50,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1730",
+              "text": "Liever eerder dood gaan en geleefd hebben als lang leven en een monniken bestaan gehad hebben. Dat is mij motto.",
+              "likes": 33,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0063",
+              "text": "Gewoon doen waar je zin in hebt, of wat je lust. Wat proberen ze te bereiken?Dat we allemaal 110 jaar oud worden, is geen geld voor, is geen zorg voor. Gewoon een jaartje of 80 / 85 worden, en dat ze dan zeggen. Die heeft een mooi leven gehad.",
+              "likes": 27,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q20",
+        "type": "multiple_choice",
+        "tone": "alternatief-of-niet",
+        "context": "Alcoholvrij drinken kwam ook langs, maar niet altijd op dezelfde manier.",
+        "prompt": "Hoe werd 0.0 of alcoholvrij besproken?",
+        "options": [
+          "Als alternatief, gewoonte of discussiepunt",
+          "Als oplossing voor files",
+          "Als verplicht schoolvak",
+          "Als onderwerp voor sportuitslagen"
+        ],
+        "optionDetails": [
+          "Ja. Alcoholvrij werd soms positief, soms spottend of praktisch genoemd.",
+          "Nee. Files waren geen patroon.",
+          "Nee. Schoolvakken kwamen niet terug.",
+          "Nee. Sportuitslagen waren geen thema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed. 0.0 was zichtbaar, maar met gemengde toon.",
+        "feedbackWrong": "Niet helemaal. Het ging om alcoholvrij als alternatief of discussiepunt.",
+        "evidence": {
+          "claim": "Alcoholvrij en 0.0 werden genoemd als alternatief, gewoonte of onderwerp van discussie.",
+          "n": 71,
+          "denominator": 2496,
+          "pct": 2.8,
+          "codes": [
+            "theme:alcoholvrij"
+          ],
+          "comment_ids": [
+            "c0408",
+            "c2051",
+            "c0301"
+          ],
+          "quotes": [
+            {
+              "id": "c0408",
+              "text": "Elke stap in het leven bevat risico’s Steeds meer mensen drinken al alcoholvrij ik zelf ook.Maar houd op met de betutteling.",
+              "likes": 26,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2051",
+              "text": "Los van al het gemopper over 'betutteling', ik ben er persoonlijk groot fan van dat er meer alcoholvrij beschikbaar is. Ik vind een leuk alcoholvrij IPA'tje veel lekkerder bij het avondeten dan frisdrank.",
+              "likes": 9,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0301",
+              "text": "Tegenwoordig kies ik meestal voor een 0.0 biertje, die worden ook steeds beter. Af en toe een keer een glaasje goede whiskey of een echte Belgische Tripel en met Kerst een glas rode wijn. Op feestjes houd ik het bij maximaal 2 biertjes, of gewoon 0.0. De volgende dag fris en fruitig weer uit bed.",
+              "likes": 7,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q21",
+        "type": "multiple_choice",
+        "tone": "macht-en-markt",
+        "context": "Een ander patroon keek niet naar drinkers, maar naar commerciële invloed.",
+        "prompt": "Welke partij werd daarbij genoemd?",
+        "options": [
+          "De alcoholindustrie en lobby",
+          "De schoenenbranche",
+          "De tuincentra",
+          "De spoorwegen"
+        ],
+        "optionDetails": [
+          "Ja. Lobby en commerciële invloed kwamen in een deel van de reacties terug.",
+          "Nee. Schoenen kwamen niet terug als actor.",
+          "Nee. Tuincentra waren geen actor in dit debat.",
+          "Nee. Spoorwegen waren geen hoofdpartij."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Een deel van het debat ging over lobby en industrie-invloed.",
+        "feedbackWrong": "Niet helemaal. De genoemde commerciële actor was de alcoholindustrie.",
+        "evidence": {
+          "claim": "Sommige reacties wijzen op de alcoholindustrie, lobby of commerciële beïnvloeding.",
+          "n": 66,
+          "denominator": 2496,
+          "pct": 2.6,
+          "codes": [
+            "theme:industrie_lobby"
+          ],
+          "comment_ids": [
+            "c2432",
+            "c0249",
+            "c0496"
+          ],
+          "quotes": [
+            {
+              "id": "c2432",
+              "text": "Het gaat erom dat je er 7 soorten kanker van kan krijgen. Iets wat de alcohollobby liever onder het tapijt schuift. Of met neponderzoek tracht te ontkrachten. Wat kan je erop tegen hebben dat een club wetenschappers jou de risico’s mededeelt als tegengewicht tegen fake nieuws vanuit de lobby? Wat je ermee doet maakt de gezonheidsraad verder niet uit. De lobby ziet je graag het pilsje drinken. Jij mag het gewoon helemaal zelf weten; heerlijk toch?",
+              "likes": 10,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0249",
+              "text": "Het gaat uiteindelijk om een stukje bewustwording. Zelf weten of en hoeveel je drinkt, maar wees je ervan bewust dat de alcohol lobby enorm machtig is en ons allemaal beïnvloedt.",
+              "likes": 3,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0496",
+              "text": "\"Er is geen veilige ondergrens voor alcohol: zelfs af en toe een glaasje brengt al risico's met zich mee.\"Ja was al heel lang bekend.\"Geniet, maar drink met mate\" is dan ook een marketinginstrument van de alcoholindustrie om consumptie in stand te houden ten koste van de gezondheid van burgers.",
+              "likes": 4,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q22",
+        "type": "multiple_choice",
+        "tone": "zonder-drank",
+        "context": "Tegenover de ‘genieten’-reacties stond ook een duidelijke tegenvraag.",
+        "prompt": "Welke tegenvraag stelden sommige reageerders?",
+        "options": [
+          "Heb je alcohol nodig om plezier te hebben?",
+          "Waarom zijn glazen rond?",
+          "Waarom is water nat?",
+          "Moet elk café een quizavond hebben?"
+        ],
+        "optionDetails": [
+          "Ja. Sommige reacties vonden dat plezier niet van alcohol hoeft af te hangen.",
+          "Nee. Glasvorm was geen thema.",
+          "Nee. Dat was geen publieke lijn.",
+          "Nee. Quizavonden kwamen niet terug."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Deze reacties draaien de genietlogica om.",
+        "feedbackWrong": "Niet helemaal. De tegenvraag was of alcohol nodig is voor plezier.",
+        "evidence": {
+          "claim": "Een kleine maar duidelijke groep benadrukt dat plezier ook zonder alcohol kan.",
+          "n": 79,
+          "denominator": 2496,
+          "pct": 3.2,
+          "codes": [
+            "theme:plezier_zonder_alcohol"
+          ],
+          "comment_ids": [
+            "c2441",
+            "c2466",
+            "c2486"
+          ],
+          "quotes": [
+            {
+              "id": "c2441",
+              "text": "Als je geen plezier kan hebben zonder alcohol dan ben je in ieder geval geen standaard drinker......",
+              "likes": 245,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2466",
+              "text": "als je zonder alcohol geen plezier kunt hebben is er toch echt iets goed mis met je.... beetje jammer dat je niet actief wilt bijdragen aan je eigen gezondheid.",
+              "likes": 102,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2486",
+              "text": "Alsof je alcohol nodig hebt om het leuk te hebben. Niemand houdt je tegen als je wil drinken, zolang je niet gaat rijden of gekke dingen gaat doen, maar het idee dat het geen kwaad mag voorgoed naar het fabeltjesrijk worden verwezen.",
+              "likes": 26,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q23",
+        "type": "multiple_choice",
+        "tone": "wie-betaalt",
+        "context": "Vrijheid werd soms gekoppeld aan de vraag wie de gevolgen draagt.",
+        "prompt": "Welke gedachte kwam daarbij terug?",
+        "options": [
+          "Eigen keuze, maar ook eigen verantwoordelijkheid voor gevolgen",
+          "Niemand mag nog kiezen",
+          "Alle gevolgen zijn gratis",
+          "De overheid moet proosten"
+        ],
+        "optionDetails": [
+          "Ja. Sommige reacties koppelden keuzevrijheid aan verantwoordelijkheid.",
+          "Nee. Het ging juist niet altijd om een totaalverbod.",
+          "Nee. Gevolgen werden niet als gratis gezien.",
+          "Nee. Dit was geen serieuze lijn."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed. Dit patroon verbindt vrijheid aan consequenties.",
+        "feedbackWrong": "Niet helemaal. De juiste lijn was: eigen keuze roept ook verantwoordelijkheid op.",
+        "evidence": {
+          "claim": "Een kleiner patroon koppelt persoonlijke keuze aan verantwoordelijkheid voor gezondheids- of maatschappelijke gevolgen.",
+          "n": 25,
+          "denominator": 2496,
+          "pct": 1.0,
+          "codes": [
+            "theme:eigen_verantwoordelijkheid"
+          ],
+          "comment_ids": [
+            "c2422",
+            "c2357",
+            "c0311"
+          ],
+          "quotes": [
+            {
+              "id": "c2422",
+              "text": "En dus mag je niet niet geïnformeerd worden over de nadelen van je keuzes? Lijkt me alleen maar goed dat hier onderzoek naar gedaan wordt. Dan kun je zelf de geïnformeerde afweging maken.",
+              "likes": 26,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2357",
+              "text": "Als iemand dan ook zelf de consequenties draagt als hij/zij levercirose, COPD of longfibrose krijgt. Maar dat gaat natuurlijk niet gebeuren. Dan mag de samenleving de portemonnee trekken. M.a.w. een gezonde samenleving, waarin dit soort middelen met mate genomen worden, is het beste voor iedereen.",
+              "likes": 25,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0311",
+              "text": "Volgens de nieuwe inzichten is alcohol gewoon slecht voor je gezondheid. Voortschrijdend inzicht noemt men dat. Je kunt er naar luisteren of niet. Eigen verantwoordelijkheid.",
+              "likes": 5,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q24",
+        "type": "multiple_choice",
+        "tone": "blue-zone-raadsel",
+        "context": "Sommige reageerders brachten voorbeelden van langlevende groepen in als tegenbeeld.",
+        "prompt": "Welk voorbeeld werd genoemd?",
+        "options": [
+          "Blue Zones waar met mate wijn wordt gedronken",
+          "Pretparken zonder horeca",
+          "Bierbrouwerijen op de maan",
+          "Scholen zonder gymles"
+        ],
+        "optionDetails": [
+          "Ja. Blue Zones werden gebruikt om alcohol in bredere leefstijlcontext te plaatsen.",
+          "Nee. Pretparken waren geen patroon.",
+          "Nee. Dat kwam niet voor.",
+          "Nee. Gymles was geen punt."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Blue Zones waren een niche maar herkenbaar tegenvoorbeeld.",
+        "feedbackWrong": "Niet helemaal. Het voorbeeld ging over Blue Zones en leefstijlcontext.",
+        "evidence": {
+          "claim": "Een klein aantal reacties gebruikt Blue Zones om te betogen dat leefstijlcontext meer zegt dan alcohol alleen.",
+          "n": 7,
+          "denominator": 2496,
+          "pct": 0.3,
+          "codes": [
+            "theme:blue_zones"
+          ],
+          "comment_ids": [
+            "c0052",
+            "c2394",
+            "c0174"
+          ],
+          "quotes": [
+            {
+              "id": "c0052",
+              "text": "Ach, ik ben hier geen expert in, dus neem dit met een korrel zout. Maar wat me opvalt: in vrijwel alle Blue Zones — Sardinië, Ikaria — drinken mensen dagelijks met mate een glas wijn, juist bij het eten, in gezelschap. Tegelijk drinken adventisten in Loma Linda helemaal niet en worden ze even oud. De conclusie lijkt me dan: niet de wijn maakt het verschil, maar de sociale context eromheen. Samen eten, samen zijn, ergens bij horen.En dáár zit mijn punt. De Gezondheidsraad heeft gelijk over de risico's. Maar het rapport kijkt vooral naar wat je moet vermijden om niet ziek te worden. Gezondheid is meer dan de afwezigheid van ziekte. Ik zou de Raad uitnodigen óók te kijken naar wat gezondheid actief bevordert en relatief makkelijk is: sterke relaties, een sociaal netwerk, verbinding.Want volgens mij komen we verder met synthese dan met alles eindeloos opdelen en geïsoleerd analyseren. Niet elk risico apart wegen, maar de dingen die werken bij elkaar brengen.",
+              "likes": 25,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2394",
+              "text": "En toch, vraag aan de oudste mensen ter wereld, of mensen uit de \"blue zones\". Wat doen jullie om zo oud te worden, en bijna allemaal zeggen ze een shotje van dit of een drankje van dat.Er zijn misschien geen voordelen van alcoholische versnaperingen, maar met mate, zijn er ook geen nadelen.",
+              "likes": 21,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0174",
+              "text": "Hoe kan het dan dat men in de Blue Zone op Sardinië wel 2 glazen rode wijn per dag drinkt en men daar zo oud wordt? Ook in andere Blue Zones wordt er wijn gedronken.",
+              "likes": 12,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q25",
+        "type": "multiple_choice",
+        "tone": "anders-drinken",
+        "context": "Niet alle reacties verdedigden alcoholgebruik; sommige mensen vertelden dat minder of niet drinken goed uitpakt.",
+        "prompt": "Wat vertelden zij?",
+        "options": [
+          "Stoppen, minderen of alcoholvrij kiezen kan prima werken",
+          "Alleen sterke drank telt mee",
+          "Minder drinken maakt autorijden onmogelijk",
+          "Water is verboden"
+        ],
+        "optionDetails": [
+          "Ja. Er waren reacties over stoppen, minderen of 0.0 kiezen.",
+          "Nee. Sterke drank was niet de kern.",
+          "Nee. Dit werd niet zo gesteld.",
+          "Nee. Water werd niet verboden."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Minder drinken werd ook als positieve ervaring of praktisch alternatief genoemd.",
+        "feedbackWrong": "Niet helemaal. De positieve lijn ging over stoppen, minderen of alcoholvrij kiezen.",
+        "evidence": {
+          "claim": "Een groep reacties noemt stoppen, minderen of alcoholvrij kiezen als haalbare of positieve route.",
+          "n": 180,
+          "denominator": 2496,
+          "pct": 7.2,
+          "codes": [
+            "theme:minderen_stoppen"
+          ],
+          "comment_ids": [
+            "c1752",
+            "c2051",
+            "c0301"
+          ],
+          "quotes": [
+            {
+              "id": "c1752",
+              "text": "Ik ben 5 jaargeleden opgehouden met af en toe een biertje te drinken.Mijn ervaringen zonder enige vorm van alcohol zijn alleen maar beter geworden.Mij gaat het niet om 80 of 84 worden.Probeer eens 3 maanden zonder alcohol en ervaar dat het alleen maar leuker en intensiever wordt.",
+              "likes": 43,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2051",
+              "text": "Los van al het gemopper over 'betutteling', ik ben er persoonlijk groot fan van dat er meer alcoholvrij beschikbaar is. Ik vind een leuk alcoholvrij IPA'tje veel lekkerder bij het avondeten dan frisdrank.",
+              "likes": 9,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0301",
+              "text": "Tegenwoordig kies ik meestal voor een 0.0 biertje, die worden ook steeds beter. Af en toe een keer een glaasje goede whiskey of een echte Belgische Tripel en met Kerst een glas rode wijn. Op feestjes houd ik het bij maximaal 2 biertjes, of gewoon 0.0. De volgende dag fris en fruitig weer uit bed.",
+              "likes": 7,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q26",
+        "type": "multiple_choice",
+        "tone": "vergelijkingsvraag",
+        "context": "Een bekend gezondheidsdebat werd vaak als spiegel gebruikt.",
+        "prompt": "Waarmee werd alcohol regelmatig vergeleken?",
+        "options": [
+          "Roken, tabak of sigaretten",
+          "Nieuwe telefoons",
+          "Huisdierenvoer",
+          "Koffiefilters"
+        ],
+        "optionDetails": [
+          "Ja. Alcohol werd vaak naast roken, tabak of sigaretten gezet.",
+          "Nee. Telefoons waren geen brede vergelijking.",
+          "Nee. Huisdierenvoer kwam niet terug.",
+          "Nee. Koffiefilters waren geen thema."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Roken en tabak waren een veelgebruikte vergelijking.",
+        "feedbackWrong": "Niet helemaal. De spiegel was vooral het roken- en tabaksdebat.",
+        "evidence": {
+          "claim": "Alcohol werd in reacties regelmatig vergeleken met roken, tabak of sigaretten.",
+          "n": 396,
+          "denominator": 2496,
+          "pct": 15.9,
+          "codes": [
+            "theme:roken_tabak"
+          ],
+          "comment_ids": [
+            "c2449",
+            "c2469",
+            "c2434"
+          ],
+          "quotes": [
+            {
+              "id": "c2449",
+              "text": "Ja maar drank en roken is ook gewoon schadelijk voor je, en een volume boven een bepaald aantal decibel ook. Je kan hoog of laag springen wat je wilt, en waarschuwingen hierover betutteling noemen, maar dat verandert er niets aan.",
+              "likes": 101,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2469",
+              "text": "Ik lees nergens een verbod. Net zoals bij tabak; je bent vrij om het te gebruiken, maar niet klagen als je daardoor ernstig ziek wordt.",
+              "likes": 69,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2434",
+              "text": "Laten we beginnen met geen reclames meer voor alcohol op de tv. Blijf het bizar vinden dat bijv roken nergens getoond mag worden als reclame en zelfs de winkels van de buitenkant. Maar alcohol? Ho maar, reclames op tv, acties en noem maar op.",
+              "likes": 43,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q27",
+        "type": "multiple_choice",
+        "tone": "jeugdvraag",
+        "context": "Een deel van de reacties keek naar wat jonge mensen om zich heen zien.",
+        "prompt": "Welke zorg kwam daarbij terug?",
+        "options": [
+          "Kinderen en jongeren krijgen alcohol te vanzelfsprekend mee",
+          "Kinderen moeten etiketten ontwerpen",
+          "Jongeren willen alleen mineraalwater",
+          "Supermarkten verkopen geen snacks"
+        ],
+        "optionDetails": [
+          "Ja. Sommige reacties vonden de zichtbaarheid rond jongeren problematisch.",
+          "Nee. Etiketten ontwerpen was geen patroon.",
+          "Nee. Dat werd niet breed zo gezegd.",
+          "Nee. Snacks waren niet de kern."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Goed gezien. De zorg ging over normalisering richting kinderen en jongeren.",
+        "feedbackWrong": "Niet helemaal. Het ging om wat kinderen en jongeren normaal leren vinden.",
+        "evidence": {
+          "claim": "Reacties noemen kinderen, jongeren of jeugd als reden om alcoholnormalisering kritisch te bekijken.",
+          "n": 74,
+          "denominator": 2496,
+          "pct": 3.0,
+          "codes": [
+            "theme:kinderen_jongeren"
+          ],
+          "comment_ids": [
+            "c1937",
+            "c0038",
+            "c0361"
+          ],
+          "quotes": [
+            {
+              "id": "c1937",
+              "text": "Ik blijf me nog steeds verbazen over het feit dat we alcohol zo normaal vinden. Alcohol is een soort hard drug en we lopen er met onze kinderen dagelijks in de supermarkt langs. Sigaretten zijn de supermarkt uit (en terecht), maar alcohol? Die blijft gewoon in de supermarkt te koop. Bijzonder",
+              "likes": 35,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0038",
+              "text": "Een belangrijk aspect dat vaak onderbelicht blijft, is de rol van films en tv-series. Alcoholgebruik wordt daarin nog steeds veelvuldig neergezet als een vanzelfsprekend en normaal onderdeel van het dagelijks leven. Onderzoek laat zien dat deze normalisering invloed heeft op hoe mensen, en vooral jongeren, tegen alcohol aankijken. Daarnaast speelt de alcoholindustrie via marketing en product placement nog altijd een rol in de zichtbaarheid van alcohol in media. Als we alcohol echt willen denormaliseren, zou er ook meer aandacht moeten zijn voor de manier waarop alcohol in entertainment wordt gepresenteerd",
+              "likes": 9,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0361",
+              "text": "Het Heineken Holland Paviljoen, spaaracties bij kratjes bier tijdens het WK. Sport en alcohol. Het hoort zogenaamd bij elkaar. De groepsdruk bij met name jongeren. De gezondheidsschade, de medische kosten en alcoholdoden, de agressie zoals beschreven. Kapotte huwelijken. De vele daklozen. Het is puur vergif. Het KAN meer kapot maken dan je lief is.",
+              "likes": 1,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q28",
+        "type": "multiple_choice",
+        "tone": "humorvraag",
+        "context": "Niet alle reacties waren serieus geformuleerd; sommige gebruikten spot om hun punt te maken.",
+        "prompt": "Welke stijl zag je ook duidelijk terug?",
+        "options": [
+          "Humor, spot en overdreven voorbeelden",
+          "Alleen droge beleidsnotities",
+          "Alleen medische termen",
+          "Alleen juridische uitleg"
+        ],
+        "optionDetails": [
+          "Ja. Humor en spot werden gebruikt om het advies te relativeren.",
+          "Nee. Het debat was juist niet alleen droog beleidsmatig.",
+          "Nee. Medische termen waren niet de enige stijl.",
+          "Nee. Juridische uitleg was geen hoofdtoon."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. Spot en humor waren herkenbaar aanwezig.",
+        "feedbackWrong": "Niet helemaal. Een opvallende stijl was humoristische overdrijving.",
+        "evidence": {
+          "claim": "Sommige reacties gebruiken humor, spot of overdrijving om het advies te relativeren.",
+          "n": 116,
+          "denominator": 2496,
+          "pct": 4.6,
+          "codes": [
+            "theme:humor_spot"
+          ],
+          "comment_ids": [
+            "c2440",
+            "c0003",
+            "c0625"
+          ],
+          "quotes": [
+            {
+              "id": "c2440",
+              "text": "Geen leuke dingen meer doen. Is slecht voor je. Gewoon thuis water drinken, muziek zachtjes anders slecht voor je oren.",
+              "likes": 443,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0003",
+              "text": "Ieder glas is er één teveel. Gelukkig drink ik mijn bier rechtstreeks uit de fles. Wel zonde van mijn mooie whiskey-glazen 😉. Proost",
+              "likes": 225,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0625",
+              "text": "Goed verhaal, doen we niks mee. Drinken wat je lekker vindt. Je wordt niet onsterfelijk door water of thee te drinken. Geniet van je glaasje, proost.",
+              "likes": 41,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q29",
+        "type": "multiple_choice",
+        "tone": "momentvraag",
+        "context": "Sommige reacties plaatsten alcohol in een concreet moment van de dag of het jaar.",
+        "prompt": "Welk momentbeeld paste daarbij?",
+        "options": [
+          "Warm weer, weekend, terras of vakantie",
+          "Een vergadering zonder koffie",
+          "Een koude archiefkast",
+          "Een parkeerautomaat in de regen"
+        ],
+        "optionDetails": [
+          "Ja. Warme dagen, strand, weekend of vakantie maakten het onderwerp concreet.",
+          "Nee. Vergaderen zonder koffie was geen patroon.",
+          "Nee. Archiefkasten kwamen niet terug.",
+          "Nee. Parkeerautomaten waren geen terugkerend beeld."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Juist. Alcohol werd vaak verbonden met heel concrete drinkmomenten.",
+        "feedbackWrong": "Niet helemaal. Het momentbeeld ging over zomer, weekend, terras of vakantie.",
+        "evidence": {
+          "claim": "Reacties plaatsen alcohol vaak in concrete momenten zoals warm weer, weekend, strand, terras of vakantie.",
+          "n": 252,
+          "denominator": 2496,
+          "pct": 10.1,
+          "codes": [
+            "theme:weer_terras"
+          ],
+          "comment_ids": [
+            "c2406",
+            "c0006",
+            "c0357"
+          ],
+          "quotes": [
+            {
+              "id": "c2406",
+              "text": "Gaan we weer, het volgende onderwerp waar ze zich op kunnen uitleven. Uiteindelijk heeft alles nadelen en bepaal ik zelf wel of ik in het weekend met vrienden een koud biertje wil drinken of niet.",
+              "likes": 288,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0006",
+              "text": "Er is geen veilige ondergrens voor alcohol: zelfs af en toe een glaasje brengt al risico's met zich mee.Op het moment is het dorstig weer. Ik neem een lekker wijntje..Cheers!",
+              "likes": 86,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c0357",
+              "text": "Op Gran Canaria ontbijten we met 2 glaasjes Cava erbij.....het staat er toch. Omdat we dan al de smaak van alcohol te pakken hebben zetten we meestal door en beginnen om 10:30 met bier en rose bij het zwembad. De lunch uiteraard halve liters van de tap. Middags nog een paar en dan slapen op het strandbedje. Daarna opfrissen klaar maken voor het diner met lekkere rode wijn en dan lekker een terrasje pakken. Dan kunnen we heerlijk slapen en verheugen we ons alweer op het ontbijt. Gelukkig hebben ze daar geen gezondheidsraad met betuttelende rapportage...",
+              "likes": 26,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      },
+      {
+        "id": "q30",
+        "type": "multiple_choice",
+        "tone": "spanningsvraag",
+        "context": "Dezelfde boodschap werd door verschillende mensen anders gelezen.",
+        "prompt": "Welke spanning vat dat het best samen?",
+        "options": [
+          "De één ziet informatie, de ander ervaart bemoeienis",
+          "Iedereen vindt de tekst grappig",
+          "Niemand noemt de overheid",
+          "Iedereen wil precies dezelfde regel"
+        ],
+        "optionDetails": [
+          "Ja. Dit was een belangrijke spanning in de discussie.",
+          "Nee. Humor kwam voor, maar niet bij iedereen.",
+          "Nee. Overheid en bemoeienis kwamen juist vaak terug.",
+          "Nee. De reacties waren verdeeld."
+        ],
+        "correctIndex": 0,
+        "feedbackCorrect": "Klopt. De botsing zat tussen informeren en ervaren bemoeienis.",
+        "feedbackWrong": "Niet helemaal. De spanning was: advies of waarschuwing versus gevoel van afpakken.",
+        "evidence": {
+          "claim": "Een duidelijke spanning is dat sommigen het advies als informatie zien, terwijl anderen het als bemoeienis of regeldrang ervaren.",
+          "n": 468,
+          "denominator": 2496,
+          "pct": 18.8,
+          "codes": [
+            "theme:advies_voelt_bemoeienis"
+          ],
+          "comment_ids": [
+            "c1835",
+            "c2448",
+            "c1791"
+          ],
+          "quotes": [
+            {
+              "id": "c1835",
+              "text": "Waarom voelen zo veel mensen zich aangevallen als de Gezondheidsraad ons alleen maar voorschotelt wat de laatste wetenschappelijke inzichten zijn? Ga eens bij jezelf te rade en vraag jezelf af of je altijd zo reageert als iets niet in je straatje past.Niemand hoeft hier iets mee, alles is nog steeds je eigen beslissing, en je hoeft daarover ook aan niemand verantwoording af te leggen.Als je door accijnsverhoging in de financiële problemen komt, dan heb je andere issues.Groeten van een lichte drinker",
+              "likes": 281,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c2448",
+              "text": "Daar gaat dit niet om. Betutteling!!! Daar gaat het om. Is triest dat overal zo op afgegeven word. Drank, roken, harde muziek.",
+              "likes": 90,
+              "source": "NU.nl comments"
+            },
+            {
+              "id": "c1791",
+              "text": "Nou ik zie de bui al hangen hoor. Dit is duidelijk het veoorzetje voor de nabije toekomst. Het zaadje is geplant, zodat er binnenkort weer allemaal regelgeving komt om alcoholgebruik in te dammen. Hogere accijns, minder verkooppunten etc. Word ondertussen zo moe van al die regeldrang en betutteling. We hebben giga problemen op te lossen, zowel nationaal als internationaal. Laat mensen lekker een drankje drinken en zeur er niet over. Dat het slecht is weten we heus wel.",
+              "likes": 55,
+              "source": "NU.nl comments"
+            }
+          ],
+          "quote_count": 3,
+          "note": "Reacties kunnen meerdere patronen tegelijk bevatten; percentages tellen daarom niet op tot 100%."
+        }
+      }
+    ],
+    "postQuizSlides": [
+      {
+        "id": "end01",
+        "type": "top_insights",
+        "title": "Wat viel het meest op?",
+        "subtitle": "De grootste publiekslijnen in deze discussie.",
+        "visual_type": "top5_bar_cards",
+        "items": [
+          {
+            "rank": 1,
+            "title": "Veel ik-verhalen",
+            "summary": "Mensen leggen het advies naast hun eigen drinkgedrag en keuzes.",
+            "n": 1161,
+            "denominator": 2496,
+            "pct": 46.5,
+            "codes": [
+              "theme:persoonlijk_gedrag"
+            ],
+            "comment_ids": [
+              "c2078"
+            ],
+            "quote": {
+              "id": "c2078",
+              "text": "Natuurlijk is alcohol drinken ongezond. Dat weten we allemaal. Maar ik begin toch ook wel mijn vraagtekens te zetten bij al die goedbedoelde adviezen. Alles wat leuk en lekker is, wordt afgeraden. Ik rook niet, ik gebruik geen drugs, ik snoep amper, ik snack eigenlijk nooit, ik eet matig vlees. Wel drink ik af en toe een wijntje, gewoon omdat ik dat lekker vind (en nee, ik stap daarna niet in de auto). Ik heb persoonlijk echter niet de ambitie om 120 te worden. Laat me met rust.",
+              "likes": 11,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 2,
+            "title": "Alles wordt een risico",
+            "summary": "Alcohol wordt naast andere dagelijkse risico’s gezet.",
+            "n": 271,
+            "denominator": 2496,
+            "pct": 10.9,
+            "codes": [
+              "theme:risico_relativeren"
+            ],
+            "comment_ids": [
+              "c0025"
+            ],
+            "quote": {
+              "id": "c0025",
+              "text": "Iedere keer dat je de straat oversteekt is een risico.Iedere keer dat je chips eet is een risico.Iedere keer dat je gaat zwemmen in natuurwater is een risico.Voorlopig wordt de gemiddelde leeftijd steeds hoger.Dus het zal wel meevallen.",
+              "likes": 56,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 3,
+            "title": "Genieten telt mee",
+            "summary": "Levenskwaliteit en gezelligheid wegen zwaar.",
+            "n": 414,
+            "denominator": 2496,
+            "pct": 16.6,
+            "codes": [
+              "theme:genieten"
+            ],
+            "comment_ids": [
+              "c2356"
+            ],
+            "quote": {
+              "id": "c2356",
+              "text": "Ik word doodmoe van al die overheidsbemoeienis. Een leven met alleen gezonde dingen is geen leven. Het leven moet gevierd worden en hoe gezond je ook leeft, garanties bestaan er niet. Laat iedereen z'n eigen afwegingen maken en het leven leiden dat hem of haar gelukkig maakt. Proost.",
+              "likes": 214,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 4,
+            "title": "Glijdende-schaalgevoel",
+            "summary": "Alcohol komt in een rijtje met roken, suiker en vlees.",
+            "n": 471,
+            "denominator": 2496,
+            "pct": 18.9,
+            "codes": [
+              "theme:glijdende_schaal"
+            ],
+            "comment_ids": [
+              "c0628"
+            ],
+            "quote": {
+              "id": "c0628",
+              "text": "Geen sigaretten, geen alcohol, geen vuurwerk, geen kachel, niet in de zon, niet teveel vlees, geen wintersport, niet te ver op vakantie, geen benzine auto rijden, niet te harde muziek.Is er nog iets gezelligs te ondernemen zonder dat er dood en verderf geroepen wordt?",
+              "likes": 41,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 5,
+            "title": "Vrijheid is kernwoord",
+            "summary": "Veel reacties draaien om zelf bepalen.",
+            "n": 253,
+            "denominator": 2496,
+            "pct": 10.1,
+            "codes": [
+              "theme:zelfbeschikking"
+            ],
+            "comment_ids": [
+              "c0644"
+            ],
+            "quote": {
+              "id": "c0644",
+              "text": "Mogen we ook zelf beslissen of we alcohol drinken en kunnen we dit land een beetje leefbaar houden alstublieft? Waarom moet alles hier toch gereguleerd worden, is toch niet normaal?",
+              "likes": 37,
+              "source": "NU.nl comments"
+            }
+          }
+        ],
+        "note": "Thema’s zijn multi-label; percentages tellen niet op tot 100%."
+      },
+      {
+        "id": "end02",
+        "type": "sentiment_summary",
+        "title": "Welke toon bepaalde het debat?",
+        "subtitle": "Vijf herkenbare houdingen in de reacties.",
+        "visual_type": "sentiment_cards",
+        "items": [
+          {
+            "rank": 1,
+            "title": "Zorg",
+            "summary": "Sommigen benadrukken schade, bewijs en waarschuwing.",
+            "n": 506,
+            "denominator": 2496,
+            "pct": 20.3,
+            "codes": [
+              "emotion:zorg"
+            ],
+            "comment_ids": [
+              "c2449"
+            ],
+            "quote": {
+              "id": "c2449",
+              "text": "Ja maar drank en roken is ook gewoon schadelijk voor je, en een volume boven een bepaald aantal decibel ook. Je kan hoog of laag springen wat je wilt, en waarschuwingen hierover betutteling noemen, maar dat verandert er niets aan.",
+              "likes": 101,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 2,
+            "title": "Wantrouwen",
+            "summary": "Prijs en motieven roepen achterdocht op.",
+            "n": 213,
+            "denominator": 2496,
+            "pct": 8.5,
+            "codes": [
+              "emotion:wantrouwen"
+            ],
+            "comment_ids": [
+              "c2149"
+            ],
+            "quote": {
+              "id": "c2149",
+              "text": "Juist we zijn er weer, wat dacht de raad we zullen met dit extreem warme weer maar eens over alcohol drinken beginnen. En ja hoor we moeten het weer duurder maken accijnzen omhoog of moeilijker te verkrijgen, ik wed dat het accijnzen verhogen wordt weer een mooie smoes geld binnen te harken.",
+              "likes": 38,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 3,
+            "title": "Irritatie",
+            "summary": "Betutteling en bemoeienis roepen ergernis op.",
+            "n": 222,
+            "denominator": 2496,
+            "pct": 8.9,
+            "codes": [
+              "emotion:irritatie"
+            ],
+            "comment_ids": [
+              "c2356"
+            ],
+            "quote": {
+              "id": "c2356",
+              "text": "Ik word doodmoe van al die overheidsbemoeienis. Een leven met alleen gezonde dingen is geen leven. Het leven moet gevierd worden en hoe gezond je ook leeft, garanties bestaan er niet. Laat iedereen z'n eigen afwegingen maken en het leven leiden dat hem of haar gelukkig maakt. Proost.",
+              "likes": 214,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 4,
+            "title": "Berusting",
+            "summary": "Sommigen accepteren risico als onderdeel van leven.",
+            "n": 42,
+            "denominator": 2496,
+            "pct": 1.7,
+            "codes": [
+              "emotion:berusting"
+            ],
+            "comment_ids": [
+              "c2483"
+            ],
+            "quote": {
+              "id": "c2483",
+              "text": "Nog meer betutteling we worden al zo oud moeten al langer door werken etc. Je moet toch ergens aan dood gaan dan maar met gezellig af en toe een glaasje wijn of bier.",
+              "likes": 50,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 5,
+            "title": "Humor",
+            "summary": "Spot en overdrijving maken het advies lichter.",
+            "n": 115,
+            "denominator": 2496,
+            "pct": 4.6,
+            "codes": [
+              "emotion:humor"
+            ],
+            "comment_ids": [
+              "c0003"
+            ],
+            "quote": {
+              "id": "c0003",
+              "text": "Ieder glas is er één teveel. Gelukkig drink ik mijn bier rechtstreeks uit de fles. Wel zonde van mijn mooie whiskey-glazen 😉. Proost",
+              "likes": 225,
+              "source": "NU.nl comments"
+            }
+          }
+        ],
+        "note": "Emoties zijn indicatief gecodeerd op zichtbare taal; één reactie kan meerdere tonen bevatten."
+      },
+      {
+        "id": "end03",
+        "type": "takeaways",
+        "title": "Wat betekent dit?",
+        "subtitle": "Vier compacte lessen uit dezelfde analyse.",
+        "visual_type": "takeaway_cards",
+        "items": [
+          {
+            "rank": 1,
+            "title": "Praat niet alleen over risico",
+            "summary": "Veel mensen willen ook erkenning voor plezier en eigen afweging.",
+            "n": 414,
+            "denominator": 2496,
+            "pct": 16.6,
+            "codes": [
+              "theme:genieten"
+            ],
+            "comment_ids": [
+              "c0015"
+            ],
+            "quote": {
+              "id": "c0015",
+              "text": "Leef je eigen leven. Je leeft maar één keer. En het leven is er niet om zo oud mogelijk te worden. Maar om een plezierig leven te hebben.",
+              "likes": 93,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 2,
+            "title": "Leg advies uit als keuze-informatie",
+            "summary": "Waarschuwingen landen beter wanneer ze niet als afpakken voelen.",
+            "n": 313,
+            "denominator": 2496,
+            "pct": 12.5,
+            "codes": [
+              "theme:advies_geen_verbod"
+            ],
+            "comment_ids": [
+              "c2422"
+            ],
+            "quote": {
+              "id": "c2422",
+              "text": "En dus mag je niet niet geïnformeerd worden over de nadelen van je keuzes? Lijkt me alleen maar goed dat hier onderzoek naar gedaan wordt. Dan kun je zelf de geïnformeerde afweging maken.",
+              "likes": 26,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 3,
+            "title": "Prijsmaatregelen triggeren wantrouwen",
+            "summary": "Accijns wordt snel gelezen als belastingmotief.",
+            "n": 273,
+            "denominator": 2496,
+            "pct": 10.9,
+            "codes": [
+              "theme:accijns_belasting"
+            ],
+            "comment_ids": [
+              "c2149"
+            ],
+            "quote": {
+              "id": "c2149",
+              "text": "Juist we zijn er weer, wat dacht de raad we zullen met dit extreem warme weer maar eens over alcohol drinken beginnen. En ja hoor we moeten het weer duurder maken accijnzen omhoog of moeilijker te verkrijgen, ik wed dat het accijnzen verhogen wordt weer een mooie smoes geld binnen te harken.",
+              "likes": 38,
+              "source": "NU.nl comments"
+            }
+          },
+          {
+            "rank": 4,
+            "title": "Normalisering is concreter",
+            "summary": "Reclame, tv, supermarkt en jongeren bieden een tastbare ingang.",
+            "n": 278,
+            "denominator": 2496,
+            "pct": 11.1,
+            "codes": [
+              "theme:normalisering_media_jeugd"
+            ],
+            "comment_ids": [
+              "c1937"
+            ],
+            "quote": {
+              "id": "c1937",
+              "text": "Ik blijf me nog steeds verbazen over het feit dat we alcohol zo normaal vinden. Alcohol is een soort hard drug en we lopen er met onze kinderen dagelijks in de supermarkt langs. Sigaretten zijn de supermarkt uit (en terecht), maar alcohol? Die blijft gewoon in de supermarkt te koop. Bijzonder",
+              "likes": 35,
+              "source": "NU.nl comments"
+            }
+          }
+        ],
+        "note": "Takeaways zijn gebaseerd op dezelfde tellingen en quotes als de vragenpool."
+      }
+    ]
+  }
+}

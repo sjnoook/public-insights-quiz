@@ -1025,6 +1025,30 @@ a {
   box-shadow: inset 33px 0 0 -26px currentColor, inset -33px 0 0 -26px currentColor;
 }
 
+.topic-visual.drink::before {
+  border: 7px solid currentColor;
+  border-radius: 6px 6px 22px 22px;
+  border-top-width: 4px;
+  height: 72px;
+  left: 58px;
+  top: 34px;
+  transform: rotate(-4deg);
+  width: 54px;
+}
+
+.topic-visual.drink::after {
+  background: currentColor;
+  border-radius: 999px;
+  height: 8px;
+  left: 50px;
+  top: 30px;
+  width: 70px;
+  box-shadow:
+    42px 26px 0 -2px currentColor,
+    42px 42px 0 -2px currentColor,
+    0 86px 0 18px rgba(255, 255, 255, 0.08);
+}
+
 .studio-hint {
   background: rgba(15, 23, 42, 0.76);
   border: 1px solid rgba(163, 230, 53, 0.26);

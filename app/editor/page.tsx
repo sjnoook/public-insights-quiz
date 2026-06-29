@@ -1,9 +1,15 @@
 import QuizStudio from "@/components/QuizStudio";
 import type { DashboardBundle } from "@/lib/evidence";
-import type { QuizSeed } from "@/lib/quizNormalizer";
-import quizSeed from "@/data/quiz_seed.json";
-import dashboardBundle from "@/public/data/public_insights_dashboard_bundle.json";
+import { DEFAULT_BUNDLED_PACK } from "@/lib/bundledPacks";
+
+const EMPTY_DASHBOARD = {} as DashboardBundle;
 
 export default function EditorPage() {
-  return <QuizStudio defaultDashboard={dashboardBundle as DashboardBundle} defaultSeed={quizSeed as QuizSeed} />;
+  return (
+    <QuizStudio
+      defaultDashboard={EMPTY_DASHBOARD}
+      defaultEvidenceContext={DEFAULT_BUNDLED_PACK.evidenceContext}
+      defaultSeed={DEFAULT_BUNDLED_PACK.seed}
+    />
+  );
 }

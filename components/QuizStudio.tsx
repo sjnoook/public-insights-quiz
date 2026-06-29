@@ -1,6 +1,7 @@
 "use client";
 
 import { type ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { BUNDLED_PACKS, findBundledPack } from "@/lib/bundledPacks";
 import { buildEvidenceContext, type DashboardBundle } from "@/lib/evidence";
 import {
   normalizeQuizPack,
@@ -318,14 +319,16 @@ function createTopicId(label: string) {
 
 export default function QuizStudio({
   defaultDashboard,
+  defaultEvidenceContext: providedDefaultEvidenceContext,
   defaultSeed,
 }: {
   defaultDashboard: DashboardBundle;
+  defaultEvidenceContext?: EvidenceContext;
   defaultSeed: QuizSeed;
 }) {
   const builtDefaultEvidenceContext = useMemo(
-    () => buildEvidenceContext(defaultSeed, defaultDashboard),
-    [defaultDashboard, defaultSeed],
+    () => providedDefaultEvidenceContext ?? buildEvidenceContext(defaultSeed, defaultDashboard),
+    [defaultDashboard, defaultSeed, providedDefaultEvidenceContext],
   );
   const defaultPack = useMemo(
     () => normalizeQuizPack({ dashboard: defaultDashboard, evidenceContext: builtDefaultEvidenceContext, seed: defaultSeed }),
@@ -360,7 +363,7 @@ export default function QuizStudio({
       const storedTopicInput = parseTopicStorageValue(storedTopics, DEFAULT_TOPICS);
       const deletedTopicInput = parseTopicStorageValue(deletedTopics, []);
       const nextTopics = mergeStoredTopics(storedTopicInput, deletedTopicInput);
-      const preferredTopicId = DEFAULT_TOPICS[1]?.id ?? DEFAULT_TOPICS[0].id;
+      const preferredTopicId = DEFAULT_TOPICS[0].id;
       const nextTopic = nextTopics.find((topic) => topic.id === preferredTopicId) ?? nextTopics[0];
 
       setTopics(nextTopics);
@@ -437,9 +440,10 @@ export default function QuizStudio({
   const fallbackPackName = fallbackPack?.name ?? "korte broek op kantoor";
   const fallbackOptionLabel = fallbackPack
     ? `Fallback dump: ${fallbackPackName}`
-    : "Ingebouwde fallback: korte broek op kantoor";
+    : "Ingebouwde fallback: actuele korte-broekdump";
   const basePackOptions = [
     { id: "builtin", name: fallbackOptionLabel },
+    ...BUNDLED_PACKS.map((pack) => ({ id: pack.id, name: `Meegeleverd: ${pack.name}` })),
     ...customPacks.map((pack) => ({ id: pack.id, name: pack.name })),
   ];
   const packOptions = basePackOptions.some((pack) => pack.id === currentPackId)
@@ -538,6 +542,13 @@ export default function QuizStudio({
       return;
     }
 
+    const bundledPack = findBundledPack(packId);
+    if (bundledPack) {
+      applyPackToEditor(bundledPack, bundledPack.id);
+      setNotice(`Meegeleverde dump geladen: ${bundledPack.name}. Kies hoeveel vragen je wilt spelen.`);
+      return;
+    }
+
     const pack = customPacks.find((candidate) => candidate.id === packId);
     if (!pack) return;
 
@@ -548,6 +559,11 @@ export default function QuizStudio({
   function deleteCurrentDump() {
     if (currentPackId === "builtin") {
       setNotice("De ingebouwde dump kun je niet verwijderen. Je kunt wel resetten naar ingebouwd.");
+      return;
+    }
+
+    if (findBundledPack(currentPackId)) {
+      setNotice("Meegeleverde dumps zitten in de app-code. Verwijder het gekoppelde onderwerp als je hem niet op /quiz wilt tonen.");
       return;
     }
 

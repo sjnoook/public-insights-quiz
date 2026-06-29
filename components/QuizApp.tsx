@@ -23,6 +23,7 @@ import {
   parseTopicStorageValue,
   type PublicInsightTopic,
 } from "@/lib/topics";
+import { findBundledPack } from "@/lib/bundledPacks";
 
 export type EvidenceContext = NormalizedEvidenceContext;
 export type QuizSeed = NormalizedQuizSeed;
@@ -838,6 +839,12 @@ export default function QuizApp({
 
     if (topic.packId === "builtin") {
       applyFallbackOrDefaultPack();
+      return true;
+    }
+
+    const bundledPack = findBundledPack(topic.packId);
+    if (bundledPack) {
+      applyRuntimePack(bundledPack);
       return true;
     }
 

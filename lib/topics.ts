@@ -1,5 +1,5 @@
-export const PUBLIC_INSIGHTS_TOPICS_KEY = "public-insights-topics-v1";
-export const PUBLIC_INSIGHTS_DELETED_TOPICS_KEY = "public-insights-deleted-topics-v1";
+export const PUBLIC_INSIGHTS_TOPICS_KEY = "public-insights-topics-v3";
+export const PUBLIC_INSIGHTS_DELETED_TOPICS_KEY = "public-insights-deleted-topics-v3";
 export const ACTIVE_TOPIC_STATUS = "actief";
 
 export const TOPIC_STATUSES = ["actief", "concept", "mist data", "verborgen"] as const;
@@ -18,6 +18,7 @@ export const TOPIC_ICONS = [
   "energy",
   "climate",
   "asylum",
+  "drink",
 ] as const;
 
 export type TopicStatus = (typeof TOPIC_STATUSES)[number];
@@ -38,20 +39,12 @@ export type PublicInsightTopic = {
 
 export const DEFAULT_TOPICS: PublicInsightTopic[] = [
   {
-    accent: "lime",
-    description: "Publieke reacties over overlast, status, veiligheid en de plek van de fatbike in de stad.",
-    icon: "bike",
-    id: "fatbike",
-    label: "FATBIKE",
-    prompt: "Wat vindt Nederland van de fatbike?",
-    status: "mist data",
-  },
-  {
     accent: "purple",
     description: "Een luchtige kantoor-discussie waarin comfort, professionaliteit en dubbele standaarden botsen.",
     icon: "shorts",
     id: "korte-broek",
     label: "KORTE BROEK OP WERK",
+    packId: "bundled-korte-broek",
     prompt: "Kantoorhit of dresscode-drama?",
     status: "actief",
   },
@@ -61,26 +54,39 @@ export const DEFAULT_TOPICS: PublicInsightTopic[] = [
     icon: "phone",
     id: "social-media",
     label: "SOCIAL MEDIA VERBOD JONGEREN",
+    packId: "bundled-socialemediaverbod",
     prompt: "Ja of nee?",
-    status: "concept",
-  },
-  {
-    accent: "orange",
-    description: "Publieke frames rond bondscoach Koeman: vertrouwen, frustratie, verwachtingen en voetbalgevoel.",
-    icon: "coach",
-    id: "koeman",
-    label: "WAT DENKT NEDERLAND OVER KOEMAN",
-    prompt: "Bondscoach of bliksemafleider?",
-    status: "concept",
+    status: "actief",
   },
   {
     accent: "blue",
-    description: "Reacties over AI, werkzekerheid, kansen, controle en de vraag wie straks nog waarde toevoegt.",
-    icon: "ai",
-    id: "ai-banen",
-    label: "AI GAAT ONZE BANEN OVERNEMEN",
-    prompt: "Paniek of prima kans?",
-    status: "mist data",
+    description: "Reacties over huizenprijzen, starters, betaalbaarheid en het gevoel dat wonen steeds verder weg schuift.",
+    icon: "housing",
+    id: "woningmarkt",
+    label: "WONINGMARKT",
+    packId: "bundled-woningmarkt",
+    prompt: "Wie kan er nog wonen?",
+    status: "actief",
+  },
+  {
+    accent: "orange",
+    description: "Reacties over zelfrijdende auto's, vertrouwen, aansprakelijkheid en Nederlandse verkeersrealiteit.",
+    icon: "car",
+    id: "tesla-fsd",
+    label: "TESLA FSD",
+    packId: "bundled-tesla-fsd",
+    prompt: "Slimme auto of spannend risico?",
+    status: "actief",
+  },
+  {
+    accent: "lime",
+    description: "Reacties over alcoholadvies, vrijheid, gezondheid en de grens tussen waarschuwing en betutteling.",
+    icon: "drink",
+    id: "alcoholadvies",
+    label: "ALCOHOLADVIES",
+    packId: "bundled-alcoholadvies",
+    prompt: "Gezond advies of bemoeienis?",
+    status: "actief",
   },
 ];
 
