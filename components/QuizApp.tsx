@@ -970,9 +970,9 @@ export default function QuizApp({
       return true;
     }
 
-    const bundledPack = findBundledPack(topic.packId);
-    if (bundledPack) {
-      applyRuntimePack(bundledPack);
+    const activePack = readActivePack();
+    if (activePack?.id === topic.packId) {
+      applyRuntimePack(activePack);
       return true;
     }
 
@@ -982,9 +982,9 @@ export default function QuizApp({
       return true;
     }
 
-    const activePack = readActivePack();
-    if (activePack?.id === topic.packId) {
-      applyRuntimePack(activePack);
+    const bundledPack = findBundledPack(topic.packId);
+    if (bundledPack) {
+      applyRuntimePack(bundledPack);
       return true;
     }
 
@@ -999,14 +999,14 @@ export default function QuizApp({
       return getPackReactionTotal(defaultPack);
     }
 
-    const bundledPack = findBundledPack(topic.packId);
-    if (bundledPack) return getPackReactionTotal(bundledPack);
+    const activePack = readActivePack();
+    if (activePack?.id === topic.packId) return getPackReactionTotal(activePack);
 
     const customPack = readStoredPacks().find((pack) => pack.id === topic.packId);
     if (customPack) return getPackReactionTotal(customPack);
 
-    const activePack = readActivePack();
-    if (activePack?.id === topic.packId) return getPackReactionTotal(activePack);
+    const bundledPack = findBundledPack(topic.packId);
+    if (bundledPack) return getPackReactionTotal(bundledPack);
 
     return null;
   }

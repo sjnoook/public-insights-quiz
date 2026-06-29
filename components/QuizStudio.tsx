@@ -287,6 +287,17 @@ function readFallbackPack() {
   }
 }
 
+function readActiveStoredPack() {
+  try {
+    const raw = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
+    if (!raw) return undefined;
+
+    return normalizeStoredPack(JSON.parse(raw) as StudioStoredPack);
+  } catch {
+    return undefined;
+  }
+}
+
 function normalizeStoredPack(pack: Partial<StudioStoredPack> | undefined) {
   if (!pack) return undefined;
 
@@ -469,10 +480,16 @@ export default function QuizStudio({
   const fallbackOptionLabel = fallbackPack
     ? `Fallback dump: ${fallbackPackName}`
     : "Ingebouwde fallback: actuele korte-broekdump";
+  const customPackIds = new Set(customPacks.map((pack) => pack.id));
   const basePackOptions = [
     { id: "builtin", name: fallbackOptionLabel },
-    ...BUNDLED_PACKS.map((pack) => ({ id: pack.id, name: `Meegeleverd: ${pack.name}` })),
-    ...customPacks.map((pack) => ({ id: pack.id, name: pack.name })),
+    ...BUNDLED_PACKS.map((pack) => ({
+      id: pack.id,
+      name: customPackIds.has(pack.id) ? `Aangepast: ${pack.name}` : `Meegeleverd: ${pack.name}`,
+    })),
+    ...customPacks
+      .filter((pack) => !findBundledPack(pack.id))
+      .map((pack) => ({ id: pack.id, name: pack.name })),
   ];
   const packOptions = basePackOptions.some((pack) => pack.id === currentPackId)
     ? basePackOptions
@@ -571,18 +588,25 @@ export default function QuizStudio({
       return;
     }
 
-    const bundledPack = findBundledPack(packId);
-    if (bundledPack) {
-      applyPackToEditor(bundledPack, bundledPack.id);
-      setNotice(`Meegeleverde dump geladen: ${bundledPack.name}. Globaal aantal vragen: ${questionTarget}.`);
+    const activePack = readActiveStoredPack();
+    if (activePack?.id === packId) {
+      applyPackToEditor(activePack, activePack.id);
+      setNotice(`Opgeslagen versie geladen: ${activePack.name}. Globaal aantal vragen: ${questionTarget}.`);
       return;
     }
 
     const pack = customPacks.find((candidate) => candidate.id === packId);
-    if (!pack) return;
+    if (pack) {
+      applyPackToEditor(pack, pack.id);
+      setNotice(`Dump geladen: ${pack.name}. Globaal aantal vragen: ${questionTarget}.`);
+      return;
+    }
 
-    applyPackToEditor(pack, pack.id);
-    setNotice(`Dump geladen: ${pack.name}. Globaal aantal vragen: ${questionTarget}.`);
+    const bundledPack = findBundledPack(packId);
+    if (bundledPack) {
+      applyPackToEditor(bundledPack, bundledPack.id);
+      setNotice(`Meegeleverde dump geladen: ${bundledPack.name}. Globaal aantal vragen: ${questionTarget}.`);
+    }
   }
 
   function deleteCurrentDump() {
@@ -928,7 +952,7 @@ export default function QuizStudio({
 
     window.localStorage.setItem(STUDIO_ACTIVE_PACK_KEY, JSON.stringify(nextPack));
 
-    if (currentPackId !== "builtin" && customPacks.some((pack) => pack.id === currentPackId)) {
+    if (currentPackId !== "builtin" && currentPackId !== "active-built-in") {
       const nextPacks = upsertPack(customPacks, nextPack);
       window.localStorage.setItem(STUDIO_CUSTOM_PACKS_KEY, JSON.stringify(nextPacks));
       setCustomPacks(nextPacks);
