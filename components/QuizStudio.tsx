@@ -9,7 +9,12 @@ import {
   type QuizPackValidation,
   type QuizSeed,
 } from "@/lib/quizNormalizer";
-import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY, STUDIO_FALLBACK_PACK_KEY } from "@/lib/studioStorage";
+import {
+  GLOBAL_QUIZ_SETTINGS_KEY,
+  STUDIO_ACTIVE_PACK_KEY,
+  STUDIO_CUSTOM_PACKS_KEY,
+  STUDIO_FALLBACK_PACK_KEY,
+} from "@/lib/studioStorage";
 import {
   DEFAULT_TOPICS,
   PUBLIC_INSIGHTS_DELETED_TOPICS_KEY,
@@ -124,6 +129,24 @@ function clampQuestionTarget(seed: QuizSeed, target: number) {
 
 function getQuestionTarget(seed: QuizSeed, fallback = MAX_QUESTION_TARGET) {
   return clampQuestionTarget(seed, seed.game?.questionCount ?? fallback);
+}
+
+function readGlobalQuestionTarget(fallback = MAX_QUESTION_TARGET) {
+  if (typeof window === "undefined") return fallback;
+
+  try {
+    const raw = window.localStorage.getItem(GLOBAL_QUIZ_SETTINGS_KEY);
+    if (!raw) return fallback;
+
+    const parsed = JSON.parse(raw) as { questionCount?: number };
+    return Math.min(Math.max(Math.trunc(parsed.questionCount ?? fallback), MIN_QUESTION_TARGET), MAX_QUESTION_TARGET);
+  } catch {
+    return fallback;
+  }
+}
+
+function writeGlobalQuestionTarget(questionCount: number) {
+  window.localStorage.setItem(GLOBAL_QUIZ_SETTINGS_KEY, JSON.stringify({ questionCount }));
 }
 
 function makeResultBands(questionTarget: number) {
@@ -347,7 +370,7 @@ export default function QuizStudio({
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [topicDraft, setTopicDraft] = useState<PublicInsightTopic | null>(null);
   const [draftQuestion, setDraftQuestion] = useState<QuizQuestion | null>(null);
-  const [notice, setNotice] = useState("Kies hoeveel vragen je wilt spelen. Daarna gebruikt de publieke quiz precies die selectie.");
+  const [notice, setNotice] = useState("Kies globaal hoeveel vragen de quiz speelt. Dat aantal geldt voor elk onderwerp.");
   const [savedQuestionId, setSavedQuestionId] = useState<string | null>(null);
   const [saveToast, setSaveToast] = useState("");
   const [questionTarget, setQuestionTarget] = useState(() => getQuestionTarget(normalizedDefaultSeed));
@@ -380,14 +403,19 @@ export default function QuizStudio({
 
     const storedFallbackPack = readFallbackPack();
     setFallbackPack(storedFallbackPack);
+    const globalQuestionTarget = readGlobalQuestionTarget(getQuestionTarget(normalizedDefaultSeed));
+    const defaultGlobalTarget = clampQuestionTarget(normalizedDefaultSeed, globalQuestionTarget);
 
     try {
       const activeRaw = window.localStorage.getItem(STUDIO_ACTIVE_PACK_KEY);
       if (!activeRaw) {
         if (storedFallbackPack) {
-          applyPackToEditor(storedFallbackPack, "builtin");
-          setNotice(`Fallback dump geladen: ${storedFallbackPack.name}.`);
+          applyPackToEditor(storedFallbackPack, "builtin", globalQuestionTarget);
+          setNotice(`Fallback dump geladen: ${storedFallbackPack.name}. Globaal aantal vragen: ${globalQuestionTarget}.`);
+          return;
         }
+        setQuestionTarget(defaultGlobalTarget);
+        setSelectedQuestionIds(getInitialSelection(normalizedDefaultSeed, undefined, defaultGlobalTarget));
         return;
       }
 
@@ -412,10 +440,10 @@ export default function QuizStudio({
       setCurrentPackId(activePack.id);
       setCurrentSeed(activePack.seed);
       setCurrentValidation(activePack.validation ?? normalizeQuizPack(activePack).validation);
-      const activeQuestionTarget = getQuestionTarget(activePack.seed);
+      const activeQuestionTarget = clampQuestionTarget(activePack.seed, globalQuestionTarget);
       setQuestionTarget(activeQuestionTarget);
       setSelectedQuestionIds(getInitialSelection(activePack.seed, activePack.selectedQuestionIds, activeQuestionTarget));
-      setNotice("Actieve quizselectie geladen. Je kunt hem aanpassen en opnieuw opslaan.");
+      setNotice(`Actieve quizselectie geladen. Globaal aantal vragen: ${activeQuestionTarget}.`);
     } catch {
       setNotice("De ingebouwde dump is geladen.");
     }
@@ -503,9 +531,10 @@ export default function QuizStudio({
     pack: Pick<StudioStoredPack, "evidenceContext" | "seed" | "selectedQuestionIds"> &
       Partial<Pick<StudioStoredPack, "validation">>,
     packId: string,
+    requestedQuestionTarget = questionTarget,
   ) {
     const normalizedPack = normalizeQuizPack(pack);
-    const target = getQuestionTarget(pack.seed, pack.selectedQuestionIds.length || questionTarget);
+    const target = clampQuestionTarget(pack.seed, requestedQuestionTarget);
 
     setCurrentEvidenceContext(pack.evidenceContext);
     setCurrentValidation(pack.validation ?? normalizedPack.validation);
@@ -519,7 +548,7 @@ export default function QuizStudio({
   function loadBuiltInPack() {
     if (fallbackPack) {
       applyPackToEditor(fallbackPack, "builtin");
-      setNotice(`Fallback dump geladen: ${fallbackPack.name}. Kies hoeveel vragen je wilt spelen.`);
+      setNotice(`Fallback dump geladen: ${fallbackPack.name}. Globaal aantal vragen: ${questionTarget}.`);
       return;
     }
 
@@ -528,12 +557,12 @@ export default function QuizStudio({
       {
         evidenceContext: defaultEvidenceContext,
         seed: normalizedDefaultSeed,
-        selectedQuestionIds: getInitialSelection(normalizedDefaultSeed, undefined, getQuestionTarget(normalizedDefaultSeed)),
+        selectedQuestionIds: getInitialSelection(normalizedDefaultSeed, undefined, questionTarget),
         validation: defaultPack.validation,
       },
       "builtin",
     );
-    setNotice("Ingebouwde dump geladen. Kies hoeveel vragen je wilt spelen.");
+    setNotice(`Ingebouwde dump geladen. Globaal aantal vragen: ${questionTarget}.`);
   }
 
   function loadStoredPack(packId: string) {
@@ -545,7 +574,7 @@ export default function QuizStudio({
     const bundledPack = findBundledPack(packId);
     if (bundledPack) {
       applyPackToEditor(bundledPack, bundledPack.id);
-      setNotice(`Meegeleverde dump geladen: ${bundledPack.name}. Kies hoeveel vragen je wilt spelen.`);
+      setNotice(`Meegeleverde dump geladen: ${bundledPack.name}. Globaal aantal vragen: ${questionTarget}.`);
       return;
     }
 
@@ -553,7 +582,7 @@ export default function QuizStudio({
     if (!pack) return;
 
     applyPackToEditor(pack, pack.id);
-    setNotice(`Dump geladen: ${pack.name}. Kies hoeveel vragen je wilt spelen.`);
+    setNotice(`Dump geladen: ${pack.name}. Globaal aantal vragen: ${questionTarget}.`);
   }
 
   function deleteCurrentDump() {
@@ -760,7 +789,7 @@ export default function QuizStudio({
         });
         const nextSeed = normalizedPack.seed;
         const nextEvidenceContext = normalizedPack.evidenceContext;
-        const nextQuestionTarget = getQuestionTarget(nextSeed, questionTarget);
+        const nextQuestionTarget = clampQuestionTarget(nextSeed, questionTarget);
         const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds, nextQuestionTarget);
 
         setCurrentEvidenceContext(nextEvidenceContext);
@@ -794,9 +823,9 @@ export default function QuizStudio({
       const nextSelection = getInitialSelection(
         nextSeed,
         normalizedPack.selectedQuestionIds.length ? normalizedPack.selectedQuestionIds : undefined,
-        getQuestionTarget(nextSeed, questionTarget),
+        clampQuestionTarget(nextSeed, questionTarget),
       );
-      const nextQuestionTarget = getQuestionTarget(nextSeed, nextSelection.length || questionTarget);
+      const nextQuestionTarget = clampQuestionTarget(nextSeed, questionTarget);
 
       setCurrentDashboard(nextDashboard);
       setCurrentEvidenceContext(nextEvidenceContext);
@@ -854,9 +883,10 @@ export default function QuizStudio({
   function changeQuestionTarget(nextTarget: number) {
     const safeTarget = clampQuestionTarget(currentSeed, nextTarget);
 
+    writeGlobalQuestionTarget(safeTarget);
     setQuestionTarget(safeTarget);
     setSelectedQuestionIds((current) => getInitialSelection(currentSeed, current, safeTarget));
-    setNotice(`Deze quiz speelt nu ${safeTarget} vragen. Winnen is vanaf ${getWinThreshold(safeTarget)} goed.`);
+    setNotice(`Globaal ingesteld: elke publieke quiz speelt nu ${safeTarget} vragen. Winnen is vanaf ${getWinThreshold(safeTarget)} goed.`);
   }
 
   function persistActivePack(
@@ -967,14 +997,14 @@ export default function QuizStudio({
         {
           evidenceContext: defaultEvidenceContext,
           seed: normalizedDefaultSeed,
-          selectedQuestionIds: getInitialSelection(normalizedDefaultSeed, undefined, getQuestionTarget(normalizedDefaultSeed)),
+          selectedQuestionIds: getInitialSelection(normalizedDefaultSeed, undefined, questionTarget),
           validation: defaultPack.validation,
         },
         "builtin",
       );
     }
 
-    setNotice("Fallback teruggezet naar de ingebouwde korte-broek-dump.");
+    setNotice(`Fallback teruggezet naar de ingebouwde korte-broek-dump. Globaal aantal vragen: ${questionTarget}.`);
     triggerSavedFeedback("Fallback gereset");
   }
 
@@ -1020,6 +1050,99 @@ export default function QuizStudio({
       nextDetails[index] = value;
       return { ...current, optionDetails: nextDetails };
     });
+  }
+
+  function updateQuestion<K extends keyof QuizQuestion>(
+    questionId: string,
+    field: K,
+    value: QuizQuestion[K],
+  ) {
+    setCurrentSeed((current) => ({
+      ...current,
+      questions: current.questions.map((question) =>
+        question.id === questionId ? { ...question, [field]: value } : question,
+      ),
+    }));
+  }
+
+  function updateQuestionEvidence<K extends keyof QuizQuestion["evidence"]>(
+    questionId: string,
+    field: K,
+    value: QuizQuestion["evidence"][K],
+  ) {
+    setCurrentSeed((current) => ({
+      ...current,
+      questions: current.questions.map((question) =>
+        question.id === questionId
+          ? {
+              ...question,
+              evidence: {
+                ...question.evidence,
+                [field]: value,
+              },
+            }
+          : question,
+      ),
+    }));
+  }
+
+  function updateQuestionOption(questionId: string, index: number, value: string) {
+    setCurrentSeed((current) => ({
+      ...current,
+      questions: current.questions.map((question) => {
+        if (question.id !== questionId) return question;
+
+        const nextOptions = [...question.options];
+        nextOptions[index] = value;
+        return { ...question, options: nextOptions };
+      }),
+    }));
+  }
+
+  function updateQuestionOptionDetail(questionId: string, index: number, value: string) {
+    setCurrentSeed((current) => ({
+      ...current,
+      questions: current.questions.map((question) => {
+        if (question.id !== questionId) return question;
+
+        const nextDetails = question.optionDetails ? [...question.optionDetails] : question.options.map(() => "");
+        nextDetails[index] = value;
+        return { ...question, optionDetails: nextDetails };
+      }),
+    }));
+  }
+
+  function saveQuestion(questionToSave: QuizQuestion) {
+    const cleanOptions = questionToSave.options.map((option) => option.trim());
+    if (!questionToSave.prompt.trim() || cleanOptions.some((option) => !option)) {
+      setNotice("Vul minimaal de vraag en alle antwoordopties in voordat je opslaat.");
+      return;
+    }
+
+    const cleanQuestion: QuizQuestion = {
+      ...questionToSave,
+      context: questionToSave.context?.trim(),
+      feedbackCorrect: questionToSave.feedbackCorrect.trim(),
+      feedbackWrong: questionToSave.feedbackWrong.trim(),
+      optionDetails: (questionToSave.optionDetails ?? questionToSave.options.map(() => "")).map((detail) => detail.trim()),
+      options: cleanOptions,
+      prompt: questionToSave.prompt.trim(),
+    };
+    const nextSeed = {
+      ...currentSeed,
+      questions: currentSeed.questions.map((question) => (question.id === cleanQuestion.id ? cleanQuestion : question)),
+    };
+    const nextSelection = getInitialSelection(nextSeed, selectedQuestionIds, questionTarget);
+
+    persistActivePack(
+      nextSeed,
+      nextSelection,
+      `Vraag ${cleanQuestion.id} opgeslagen. De publieke quiz gebruikt je aangepaste tekst.`,
+      cleanQuestion,
+      currentEvidenceContext,
+      "Vraag opgeslagen",
+      questionTarget,
+    );
   }
 
   function saveQuestionEdits() {
@@ -1292,24 +1415,20 @@ export default function QuizStudio({
           <label>
             Dump kiezen
             <select value={currentPackId} onChange={(event) => loadStoredPack(event.target.value)}>
-              <option value="builtin">{fallbackOptionLabel}</option>
-              {customPacks.map((pack) => (
+              {packOptions.map((pack) => (
                 <option key={pack.id} value={pack.id}>
                   {pack.name}
                 </option>
               ))}
-              {currentPackId !== "builtin" && !customPacks.some((pack) => pack.id === currentPackId) ? (
-                <option value={currentPackId}>Actieve studio-keuze</option>
-              ) : null}
             </select>
           </label>
 
           <label>
-            Aantal vragen
+            Globaal aantal vragen
             <select value={questionTarget} onChange={(event) => changeQuestionTarget(Number(event.target.value))}>
               {questionTargetOptions.map((count) => (
                 <option key={count} value={count}>
-                  {count} vragen · win vanaf {getWinThreshold(count)}
+                  {count} vragen overal · win vanaf {getWinThreshold(count)}
                 </option>
               ))}
             </select>
@@ -1386,14 +1505,6 @@ export default function QuizStudio({
           <button className="primary-button" disabled={selectedQuestionIds.length !== questionTarget} onClick={saveSelection}>
             Gebruik deze {questionTarget} in de publieke quiz
           </button>
-          <button
-            className="secondary-button"
-            disabled={!selectedQuestionIds[0]}
-            onClick={() => selectedQuestionIds[0] && startEditing(selectedQuestionIds[0])}
-            type="button"
-          >
-            Open editor
-          </button>
           <a className="secondary-button" href="/quiz">
             Bekijk publieke quiz
           </a>
@@ -1409,149 +1520,11 @@ export default function QuizStudio({
         </div>
       </section>
 
-      {draftQuestion ? (
-        <section className="studio-panel studio-editor" id="vraag-editor">
-          <div className="studio-section-header">
-            <div>
-              <p className="kicker">Editor</p>
-              <h2>Vraag {draftQuestion.id} aanpassen</h2>
-            </div>
-            <button className="secondary-button" onClick={() => setDraftQuestion(null)} type="button">
-              Sluit editor
-            </button>
-          </div>
-
-          <div className="editor-form">
-            <label>
-              Label
-              <input
-                onChange={(event) => updateDraftField("tone", event.target.value)}
-                value={draftQuestion.tone}
-              />
-            </label>
-            <label>
-              Context voor de vraag
-              <textarea
-                onChange={(event) => updateDraftField("context", event.target.value)}
-                rows={3}
-                value={draftQuestion.context ?? ""}
-              />
-            </label>
-            <label className="editor-wide">
-              Vraag
-              <textarea
-                onChange={(event) => updateDraftField("prompt", event.target.value)}
-                rows={2}
-                value={draftQuestion.prompt}
-              />
-            </label>
-          </div>
-
-          <div className="editor-options">
-            {draftQuestion.options.map((option, index) => (
-              <div className={`editor-option ${draftQuestion.correctIndex === index ? "correct" : ""}`} key={`${draftQuestion.id}-${index}`}>
-                <label className="editor-radio">
-                  <input
-                    checked={draftQuestion.correctIndex === index}
-                    name="correct-answer"
-                    onChange={() => updateDraftField("correctIndex", index)}
-                    type="radio"
-                  />
-                  Goed antwoord
-                </label>
-                <label>
-                  Antwoord {index + 1}
-                  <input onChange={(event) => updateDraftOption(index, event.target.value)} value={option} />
-                </label>
-                <label>
-                  Uitleg na keuze
-                  <textarea
-                    onChange={(event) => updateDraftOptionDetail(index, event.target.value)}
-                    rows={2}
-                    value={draftQuestion.optionDetails?.[index] ?? ""}
-                  />
-                </label>
-              </div>
-            ))}
-          </div>
-
-          <div className="editor-form editor-feedback">
-            <label>
-              Feedback bij goed
-              <textarea
-                onChange={(event) => updateDraftField("feedbackCorrect", event.target.value)}
-                rows={3}
-                value={draftQuestion.feedbackCorrect}
-              />
-            </label>
-            <label>
-              Feedback bij fout
-              <textarea
-                onChange={(event) => updateDraftField("feedbackWrong", event.target.value)}
-                rows={3}
-                value={draftQuestion.feedbackWrong}
-              />
-            </label>
-            <label className="editor-wide">
-              Bewijsclaim
-              <textarea
-                onChange={(event) => updateDraftEvidence("claim", event.target.value)}
-                rows={2}
-                value={draftQuestion.evidence.claim}
-              />
-            </label>
-            <label>
-              Telling
-              <input
-                min={0}
-                onChange={(event) => updateDraftEvidence("n", event.target.value === "" ? undefined : Number(event.target.value))}
-                type="number"
-                value={draftQuestion.evidence.n ?? ""}
-              />
-            </label>
-            <label>
-              Noemer
-              <input
-                min={0}
-                onChange={(event) =>
-                  updateDraftEvidence("denominator", event.target.value === "" ? undefined : Number(event.target.value))
-                }
-                type="number"
-                value={draftQuestion.evidence.denominator ?? ""}
-              />
-            </label>
-            <label>
-              Percentage
-              <input
-                min={0}
-                onChange={(event) => updateDraftEvidence("pct", event.target.value === "" ? undefined : Number(event.target.value))}
-                step="0.1"
-                type="number"
-                value={draftQuestion.evidence.pct ?? ""}
-              />
-            </label>
-          </div>
-
-          <div className="studio-actions">
-            <button
-              className={`primary-button save-question-button ${savedQuestionId === draftQuestion.id ? "saved" : ""}`}
-              onClick={saveQuestionEdits}
-              type="button"
-            >
-              {savedQuestionId === draftQuestion.id ? "Opgeslagen" : "Sla vraag op"}
-            </button>
-            <button className="secondary-button" onClick={() => startEditing(draftQuestion.id)} type="button">
-              Herstel laatste opgeslagen versie
-            </button>
-          </div>
-        </section>
-      ) : null}
-
       <section className="studio-panel">
         <div className="studio-section-header">
           <div>
             <p className="kicker">Kandidaten</p>
-            <h2>Kies de {questionTarget} leukste vragen</h2>
+            <h2>Kies en bewerk de {questionTarget} leukste vragen</h2>
           </div>
           <p>
             Geselecteerd:{" "}
@@ -1561,19 +1534,143 @@ export default function QuizStudio({
           </p>
         </div>
 
-        <div className="studio-grid">
+        <div className="studio-question-list">
           {currentSeed.questions.map((question) => {
             const selectedOrder = selectedQuestionIds.indexOf(question.id) + 1;
             const isSelected = selectedOrder > 0;
 
             return (
-              <article className={`studio-question ${isSelected ? "selected" : ""}`} key={question.id}>
+              <article className={`studio-question inline-editor ${isSelected ? "selected" : ""}`} key={question.id}>
                 <div className="studio-question-top">
-                  <span>{question.id}</span>
-                  {isSelected ? <strong>{selectedOrder}</strong> : null}
+                  <div>
+                    <span>{question.id}</span>
+                    {isSelected ? <strong>Vraag {selectedOrder} in quiz</strong> : null}
+                  </div>
+                  <div className="studio-question-actions">
+                    <button className={isSelected ? "secondary-button" : "primary-button"} onClick={() => toggleQuestion(question.id)}>
+                      {isSelected ? "Haal uit selectie" : "Kies deze vraag"}
+                    </button>
+                    <button
+                      className={`primary-button save-question-button ${savedQuestionId === question.id ? "saved" : ""}`}
+                      onClick={() => saveQuestion(question)}
+                      type="button"
+                    >
+                      {savedQuestionId === question.id ? "Opgeslagen" : "Sla vraag op"}
+                    </button>
+                  </div>
                 </div>
-                <h3>{question.prompt}</h3>
-                {question.context ? <p>{question.context}</p> : null}
+
+                <div className="editor-form">
+                  <label>
+                    Label
+                    <input
+                      onChange={(event) => updateQuestion(question.id, "tone", event.target.value)}
+                      value={question.tone}
+                    />
+                  </label>
+                  <label>
+                    Context voor de vraag
+                    <textarea
+                      onChange={(event) => updateQuestion(question.id, "context", event.target.value)}
+                      rows={2}
+                      value={question.context ?? ""}
+                    />
+                  </label>
+                  <label className="editor-wide">
+                    Vraag
+                    <textarea
+                      onChange={(event) => updateQuestion(question.id, "prompt", event.target.value)}
+                      rows={2}
+                      value={question.prompt}
+                    />
+                  </label>
+                </div>
+
+                <div className="editor-options">
+                  {question.options.map((option, index) => (
+                    <div className={`editor-option ${question.correctIndex === index ? "correct" : ""}`} key={`${question.id}-${index}`}>
+                      <label className="editor-radio">
+                        <input
+                          checked={question.correctIndex === index}
+                          name={`correct-answer-${question.id}`}
+                          onChange={() => updateQuestion(question.id, "correctIndex", index)}
+                          type="radio"
+                        />
+                        Goed antwoord
+                      </label>
+                      <label>
+                        Antwoord {index + 1}
+                        <input onChange={(event) => updateQuestionOption(question.id, index, event.target.value)} value={option} />
+                      </label>
+                      <label>
+                        Uitleg na keuze
+                        <textarea
+                          onChange={(event) => updateQuestionOptionDetail(question.id, index, event.target.value)}
+                          rows={2}
+                          value={question.optionDetails?.[index] ?? ""}
+                        />
+                      </label>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="editor-form editor-feedback">
+                  <label>
+                    Feedback bij goed
+                    <textarea
+                      onChange={(event) => updateQuestion(question.id, "feedbackCorrect", event.target.value)}
+                      rows={2}
+                      value={question.feedbackCorrect}
+                    />
+                  </label>
+                  <label>
+                    Feedback bij fout
+                    <textarea
+                      onChange={(event) => updateQuestion(question.id, "feedbackWrong", event.target.value)}
+                      rows={2}
+                      value={question.feedbackWrong}
+                    />
+                  </label>
+                  <label className="editor-wide">
+                    Bewijsclaim
+                    <textarea
+                      onChange={(event) => updateQuestionEvidence(question.id, "claim", event.target.value)}
+                      rows={2}
+                      value={question.evidence.claim}
+                    />
+                  </label>
+                  <label>
+                    Telling
+                    <input
+                      min={0}
+                      onChange={(event) => updateQuestionEvidence(question.id, "n", event.target.value === "" ? null : Number(event.target.value))}
+                      type="number"
+                      value={question.evidence.n ?? ""}
+                    />
+                  </label>
+                  <label>
+                    Noemer
+                    <input
+                      min={0}
+                      onChange={(event) =>
+                        updateQuestionEvidence(question.id, "denominator", event.target.value === "" ? null : Number(event.target.value))
+                      }
+                      type="number"
+                      value={question.evidence.denominator ?? ""}
+                    />
+                  </label>
+                  <label>
+                    Percentage
+                    <input
+                      min={0}
+                      onChange={(event) => updateQuestionEvidence(question.id, "pct", event.target.value === "" ? null : Number(event.target.value))}
+                      step="0.1"
+                      type="number"
+                      value={question.evidence.pct ?? ""}
+                    />
+                  </label>
+                </div>
+
                 <dl>
                   <div>
                     <dt>Telling</dt>
@@ -1584,14 +1681,6 @@ export default function QuizStudio({
                     <dd>{question.evidence.quote_count}</dd>
                   </div>
                 </dl>
-                <div className="studio-question-actions">
-                  <button className={isSelected ? "secondary-button" : "primary-button"} onClick={() => toggleQuestion(question.id)}>
-                    {isSelected ? "Haal uit selectie" : "Kies deze vraag"}
-                  </button>
-                  <button className="secondary-button" onClick={() => startEditing(question.id)} type="button">
-                    Bewerk tekst
-                  </button>
-                </div>
               </article>
             );
           })}

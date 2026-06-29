@@ -13,7 +13,12 @@ import {
   type NormalizedQuote,
   type QuizPackValidation,
 } from "@/lib/quizNormalizer";
-import { STUDIO_ACTIVE_PACK_KEY, STUDIO_CUSTOM_PACKS_KEY, STUDIO_FALLBACK_PACK_KEY } from "@/lib/studioStorage";
+import {
+  GLOBAL_QUIZ_SETTINGS_KEY,
+  STUDIO_ACTIVE_PACK_KEY,
+  STUDIO_CUSTOM_PACKS_KEY,
+  STUDIO_FALLBACK_PACK_KEY,
+} from "@/lib/studioStorage";
 import {
   ACTIVE_TOPIC_STATUS,
   DEFAULT_TOPICS,
@@ -30,6 +35,7 @@ export type QuizSeed = NormalizedQuizSeed;
 type Evidence = NormalizedEvidence;
 type EvidenceComment = NormalizedComment;
 type Question = NormalizedQuestion;
+type LandingVariant = "cards" | "classic";
 
 type SoundCue =
   | "type"
@@ -63,6 +69,11 @@ type StoredQuizPack = {
   seed?: QuizSeed;
   selectedQuestionIds?: string[];
   validation?: QuizPackValidation;
+};
+
+type TopicCardDecor = {
+  bullets: string[];
+  emoji: string;
 };
 
 const FALLBACK_CODE_LABELS: Record<string, string> = {
@@ -115,6 +126,23 @@ function clampQuestionCount(seed: QuizSeed, questionCount: number) {
 
 function getQuestionCount(seed: QuizSeed) {
   return clampQuestionCount(seed, seed.game?.questionCount ?? MAX_QUESTION_COUNT);
+}
+
+function readGlobalQuestionCount() {
+  if (typeof window === "undefined") return undefined;
+
+  try {
+    const raw = window.localStorage.getItem(GLOBAL_QUIZ_SETTINGS_KEY);
+    if (!raw) return undefined;
+
+    const parsed = JSON.parse(raw) as { questionCount?: number };
+    const count = Math.trunc(parsed.questionCount ?? 0);
+    if (!Number.isFinite(count)) return undefined;
+
+    return Math.min(Math.max(count, MIN_QUESTION_COUNT), MAX_QUESTION_COUNT);
+  } catch {
+    return undefined;
+  }
 }
 
 function makeResultBands(questionCount: number) {
@@ -413,6 +441,88 @@ function formatStatValue(value?: number | null) {
   return new Intl.NumberFormat("nl-NL").format(value);
 }
 
+function formatReactionCount(value?: number | null) {
+  if (value === undefined || value === null || value <= 0) return "reacties klaar";
+  return `${formatStatValue(value)} reacties`;
+}
+
+function getPackReactionTotal(pack?: { evidenceContext?: EvidenceContext; seed?: QuizSeed }) {
+  if (!pack) return null;
+
+  const denominators = pack.seed?.questions
+    .map((question) => question.evidence.denominator)
+    .filter((value): value is number => typeof value === "number" && value > 0) ?? [];
+  const commentCount = Object.keys(pack.evidenceContext?.comments ?? {}).length;
+
+  return Math.max(0, ...denominators, commentCount) || null;
+}
+
+function getTopicCardDecor(topic: PublicInsightTopic): TopicCardDecor {
+  const copyByIcon: Record<string, TopicCardDecor> = {
+    ai: {
+      bullets: ["Kansen en angst", "Werk verandert", "AI als collega"],
+      emoji: "🤖",
+    },
+    application: {
+      bullets: ["CV's screenen", "Motivatiebrief", "Eerlijk of niet"],
+      emoji: "📄",
+    },
+    asylum: {
+      bullets: ["Gemeenten verdeeld", "Draagvlak", "Regels vs. praktijk"],
+      emoji: "🏘️",
+    },
+    bike: {
+      bullets: ["Te snel, te zwaar", "Jongeren vs. regels", "Straat vol meningen"],
+      emoji: "🚲",
+    },
+    car: {
+      bullets: ["Vertrouwen?", "Veiligheid?", "Nederland test mee"],
+      emoji: "🚘",
+    },
+    climate: {
+      bullets: ["Goed doen", "Duur of handig", "Gedrag onder druk"],
+      emoji: "🌡️",
+    },
+    coach: {
+      bullets: ["Oranjegevoel", "Verwachtingen", "Bliksemafleider"],
+      emoji: "⚽",
+    },
+    drink: {
+      bullets: ["Vrijheid vs. gezondheid", "Betutteling-alert", "Iedereen proost mee"],
+      emoji: "🍷",
+    },
+    energy: {
+      bullets: ["Salderen", "Terugleveren", "Slim of duur"],
+      emoji: "🔋",
+    },
+    housing: {
+      bullets: ["Startersstress", "Half miljoen grens", "Iedereen een oplossing"],
+      emoji: "🏡",
+    },
+    office: {
+      bullets: ["Thuis of kantoor", "Werkritme", "Managers verdeeld"],
+      emoji: "💼",
+    },
+    phone: {
+      bullets: ["TikTok & co", "Online ID", "Ouders vs. platforms"],
+      emoji: "📵",
+    },
+    shorts: {
+      bullets: ["Etiquette vs. comfort", "Kantoorhitte", "Collega's verdeeld"],
+      emoji: "🩳",
+    },
+    vape: {
+      bullets: ["Gezondheid", "Jongerenregels", "Vrijheid of risico"],
+      emoji: "💨",
+    },
+  };
+
+  return copyByIcon[topic.icon] ?? {
+    bullets: ["Publieke spanning", "Echte reacties", "Verrassende patronen"],
+    emoji: "💬",
+  };
+}
+
 function getItemPercent(item: NormalizedPostQuizSlideItem, maxValue: number) {
   if (item.pct !== null && item.pct !== undefined) return Math.max(4, Math.min(item.pct, 100));
   if (item.n !== null && item.n !== undefined && maxValue > 0) return Math.max(4, Math.min((item.n / maxValue) * 100, 100));
@@ -655,9 +765,11 @@ function PartyParticles() {
 }
 
 export default function QuizApp({
+  landingVariant = "cards",
   seed,
   evidenceContext,
 }: {
+  landingVariant?: LandingVariant;
   seed: QuizSeed;
   evidenceContext: EvidenceContext;
 }) {
@@ -685,6 +797,7 @@ export default function QuizApp({
   const [showInsightDeck, setShowInsightDeck] = useState(false);
   const [activeInsightSlide, setActiveInsightSlide] = useState(0);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [globalQuestionCount, setGlobalQuestionCount] = useState<number | undefined>(undefined);
   const audioContextRef = useRef<AudioContext | null>(null);
   const soundEnabledRef = useRef(false);
 
@@ -699,6 +812,21 @@ export default function QuizApp({
     } catch {
       setTopics([]);
     }
+  }, []);
+
+  useEffect(() => {
+    function syncGlobalQuestionCount() {
+      setGlobalQuestionCount(readGlobalQuestionCount());
+    }
+
+    syncGlobalQuestionCount();
+
+    function handleStorage(event: StorageEvent) {
+      if (event.key === GLOBAL_QUIZ_SETTINGS_KEY) syncGlobalQuestionCount();
+    }
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   useEffect(() => {
@@ -866,10 +994,31 @@ export default function QuizApp({
     return false;
   }
 
-  const questionCount = getQuestionCount(runtimeSeed);
+  function getTopicReactionTotal(topic: PublicInsightTopic) {
+    if (!topic.packId || topic.packId === "builtin") {
+      return getPackReactionTotal(defaultPack);
+    }
+
+    const bundledPack = findBundledPack(topic.packId);
+    if (bundledPack) return getPackReactionTotal(bundledPack);
+
+    const customPack = readStoredPacks().find((pack) => pack.id === topic.packId);
+    if (customPack) return getPackReactionTotal(customPack);
+
+    const activePack = readActivePack();
+    if (activePack?.id === topic.packId) return getPackReactionTotal(activePack);
+
+    return null;
+  }
+
+  const questionCount = clampQuestionCount(runtimeSeed, globalQuestionCount ?? getQuestionCount(runtimeSeed));
   const winThreshold = getWinThreshold(questionCount);
   const resultBands = makeResultBands(questionCount);
-  const featuredQuestionIds = runtimeSeed.game?.featuredQuestionIds ?? FEATURED_QUESTION_IDS;
+  const featuredQuestionIds = getInitialQuestionIds(
+    runtimeSeed,
+    runtimeSeed.game?.featuredQuestionIds ?? FEATURED_QUESTION_IDS,
+    questionCount,
+  );
   const questions = useMemo(
     () => pickFeaturedQuestions(runtimeSeed.questions, featuredQuestionIds, questionCount),
     [featuredQuestionIds, questionCount, runtimeSeed.questions, runId],
@@ -905,7 +1054,7 @@ export default function QuizApp({
     setIsPromptTyping(true);
 
     let characterIndex = 0;
-    let revealIntervalId: number | undefined;
+    const revealTimeoutIds: number[] = [];
 
     const typingIntervalId = window.setInterval(() => {
       characterIndex += 1;
@@ -919,22 +1068,30 @@ export default function QuizApp({
         window.clearInterval(typingIntervalId);
         setIsPromptTyping(false);
 
-        let optionIndex = 0;
-        revealIntervalId = window.setInterval(() => {
-          optionIndex += 1;
-          setVisibleOptionCount(optionIndex);
-          playSound("option");
+        const firstOptionDelay = 360;
+        const optionRevealStep = 300;
 
-          if (optionIndex >= question.options.length) {
-            if (revealIntervalId) window.clearInterval(revealIntervalId);
-          }
-        }, 170);
+        question.options.forEach((_, index) => {
+          revealTimeoutIds.push(
+            window.setTimeout(() => {
+              setVisibleOptionCount(index + 1);
+              playOptionAppearSound(index);
+            }, firstOptionDelay + index * optionRevealStep),
+          );
+        });
+
+        revealTimeoutIds.push(
+          window.setTimeout(
+            () => playOptionAppearSound(question.options.length),
+            firstOptionDelay + question.options.length * optionRevealStep,
+          ),
+        );
       }
     }, 14);
 
     return () => {
       window.clearInterval(typingIntervalId);
-      if (revealIntervalId) window.clearInterval(revealIntervalId);
+      revealTimeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
     };
   }, [current, done, question, runId, started]);
 
@@ -1042,6 +1199,15 @@ export default function QuizApp({
     }
   }
 
+  function playOptionAppearSound(index: number) {
+    if (!soundEnabledRef.current || !audioContextRef.current) return;
+
+    const optionFrequencies = [420, 540, 660, 820, 980];
+    const baseFrequency = optionFrequencies[index] ?? 420 + index * 110;
+    playTone(baseFrequency, 0.085, "triangle", 0.046);
+    window.setTimeout(() => playTone(baseFrequency + 220, 0.075, "sine", 0.036), 58);
+  }
+
   function playSound(cue: SoundCue) {
     if (!soundEnabledRef.current || !audioContextRef.current) return;
 
@@ -1051,9 +1217,7 @@ export default function QuizApp({
     }
 
     if (cue === "option") {
-      playTone(360, 0.07, "triangle", 0.034);
-      window.setTimeout(() => playTone(560, 0.07, "triangle", 0.03), 48);
-      window.setTimeout(() => playTone(760, 0.05, "sine", 0.022), 92);
+      playOptionAppearSound(0);
       return;
     }
 
@@ -1269,60 +1433,130 @@ export default function QuizApp({
   if (!started) {
     if (!selectedTopic) {
       return (
-        <main className="page-shell kiosk-shell quiz-landing-shell">
-          <section className={`public-quiz-stage ${isDrawingTopic ? "spinning" : ""}`}>
+        <main className={`page-shell kiosk-shell quiz-landing-shell ${landingVariant === "classic" ? "classic-landing" : "choice-landing"}`}>
+          <section className={`public-quiz-stage ${landingVariant === "classic" ? "classic-topic-stage" : "choice-topic-stage"} ${isDrawingTopic ? "spinning" : ""}`}>
             <div className="public-quiz-orb orb-one" aria-hidden="true" />
             <div className="public-quiz-orb orb-two" aria-hidden="true" />
 
-            <header className="public-quiz-header">
-              <div className="public-quiz-brand">
-                <span>PUBLIC</span>
-                <strong>INSIGHTS</strong>
-              </div>
-              <p>{gameLine}</p>
-            </header>
+            {landingVariant === "classic" ? (
+              <>
+                <header className="public-quiz-header">
+                  <div className="public-quiz-brand">
+                    <span>PUBLIC</span>
+                    <strong>INSIGHTS</strong>
+                  </div>
+                  <p>{gameLine}</p>
+                </header>
 
-            <div className="public-quiz-title-row">
-              <div>
-                <p className="kicker">Publieke Peiler</p>
-                <h1>Kies je onderwerp</h1>
-                <p className="public-quiz-rule">
-                  Speel {questionCount} vragen en win vanaf {winThreshold} goed
-                </p>
-              </div>
-              <button className="radar-button" disabled={isDrawingTopic || !activeTopics.length} onClick={drawTopic} type="button">
-                <span aria-hidden="true" />
-                {isDrawingTopic ? "Radar draait..." : "Laat radar kiezen"}
-              </button>
-            </div>
-
-            {activeTopics.length ? (
-              <div className="public-topic-grid">
-                {activeTopics.map((topic) => (
-                  <button
-                    className={`topic-card public-topic-card ${topic.accent} ${spotlightTopicId === topic.id ? "spotlight" : ""} ${lockedTopicId === topic.id ? "locked" : ""}`}
-                    key={topic.id}
-                    onClick={() => chooseTopic(topic.id)}
-                    type="button"
-                  >
-                    <span className="topic-status">Actief</span>
-                    <strong>{topic.label}</strong>
-                    <span>{topic.prompt}</span>
-                    <span className={`topic-visual ${topic.icon}`} aria-hidden="true" />
+                <div className="public-quiz-title-row">
+                  <div>
+                    <p className="kicker">Publieke Peiler</p>
+                    <h1>Kies je onderwerp</h1>
+                    <p className="public-quiz-rule">
+                      Speel {questionCount} vragen en win vanaf {winThreshold} goed
+                    </p>
+                  </div>
+                  <button className="radar-button" disabled={isDrawingTopic || !activeTopics.length} onClick={drawTopic} type="button">
+                    <span aria-hidden="true" />
+                    {isDrawingTopic ? "Radar draait..." : "Laat radar kiezen"}
                   </button>
-                ))}
-              </div>
-            ) : (
-              <div className="empty-topic-state">
-                <strong>Nog geen actieve onderwerpen</strong>
-                <span>Zet in de editor minstens één onderwerp op actief.</span>
-              </div>
-            )}
+                </div>
 
-            <footer className="public-quiz-footer">
-              <span>{topicNotice}</span>
-              <span>Na elk antwoord zie je kort waarom, met echte reacties als bewijs.</span>
-            </footer>
+                {activeTopics.length ? (
+                  <div className="public-topic-grid">
+                    {activeTopics.map((topic) => (
+                      <button
+                        className={`topic-card public-topic-card ${topic.accent} ${spotlightTopicId === topic.id ? "spotlight" : ""} ${lockedTopicId === topic.id ? "locked" : ""}`}
+                        key={topic.id}
+                        onClick={() => chooseTopic(topic.id)}
+                        type="button"
+                      >
+                        <span className="topic-status">Actief</span>
+                        <strong>{topic.label}</strong>
+                        <span>{topic.prompt}</span>
+                        <span className={`topic-visual ${topic.icon}`} aria-hidden="true" />
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-topic-state">
+                    <strong>Nog geen actieve onderwerpen</strong>
+                    <span>Zet in de editor minstens één onderwerp op actief.</span>
+                  </div>
+                )}
+
+                <footer className="public-quiz-footer">
+                  <span>{topicNotice}</span>
+                  <span>Na elk antwoord zie je kort waarom, met echte reacties als bewijs.</span>
+                </footer>
+              </>
+            ) : (
+              <>
+                <header className="choice-topic-header">
+                  <div>
+                    <p className="choice-brand">Public Insights</p>
+                    <h1>Kies je onderwerp</h1>
+                    <p className="choice-intro">Speel korte publieksvragen en ontdek wat Nederland echt zegt in de reacties.</p>
+                  </div>
+                  <button className="radar-button choice-radar-button" disabled={isDrawingTopic || !activeTopics.length} onClick={drawTopic} type="button">
+                    <span aria-hidden="true" />
+                    {isDrawingTopic ? "Radar draait..." : "Laat radar kiezen"}
+                  </button>
+                </header>
+
+                <p className="choice-rule">Speel {questionCount} vragen · win vanaf {winThreshold} goed</p>
+
+                {activeTopics.length ? (
+                  <div className="choice-topic-grid">
+                    {activeTopics.map((topic, index) => {
+                      const decor = getTopicCardDecor(topic);
+                      const number = String(index + 1).padStart(2, "0");
+
+                      return (
+                        <button
+                          className={`choice-topic-card ${topic.accent} ${topic.icon} ${spotlightTopicId === topic.id ? "spotlight" : ""} ${lockedTopicId === topic.id ? "locked" : ""}`}
+                          key={topic.id}
+                          onClick={() => chooseTopic(topic.id)}
+                          type="button"
+                        >
+                          <div className="choice-topic-copy">
+                            <div>
+                              <div className="choice-topic-meta">
+                                <span className="choice-topic-number">{number}</span>
+                                <span className="choice-reaction-count">{formatReactionCount(getTopicReactionTotal(topic))}</span>
+                              </div>
+                              <strong>{topic.label}</strong>
+                              <span>{topic.prompt}</span>
+                            </div>
+                            <ul aria-label={`Signalen bij ${topic.label}`}>
+                              {decor.bullets.map((bullet) => (
+                                <li key={bullet}>{bullet}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="choice-topic-visual" aria-hidden="true">
+                            <span className="choice-topic-ring" />
+                            <span className="choice-topic-spark">✦</span>
+                            <span className="choice-topic-emoji">{decor.emoji}</span>
+                            <span className="choice-topic-shadow" />
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="empty-topic-state">
+                    <strong>Nog geen actieve onderwerpen</strong>
+                    <span>Zet in de editor minstens één onderwerp op actief.</span>
+                  </div>
+                )}
+
+                <footer className="choice-topic-footer">
+                  <span>{topicNotice}</span>
+                  <span>Na elk antwoord zie je kort waarom, met echte reacties als bewijs.</span>
+                </footer>
+              </>
+            )}
           </section>
         </main>
       );
