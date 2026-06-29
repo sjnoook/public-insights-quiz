@@ -88,6 +88,16 @@ export const DEFAULT_TOPICS: PublicInsightTopic[] = [
     prompt: "Gezond advies of bemoeienis?",
     status: "actief",
   },
+  {
+    accent: "orange",
+    description: "Reacties over hitte, klimaat, dagelijks ongemak en de vraag wanneer warm weer een publiek probleem wordt.",
+    icon: "climate",
+    id: "hittegolf",
+    label: "HITTEGOLF",
+    packId: "bundled-hittegolf",
+    prompt: "Zweet, zeur en zonnebrand.",
+    status: "actief",
+  },
 ];
 
 export function normalizeTopic(input: Partial<PublicInsightTopic>, fallback: PublicInsightTopic): PublicInsightTopic {

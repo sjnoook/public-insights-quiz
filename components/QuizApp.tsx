@@ -480,8 +480,8 @@ function getTopicCardDecor(topic: PublicInsightTopic): TopicCardDecor {
       emoji: "🚘",
     },
     climate: {
-      bullets: ["Goed doen", "Duur of handig", "Gedrag onder druk"],
-      emoji: "🌡️",
+      bullets: ["Te warm om te werken", "Klimaat of pech?", "Airco-discussies"],
+      emoji: "🥵",
     },
     coach: {
       bullets: ["Oranjegevoel", "Verwachtingen", "Bliksemafleider"],

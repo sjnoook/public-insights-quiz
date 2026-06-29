@@ -1,4 +1,5 @@
 import alcoholadviesPack from "@/data/quiz-packs/alcoholadvies.json";
+import hittegolfPack from "@/data/quiz-packs/hittegolf.json";
 import korteBroekPack from "@/data/quiz-packs/korte-broek-op-kantoor.json";
 import socialemediaverbodPack from "@/data/quiz-packs/socialemediaverbod.json";
 import teslaFsdPack from "@/data/quiz-packs/tesla-fsd.json";
@@ -51,6 +52,12 @@ const BUNDLED_PACK_INPUTS = [
     name: "Publieke Peiler: alcoholadvies",
     raw: alcoholadviesPack,
     sourceName: "alcoholadvies.json",
+  },
+  {
+    id: "bundled-hittegolf",
+    name: "Publieke Peiler: hittegolf",
+    raw: hittegolfPack,
+    sourceName: "hittegolf.json",
   },
 ] as const;
 
